@@ -1,0 +1,10 @@
+version: '3.5'
+
+services:
+  api:
+    build: .
+    volumes:
+      - ./src/:/app/
+    ports:
+      - 8080:8080
+    command: /start-reload.sh
