@@ -1,10 +1,10 @@
 version: '3.5'
 
 services:
-  api:
+  actiontemplatename:
     build: .
     volumes:
       - ./src/:/app/
+      - ./ActionTemplate-Python3:/opt/action_template
     ports:
       - 8080:8080
-    command: /start-reload.sh

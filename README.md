@@ -1,2 +1,15 @@
-# actioninfo SetupBIOS
-- Update BIOS setting of UUT
+- if default python version if not 3.8
+    - poetry env use C:\Python38\python.exe
+- install env
+    - poetry install
+- add module
+    - poetry add -D XXX (dev)
+    - poetry add XXX (producetion)
+- remove module
+    - poetry remove -D XXX (dev)
+    - poetry remove XXX (producetion)
+- rename template action name
+    - docker-compose.yml
+        - replace actiontemplatename
+    - src/app/config.py
+        - replace TemplateName

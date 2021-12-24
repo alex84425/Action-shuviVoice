@@ -11,10 +11,10 @@ def set_log_config(
     handler = logging.StreamHandler()
     handler.setFormatter(formatter)
 
-    logger = logging.getLogger("Actioninfo-WinPVT")
+    logger = logging.getLogger("action-smr")
     logger.addHandler(handler)
     logger.setLevel(level)
     return logger
 
 
-actionlogger = set_log_config()
+atclogger = set_log_config()

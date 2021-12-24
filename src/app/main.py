@@ -1,32 +1,27 @@
 # -*- coding: utf-8 -*-
+import logging
+from pathlib import Path
+
+from app.action import router as action
+from app.config import get_settings
+from app.custom_logging import CustomizeLogger
+from app.health import router as health
 from fastapi import FastAPI
 
-# from app.api.api_v1.api import api_router
-from app.core.config import get_settings
-
+logger = logging.getLogger(__name__)
+config_path = Path(__file__).with_name("logging_config.json")
 settings = get_settings()
 
-# app = FastAPI(
-#     root_path="/",
-#     title=settings.PROJECT_NAME,
-#     openapi_url=f"{settings.API_V1_STR}/openapi.json",
-# )
-
-# app.include_router(api_router, prefix=settings.API_V1_STR)
-
-# FIXME testing
-from app.api.api_v1.endpoints import action, ping
+app = FastAPI(
+    title=settings.PROJECT_NAME,
+    description=settings.PROJECT_NAME,
+    version=settings.VERSION,
+    # docs_url="/docs",
+    # openapi_url="/openapi.json",
+    root_path=settings.PREFIX,
+)
 
 
-app = FastAPI(title="SMR Cloud Service",
-              description="This is implemented by parsing smr website.",
-              version="1.0.0",
-              servers=[
-                  {"url": "/"},
-                  {"url": settings.API_V1_STR}
-              ],
-              docs_url=f"{settings.API_V1_STR}/docs",
-              openapi_url=f"{settings.API_V1_STR}/openapi.json")
-
-app.include_router(ping.router, prefix=settings.API_V1_STR,)
-app.include_router(action.router, prefix=settings.API_V1_STR, tags="action")
+app.logger = CustomizeLogger.make_logger(config_path)
+app.include_router(health.router, tags=["health"])
+app.include_router(action.router, prefix="/action", tags=["action"])
