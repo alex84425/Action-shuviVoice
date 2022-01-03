@@ -1,5 +1,3 @@
-String CRON_SETTINGS = BRANCH_NAME == "master" ? '0 8 * * *' : ""
-
 pipeline {
     agent {
         label 'rndit'
@@ -17,11 +15,9 @@ pipeline {
     environment {
         office_365_webhook_general_id = '0ce6cd48-b0d4-45ed-a279-0d49f5332dc5'
         office_365_webhook_release_id = '1d3cff49-af7a-452f-8191-3653598a61ec'
-        AWS_DEFAULT_REGION            = 'ap-southeast-1'
         category_name                 = 'codedeploy/package'
         service_name                  = 'site/action/executor-template'
         project_name                  = 'action-executor-template'
-
         docker_user                   = 'theohuang'
         docker_pass                   = '656c88e8-64f1-4f30-a2f2-d43b169e6775'
     }
@@ -44,18 +40,6 @@ pipeline {
                     prod_docker_base   = docker_name
                     prod_docker_tag    = session_scm.GIT_BRANCH.replace('/', '-')
                     prod_docker        = prod_docker_base+':'+prod_docker_tag
-
-                    aws_access_id = ''
-                    if (session_scm.GIT_BRANCH == 'prd') {
-                        print('Production')
-                        aws_access_id = 'b3ce7628-a1cd-4c13-8c85-2fb87b465790'
-                    } else if (session_scm.GIT_BRANCH == 'itg') {
-                        print('Integration')
-                        aws_access_id = '55867ff1-d927-4001-8582-b862cd8fcbee'
-                    } else if (session_scm.GIT_BRANCH == 'master') {
-                        print('QA')
-                        aws_access_id = '2e18909b-be7d-434a-ad40-f55cd5a63b3b'
-                    }
                 }
                 teamsNotify(1, '')
             }
@@ -107,7 +91,6 @@ pipeline {
             }
         }
         stage('Build Prod Image') {
-            when { expression { return aws_access_id } }
             steps {
                 script {
                     sh "docker build --network=host -t $docker_name . "
