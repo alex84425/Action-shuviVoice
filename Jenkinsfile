@@ -20,7 +20,7 @@ pipeline {
         AWS_DEFAULT_REGION            = 'ap-southeast-1'
         category_name                 = 'codedeploy/package'
         service_name                  = 'site/action/executor-template'
-        project_name                  = 'action-setupmpm'
+        project_name                  = 'action-executor-template'
 
         docker_user                   = 'theohuang'
         docker_pass                   = '656c88e8-64f1-4f30-a2f2-d43b169e6775'
