@@ -8,17 +8,13 @@ from app.health import router as health
 from fastapi import FastAPI
 
 config_path = Path(__file__).with_name("logging_config.json")
-settings = get_settings()
-
-
 setup_logging(config_path)
 
-
 app = FastAPI(
-    title=settings.PROJECT_NAME,
-    description=settings.PROJECT_NAME,
-    version=settings.VERSION,
-    root_path=settings.PREFIX,
+    title=get_settings().PROJECT_NAME,
+    description=get_settings().PROJECT_NAME,
+    version=get_settings().VERSION,
+    root_path=get_settings().PREFIX,
 )
 
 

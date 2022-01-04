@@ -1,52 +1,75 @@
 # -*- coding: utf-8 -*-
 import asyncio
-import shutil
-from pathlib import Path
+import logging
 
-from app.action import models, scenario
-from app.config import Settings, get_settings
-from app.log import atclogger as logger
-from fastapi import APIRouter, Depends
-from fastapi.datastructures import UploadFile
-from fastapi.param_functions import File
-from vcosmosapiclient.models import ResponseControllerModel
+from app.action import models
+from app.config import get_settings
+from fastapi import APIRouter
+from vcosmosapiclient.api import MonitorFileResponse
+from vcosmosapiclient.utils import validator
 
 router = APIRouter()
 
 
-ACTION_NAME = Settings().PROJECT_NAME
-ACTION_VERSION = Settings().VERSION
-HOME = Path("/data")
-SMC_BIN = (HOME / "SMC.zip").resolve()
-
-
 @router.get("/info")
-async def rounter_action_info(settings: Settings = Depends(get_settings)):
-    return {"type": settings.PROJECT_NAME, "typeVer": settings.VERSION}
+async def info():
+    """
+    Required endpoint
+    https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/tree/master/ActionExecutor#required-endpoint--contract
+    """  # noqa
+    return {"type": get_settings().PROJECT_NAME, "typeVer": get_settings().VERSION}
 
 
-@router.post("/dryrun", response_model=ResponseControllerModel)
-async def post_to_action_dryrun(
-    request: models.MyActionPostModel,
-):
-
-    return await scenario.post_to_action_remote(postact=request, dryrun=True)
-
-
-@router.post("/act", response_model=ResponseControllerModel)
-async def post_to_action(
-    request: models.MyActionPostModel,
-):
-    logger.info(f"request_model = {request.json()}")
-    return await scenario.post_to_action_remote(postact=request)
+@router.get("/health")
+async def health():
+    """
+    Required endpoint
+    https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/tree/master/ActionExecutor#required-endpoint--contract
+    """  # noqa
+    return {"status": "ok"}
 
 
-@router.post("/uploadfile")
-async def create_upload_file(file: UploadFile = File(...)):
-    def wrapper():
-        HOME.mkdir(exist_ok=True)
-        with open(SMC_BIN, "wb+") as file_object:
-            shutil.copyfileobj(file.file, file_object)
+@router.post("/dryrun")
+@validator.post
+async def post_to_action_dryrun(request: models.MyActionPostModel):
+    """
+    Required endpoint
+    https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/tree/master/ActionExecutor#required-endpoint--contract
 
-    loop = asyncio.get_running_loop()
-    await loop.run_in_executor(None, wrapper)
+    Response schema:
+    https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/blob/master/ActionExecutor/ActionActResponse.schema.json
+    """  # noqa
+
+    body = MonitorFileResponse(
+        task_id=request.task.taskId,
+        monitor_file="LOGS/ResultDetails.json",
+        result_file="LOGS/ResultDetails.json",
+        status_file="LOGS/status.json",
+    ).dict()
+
+    logging.info("this is template /action/dryrun")
+    raise body
+
+
+@router.post("/act")
+@validator.post
+async def post_to_action(request: models.MyActionPostModel):
+    """
+    Required endpoint
+    https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/tree/master/ActionExecutor#required-endpoint--contract
+
+    Response schema:
+    https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/blob/master/ActionExecutor/ActionActResponse.schema.json
+    """  # noqa
+    task = asyncio.current_task()
+    task.set_name(request.sub_task_id()[-8:])
+
+    body = MonitorFileResponse(
+        task_id=request.task.taskId,
+        monitor_file="LOGS/ResultDetails.json",
+        result_file="LOGS/ResultDetails.json",
+        status_file="LOGS/status.json",
+    ).dict()
+
+    logging.info("this is template /action/act")
+    raise body

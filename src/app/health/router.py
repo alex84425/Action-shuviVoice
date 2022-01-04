@@ -1,25 +1,15 @@
 # -*- coding: utf-8 -*-
-from app.config import Settings, get_settings
-from fastapi import APIRouter, Depends
+from app.config import get_settings
+from fastapi import APIRouter
 
 router = APIRouter()
+
+
+@router.get("/")
+async def root():
+    return {"service": get_settings().PROJECT_NAME, "version": get_settings().VERSION}
 
 
 @router.get("/ping")
 async def pong():
     return {"ping": "pong!"}
-
-
-@router.get("/")
-async def root(settings: Settings = Depends(get_settings)):
-    return {"service": settings.PROJECT_NAME, "Version": settings.VERSION}
-
-
-@router.get("/health")
-async def health():
-    return {"status": "ok"}
-
-
-@router.get("/version")
-async def version(settings: Settings = Depends(get_settings)):
-    return {"ENVIRONMENT": settings.ENVIRONMENT}

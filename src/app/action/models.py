@@ -6,17 +6,16 @@ from vcosmosapiclient.models import BaseActionModel
 
 
 class MyDataModel(BaseModel):
-    Command: str
+    pass
 
 
-class ActionData(BaseModel):
+class MyActionDataModel(BaseModel):
     type: str
     version: str
     data: MyDataModel
-    pypiserver: Optional[str] = None
     index: Optional[int] = 0
     haltOnError: Optional[bool] = False
 
 
 class MyActionPostModel(BaseActionModel):
-    actionData: ActionData
+    actionData: MyActionDataModel
