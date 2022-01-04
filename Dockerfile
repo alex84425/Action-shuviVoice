@@ -1,7 +1,7 @@
 ###########################################################################
 # Build dev base image
 ###########################################################################
-FROM tiangolo/uvicorn-gunicorn:python3.8-slim AS dev
+FROM tiangolo/uvicorn-gunicorn:python3.8-slim AS dev-base
 
 # set working directory
 WORKDIR /app/
@@ -24,9 +24,6 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/* \
   && pip install --upgrade pip
 
-# ADD src/requirements.txt /var/src/requirements.txt
-# ADD src/requirements-dev.txt /var/src/requirements-dev.txt
-# RUN pip install -r requirements-dev.txt
 
 # Install Poetry (append poetry bin path)
 ENV PATH="/root/.local/bin:$PATH"
@@ -52,7 +49,7 @@ COPY ./src /app
 ###########################################################################
 # Build dev env image
 ###########################################################################
-FROM dev AS dev-env
+FROM dev-base AS dev-env
 RUN poetry install --no-root
 
 
@@ -69,7 +66,9 @@ RUN pylama -o setup.cfg
 # ###########################################################################
 FROM dev-env AS dev-coverage
 RUN coverage run -m pytest -p no:warnings --cov=. --cov-report html --cov-report xml
-
+RUN mkdir -p /var/src/htmlcov \
+  && cp -r htmlcov  /var/src/htmlcov \
+  && cp coverage.xml /var/src/coverage.xml
 
 # ###########################################################################
 # # Build security check image
@@ -82,5 +81,5 @@ RUN python -m safety check
 # ###########################################################################
 # # Build production image - api
 # ###########################################################################
-FROM dev as dev-base
+FROM dev-base
 VOLUME [ "/data" ]

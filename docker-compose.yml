@@ -1,10 +1,11 @@
 version: '3.5'
 
 services:
-  actiontemplatename:
+  api:
     build: .
     volumes:
-      - ./src/:/app/
+      - ./src:/app
       - ./ActionTemplate-Python3:/opt/action_template
     ports:
       - 8080:8080
+    command: python manager.py
