@@ -79,6 +79,16 @@ RUN python -m safety check
 
 
 # ###########################################################################
+# # Build debugger
+# ###########################################################################
+# FROM dev-base as debug
+# RUN pip install debugpy
+
+# WORKDIR /app/
+# CMD python -m debugpy --wait-for-client --listen 0.0.0.0:5678 -m "command"
+
+
+# ###########################################################################
 # # Build production image - api
 # ###########################################################################
 FROM dev-base

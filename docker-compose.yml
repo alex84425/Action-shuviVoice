@@ -3,6 +3,7 @@ version: '3.5'
 services:
   api:
     build: .
+      #target: debug
     volumes:
       - ./src:/app
       - ./ActionTemplate-Python3:/opt/action_template
