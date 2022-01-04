@@ -1,7 +1,7 @@
 {
   "logger": {
-    "filename": "debug.log",
-    "format": "<level>{level: <8}</level> <green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> request id: {extra[request_id]} - <cyan>{name}</cyan>:<cyan>{function}</cyan> - <level>{message}</level>",
+    "filepath": "log/debug.log",
+    "format": "[{extra[request_id]}] <green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> <level>{level: <5}</level> <cyan>{file}:{line}</cyan> - <level>{message}</level>",
     "level": "debug",
     "retention": "1 months",
     "rotation": "20 days"

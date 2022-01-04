@@ -1,4 +1,4 @@
-
+import asyncio
 import json
 import logging
 import os
@@ -13,12 +13,12 @@ LOG_PATH = Path(BASE_DIR, "log")
 
 class InterceptHandler(logging.Handler):
     loglevel_mapping = {
-        50: 'CRITICAL',
-        40: 'ERROR',
-        30: 'WARNING',
-        20: 'INFO',
-        10: 'DEBUG',
-        0: 'NOTSET',
+        50: "CRITICAL",
+        40: "ERROR",
+        30: "WARNING",
+        20: "INFO",
+        10: "DEBUG",
+        0: "NOTSET",
     }
 
     def emit(self, record):
@@ -31,71 +31,45 @@ class InterceptHandler(logging.Handler):
         while frame.f_code.co_filename == logging.__file__:
             frame = frame.f_back
             depth += 1
+        try:
+            task_id = asyncio.current_task().get_name()
+        except RuntimeError:
+            task_id = "NoTask"
+        log = logger.bind(request_id=task_id)
+        msgs = record.getMessage()
+        if not msgs:
+            log.opt(depth=depth, exception=record.exc_info).log(level, msgs)
+        else:
+            for msg in msgs.splitlines():
+                log.opt(depth=depth, exception=record.exc_info).log(level, msg)
 
-        log = logger.bind(request_id='app')
-        log.opt(
-            depth=depth,
-            exception=record.exc_info
-        ).log(level, record.getMessage())
 
+def setup_logging(config_path):
 
-class CustomizeLogger:
+    with open(config_path) as config_file:
+        config = json.load(config_file)["logger"]
 
-    @ classmethod
-    def make_logger(cls, config_path: Path):
+    filepath = Path(config.get("filepath"))
+    filepath.parent.mkdir(parents=True, exist_ok=True)
+    level = config.get("level")
+    retention = config.get("retention")
+    rotation = config.get("rotation")
+    format = config.get("format")
 
-        config = cls.load_logging_config(config_path)
-        logging_config = config.get('logger')
+    logger.remove()
+    logger.add(sys.stdout, enqueue=True, backtrace=False, diagnose=False, level=level.upper(), format=format)
+    logger.add(
+        str(filepath),
+        rotation=rotation,
+        retention=retention,
+        enqueue=True,
+        backtrace=False,
+        diagnose=False,
+        level=level.upper(),
+        format=format,
+    )
 
-        logger = cls.customize_logging(
-            Path(logging_config.get('path') or LOG_PATH, logging_config.get('filename')),
-            level=logging_config.get('level'),
-            retention=logging_config.get('retention'),
-            rotation=logging_config.get('rotation'),
-            format=logging_config.get('format')
-        )
-        return logger
-
-    @ classmethod
-    def customize_logging(cls,
-                          filepath: Path,
-                          level: str,
-                          rotation: str,
-                          retention: str,
-                          format: str
-                          ):
-
-        logger.remove()
-        logger.add(
-            sys.stdout,
-            enqueue=True,
-            backtrace=True,
-            level=level.upper(),
-            format=format
-        )
-        logger.add(
-            str(filepath),
-            rotation=rotation,
-            retention=retention,
-            enqueue=True,
-            backtrace=True,
-            level=level.upper(),
-            format=format
-        )
-        logging.basicConfig(handlers=[InterceptHandler()], level=0)
-        logging.getLogger("uvicorn.access").handlers = [InterceptHandler()]
-        for _log in ['uvicorn',
-                     'uvicorn.error',
-                     'fastapi'
-                     ]:
-            _logger = logging.getLogger(_log)
-            _logger.handlers = [InterceptHandler()]
-
-        return logger.bind(request_id=None, method=None)
-
-    @ classmethod
-    def load_logging_config(cls, config_path):
-        config = None
-        with open(config_path) as config_file:
-            config = json.load(config_file)
-        return config
+    logging.basicConfig(handlers=[InterceptHandler()], level=0)
+    for _log in ["uvicorn", "uvicorn.error", "fastapi", "uvicorn.access"]:
+        _logger = logging.getLogger(_log)
+        _logger.handlers = [InterceptHandler()]
