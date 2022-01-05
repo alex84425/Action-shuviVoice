@@ -12,6 +12,8 @@
 
 3. Input required variables
 
+    ![image](https://media.github.azc.ext.hp.com/user/14519/files/bf74fa00-6e56-11ec-87dc-cf82db86d731)
+
 
 
 <br/><br/>
