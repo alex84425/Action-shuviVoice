@@ -1,4 +1,4 @@
 {
-    "action_name": "Action name [a-zA-Z] without 'Action-' prefix",
+    "action_name": "[a-zA-Z] without 'Action-' prefix",
     "project_slug": "Action-{{cookiecutter.action_name}}"
 }
