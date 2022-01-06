@@ -11,8 +11,9 @@
     ```
 
 3. Input required variables
+    ![image](https://media.github.azc.ext.hp.com/user/14519/files/50a0ab00-6f01-11ec-97b0-1d322ce2dfce)
+    ![image](https://media.github.azc.ext.hp.com/user/14519/files/70d06a00-6f01-11ec-9ad0-d845831fc764)
 
-    ![image](https://media.github.azc.ext.hp.com/user/14519/files/bf74fa00-6e56-11ec-87dc-cf82db86d731)
 
 <br/><br/>
 # Install packeges by poetry
