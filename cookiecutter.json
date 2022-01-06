@@ -1,4 +1,13 @@
 {
     "action_name": "[a-zA-Z] without 'Action-' prefix",
-    "project_slug": "Action-{{cookiecutter.action_name}}"
+    "project_slug": "Action-{{cookiecutter.action_name}}",
+    "init_git": [
+        "Yes",
+        "No"
+    ],
+    "add_git_remote": [
+        "Yes",
+        "No"
+    ],
+    "git_remote_url": "git@github.azc.ext.hp.com:YourService/YourAction.git",
 }
