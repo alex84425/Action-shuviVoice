@@ -2,12 +2,12 @@
     "action_name": "[a-zA-Z] without 'Action-' prefix",
     "project_slug": "Action-{{cookiecutter.action_name}}",
     "init_git": [
-        "Yes",
-        "No"
+        "yes",
+        "no"
     ],
     "add_git_remote": [
-        "Yes",
-        "No"
+        "yes",
+        "no"
     ],
     "git_remote_url": "git@github.azc.ext.hp.com:YourService/YourAction.git"
 }

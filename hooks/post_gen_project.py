@@ -14,8 +14,8 @@ def git_cmd(cmd: list):
     subprocess.run(["git"] + cmd, capture_output=True, check=True, encoding="utf-8", shell=True)
 
 
-if INIT_GIT == "Yes":
+if INIT_GIT == "yes":
     git_cmd(["init"])
 
-if ADD_GIT_REMOTE == "Yes":
+if ADD_GIT_REMOTE == "yes":
     git_cmd(["remote", "add", "origin", GIT_REMOTE_URL])

@@ -9,14 +9,14 @@ INIT_GIT = "{{cookiecutter.init_git}}"
 ADD_GIT_REMOTE = "{{cookiecutter.add_git_remote}}"
 GIT_REMOTE_URL = "{{cookiecutter.git_remote_url}}"
 
-YES_NO = ["Yes", "No"]
+YES_NO = ["yes", "no"]
 
 if INIT_GIT not in YES_NO:
-    print(f"ERROR: init_git  the value should be Yes or No")
+    print(f"ERROR: init_git  the value should be {YES_NO}")
     sys.exit(1)
 
 if INIT_GIT not in YES_NO:
-    print(f"ERROR: add_git_remote  the value should be Yes or No")
+    print(f"ERROR: add_git_remote  the value should be {YES_NO}")
     sys.exit(1)
 
 
