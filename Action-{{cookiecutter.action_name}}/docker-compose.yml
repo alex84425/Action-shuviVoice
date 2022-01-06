@@ -10,3 +10,5 @@ services:
     ports:
       - 8080:8080
     command: python manager.py
+    environment:
+      - ROOT_PATH=/
