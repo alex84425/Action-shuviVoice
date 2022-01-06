@@ -31,7 +31,7 @@ async def health():
 
 @router.post("/dryrun")
 @validator.post
-async def post_to_action_dryrun(request: models.MyActionPostModel):
+async def post_to_action_dryrun(act: models.MyActionPostModel):
     """
     Required endpoint
     https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/tree/master/ActionExecutor#required-endpoint--contract
@@ -41,7 +41,7 @@ async def post_to_action_dryrun(request: models.MyActionPostModel):
     """  # noqa
 
     body = MonitorFileResponse(
-        task_id=request.task.taskId,
+        task_folder=act.context.workingDirectory,
         monitor_file="LOGS/ResultDetails.json",
         result_file="LOGS/ResultDetails.json",
         status_file="LOGS/status.json",
@@ -53,7 +53,7 @@ async def post_to_action_dryrun(request: models.MyActionPostModel):
 
 @router.post("/act")
 @validator.post
-async def post_to_action(request: models.MyActionPostModel):
+async def post_to_action(act: models.MyActionPostModel):
     """
     Required endpoint
     https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/tree/master/ActionExecutor#required-endpoint--contract
@@ -62,10 +62,10 @@ async def post_to_action(request: models.MyActionPostModel):
     https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/blob/master/ActionExecutor/ActionActResponse.schema.json
     """  # noqa
     task = asyncio.current_task()
-    task.set_name(request.sub_task_id()[-8:])
+    task.set_name(act.sub_task_id()[-8:])
 
     body = MonitorFileResponse(
-        task_id=request.task.taskId,
+        task_folder=act.context.workingDirectory,
         monitor_file="LOGS/ResultDetails.json",
         result_file="LOGS/ResultDetails.json",
         status_file="LOGS/status.json",
