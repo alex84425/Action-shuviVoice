@@ -77,8 +77,8 @@ if GIT_COMMIT == "yes" or GIT_COMMIT == "":
     check_repo_exist_cmd = subprocess.list2cmdline( (  map(str,  check_repo_exist_cmd ) ))
     print("Try to cmd:", check_repo_exist_cmd)
     p = subprocess.run( check_repo_exist_cmd , capture_output=True, check=False, shell=True,encoding="utf-8")  
-    print("err", p.stderr)
-    print( "out",p.stderr)
+    #print("err", p.stderr)
+    #print( "out",p.stderr)
     if "Repository not found"  not in p.stderr:
         print("ERROR: repo name has been used!!")
         print("Remove repo clone by cookiecutter!")       
