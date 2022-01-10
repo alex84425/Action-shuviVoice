@@ -1,4 +1,5 @@
 import re
+import shutil
 import sys
 import subprocess
 import keyring
@@ -34,7 +35,7 @@ if ADD_GIT_REMOTE == "yes" :
     
     if GIT_REMOTE_URL == "git@github.azc.ext.hp.com:BPSVCommonService/{YourAction}.git":
         
-        print("Notice: Using default url", GIT_REMOTE_URL)
+        print("Notice: Using default remote url", GIT_REMOTE_URL)
         GIT_REMOTE_URL = ("git@github.azc.ext.hp.com:{}/Action-{}.git").format(
                 "BPSVCommonService",
                         ACTION_NAME        )
@@ -70,7 +71,25 @@ if GIT_COMMIT == "yes" or GIT_COMMIT == "":
     if add_repo_flag == "public" or  add_repo_flag == "":
         gh_cmd = "gh repo create {} --public".format(repo_name)
     else:        
-        gh_cmd = "gh repo create {} --private".format(repo_name)    
+        gh_cmd = "gh repo create {} --private".format(repo_name)  
+    # check repo exist
+    check_repo_exist_cmd = ["git","ls-remote","git@github.azc.ext.hp.com:BPSVCommonService/Action-ExecutorTemplateAlex_123.git"]
+    check_repo_exist_cmd = subprocess.list2cmdline( (  map(str,  check_repo_exist_cmd ) ))
+    print("Try to cmd:", check_repo_exist_cmd)
+    p = subprocess.run( check_repo_exist_cmd , capture_output=True, check=False, shell=True,encoding="utf-8")  
+    print("err", p.stderr)
+    print( "out",p.stderr)
+    if "Repository not found"  not in p.stderr:
+        print("ERROR: repo name has been used!!")
+        print("Remove repo clone by cookiecutter!")       
+        shutil.rmtree("Action-{}.git".format(ACTION_NAME))
+        
+        sys.exit(1)
+    else:
+        print("repo name is valid, try to create!")
+
+
+
     print("Try to subprocess gh cmd: ",gh_cmd)
     
     p = subprocess.run( gh_cmd , capture_output=True, check=True, shell=True,encoding="utf-8")    
