@@ -9,7 +9,7 @@
         "yes",
         "no"
     ],
-    "git_remote_url": "git@github.azc.ext.hp.com:YourService/YourAction.git or d",
+    "git_remote_url": "git@github.azc.ext.hp.com:BPSVCommonService/{YourAction}.git",
 
     "git_commit": [
         "yes",

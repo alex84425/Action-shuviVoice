@@ -36,7 +36,7 @@
  
 ## 2. Clone repo by cookiecutter
 ```
-cookiecutter  git@github.azc.ext.hp.com:BPSVCommonService/Action-ExecutorTemplateAlex.git
+cookiecutter  git@github.azc.ext.hp.com:BPSVCommonService/Action-ExecutorTemplate.git
 ```
 Notice: cookiecutter currently not support "clone with submodule" and "clone from branch"
 
@@ -114,3 +114,9 @@ git submodule update --init --recursive
 
 10. Remove submodule from your repo
 https://gist.github.com/myusuf3/7f645819ded92bda6677
+
+# need to fixs:
+1. print("stdout") fo subprocess (O)
+2. accept "" input as default input (O)
+3. remove cook url****Alex (O)
+4. gh create may ask "Y or N" lead to crush

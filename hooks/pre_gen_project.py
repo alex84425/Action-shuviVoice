@@ -17,6 +17,8 @@ YES_NO = ["yes","YES", "no","NO"]
 if INIT_GIT not in YES_NO:
     print(f"ERROR: init_git  the value should be {YES_NO}")
     sys.exit(1)
+else:
+    print(f"OK!")
 
 if INIT_GIT not in YES_NO:
     print(f"ERROR: add_git_remote  the value should be {YES_NO}")
@@ -27,10 +29,12 @@ if not re.match(MODULE_REGEX, ACTION_NAME):
     print(f"ERROR: {ACTION_NAME}  is not a valid action name, allowed pattern: {MODULE_REGEX}")
     sys.exit(1)
 
-
-if GIT_REMOTE_URL == "git@github.azc.ext.hp.com:YourService/YourAction.git" :
+"""
+if GIT_REMOTE_URL == "git@github.azc.ext.hp.com:BPSVCommonService/{YourAction}.git":
     print("ERROR: please input your git_remote_url")
     sys.exit(1)
+"""
+
 
 
 
