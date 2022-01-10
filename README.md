@@ -1,18 +1,52 @@
 # How to use cookiecutter make a action from the template
-1. Install cookiecutter
 
+
+
+##  1. Install requirement
+* cookiecutter
+    * description: A command-line utility that creates projects from cookiecutters (project templates), e.g. creating a Python package project from a Python package project template.
+    * install :
     ```
     pip install cookiecutter
     ```
+* gh 
+    * description: gh is GitHub on the command line. It brings pull requests, issues, and other GitHub concepts to the terminal next to where you are already working with git and your code.
+    * install: https://cli.github.com/manual/installation
+    
+        ```
+        # for linux 
+        sudo apt update
+        sudo apt install gh
+        ```
+        ```
+        # for win10 
+        scoop bucket add github-gh https://github.com/cli/scoop-gh.git
+        scoop install gh
+        ```
+    * gh login to set configure:    
 
-2. clone repo by cookiecutter
-    ```
-    cookiecutter git@github.azc.ext.hp.com:BPSVCommonService/Action-ExecutorTemplate.git
-    ```
+        ```
+        gh auth login
+        # Or authenticate against github.com by reading the token from a file
+        gh auth login --with-token < mytoken.txt
 
-3. Input required variables
-    ![image](https://media.github.azc.ext.hp.com/user/14519/files/50a0ab00-6f01-11ec-97b0-1d322ce2dfce)
-    ![image](https://media.github.azc.ext.hp.com/user/14519/files/70d06a00-6f01-11ec-9ad0-d845831fc764)
+        ```
+        <img width="551" alt="gh login" src="https://media.github.azc.ext.hp.com/user/25873/files/f1ee01f4-5b45-47a0-b913-6316869c4e75">
+
+ 
+## 2. Clone repo by cookiecutter
+```
+cookiecutter  git@github.azc.ext.hp.com:BPSVCommonService/Action-ExecutorTemplateAlex.git
+```
+Notice: cookiecutter currently not support "clone with submodule" and "clone from branch"
+
+## 3. Input required variables
+<img width="433" alt="cookie_usertyping" src="https://media.github.azc.ext.hp.com/user/25873/files/eeb8a75b-ebd4-4992-bc2f-fe6b4888c800">
+
+* Expect result
+
+![image](https://media.github.azc.ext.hp.com/user/25873/files/7ba26cbc-2d96-4854-9b5d-2aca6bcfbd56)
+
 
 
 <br/><br/>
