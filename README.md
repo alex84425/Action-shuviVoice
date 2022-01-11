@@ -118,6 +118,15 @@ git submodule update --init --recursive
 
 10. Remove submodule from your repo
 https://gist.github.com/myusuf3/7f645819ded92bda6677
+    
+
+# Related URL
+
+* Jenkins
+```
+https://boss.corp.hpicloud.net/job/BPSValidation/job/BPSVCommonService/
+```
+
 
 # need to fixs:
 1. print("stdout") for subprocess (O)
