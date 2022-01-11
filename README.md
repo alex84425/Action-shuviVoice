@@ -45,6 +45,7 @@ Notice: cookiecutter currently not support "clone with submodule" and "clone fro
 
 ## 3. Input required variables
 Except input project name, you can keep press "enter" to set in default.
+
 <img width="433" alt="cookie_usertyping" src="https://media.github.azc.ext.hp.com/user/25873/files/eeb8a75b-ebd4-4992-bc2f-fe6b4888c800">
 
 * Expect result
