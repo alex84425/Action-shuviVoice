@@ -12,7 +12,7 @@ GIT_REMOTE_URL = "{{cookiecutter.git_remote_url}}"
 GIT_COMMIT = "{{cookiecutter.git_commit}}"
 GIT_COMMIT_M = "{{cookiecutter.git_commit_m}}"
 
-YES_NO = ["yes","YES", "no","NO"]
+YES_NO = ["yes", "YES", "no", "NO"]
 
 if INIT_GIT not in YES_NO:
     print(f"ERROR: init_git  the value should be {YES_NO}")
@@ -36,21 +36,16 @@ if GIT_REMOTE_URL == "git@github.azc.ext.hp.com:BPSVCommonService/{YourAction}.g
 """
 
 
-
-
-
 if ADD_GIT_REMOTE == YES_NO[0:2] and not re.match(REMOTE_REGEX, GIT_REMOTE_URL):
     allowed = "git@github.azc.ext.hp.com:YourService/YourAction.git or d(default)"
 
-    
     print(f"ERROR: {GIT_REMOTE_URL}  is not a valid action name, allowed pattern: {allowed}")
     sys.exit(1)
 
-if GIT_COMMIT not in  YES_NO:
+if GIT_COMMIT not in YES_NO:
     print(f"ERROR: git commit  the value should be {YES_NO}")
     sys.exit(1)
 
-if GIT_COMMIT_M == "" and GIT_COMMIT ==  YES_NO[0:2]:
+if GIT_COMMIT_M == "" and GIT_COMMIT == YES_NO[0:2]:
     print(f"ERROR: git commit  the value should be {YES_NO}")
     sys.exit(1)
-

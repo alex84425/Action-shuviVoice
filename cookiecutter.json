@@ -10,11 +10,9 @@
         "no"
     ],
     "git_remote_url": "git@github.azc.ext.hp.com:BPSVCommonService/{YourAction}.git",
-
     "git_commit": [
         "yes",
         "no"
     ],
     "git_commit_m": "not empty"
-    
 }
