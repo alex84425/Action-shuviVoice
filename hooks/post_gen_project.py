@@ -14,20 +14,17 @@ GIT_COMMIT = "{{cookiecutter.git_commit}}"
 GIT_COMMIT_M = "{{cookiecutter.git_commit_m}}"
 
 
-def git_cmd(cmd: list, check="True"):
-    cmd = subprocess.list2cmdline((map(str, ["git"] + cmd)))
+def subprocess_cmd(cmd: list):
+    cmd = subprocess.list2cmdline((map(str, cmd)))
     # print(cmd)
     print("Try to run: ", cmd)
-    """
-    
-    p = subprocess.run( cmd , capture_output=True, check=check, shell=True,encoding="utf-8")
-    if p.stdout != "":
-        print("stdout: ", p.stdout)
 
-    if p.stderr != "":
-        print("stderr: ", p.stderr)
+    try:
+        subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
+    except subprocess.CalledProcessError as e:
+        print("ERROR: ", e.output)
+
     """
-    # """
     if check:
         try:
             subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
@@ -40,11 +37,11 @@ def git_cmd(cmd: list, check="True"):
 
         if p.stderr != "":
             print("stderr: ", p.stderr)
-    # """
+    """
 
 
 if INIT_GIT == "yes" or INIT_GIT == "":
-    git_cmd(["init"])
+    subprocess_cmd(["git", "init"])
 
 if ADD_GIT_REMOTE == "yes":
 
@@ -53,24 +50,28 @@ if ADD_GIT_REMOTE == "yes":
         print("Notice: Using default remote url", GIT_REMOTE_URL)
         GIT_REMOTE_URL = ("git@github.azc.ext.hp.com:{}/Action-{}.git").format("BPSVCommonService", ACTION_NAME)
     print("GIT_REMOTE_URL:", GIT_REMOTE_URL)
-    git_cmd(["remote", "add", "origin", GIT_REMOTE_URL])  # if not exist
-    git_cmd(["remote", "set-url", "origin", GIT_REMOTE_URL], False)
+
+    subprocess_cmd(["git", "remote", "add", "origin", GIT_REMOTE_URL])  # if not exist
+    # subprocess_cmd(["remote", "set-url", "origin", GIT_REMOTE_URL], False) if exist
+
 
 if GIT_COMMIT == "yes" or GIT_COMMIT == "":
 
-    git_cmd(["add", "-A"])
+    subprocess_cmd(["git", "add", "-A"])
 
     ask_add_submodule = input(
         " Action-ExecutorTemplate require ActionTemplate-Python3, do you want to add submodule? [yes]"
     )
     if ask_add_submodule == "yes" or ask_add_submodule == "":
         # git submodule add https://github.azc.ext.hp.com/BPSVCommonService/ActionTemplate-Python3.git
-        git_cmd(["submodule", "add", "https://github.azc.ext.hp.com/BPSVCommonService/ActionTemplate-Python3.git"])
+        subprocess_cmd(
+            ["git", "submodule", "add", "https://github.azc.ext.hp.com/BPSVCommonService/ActionTemplate-Python3.git"]
+        )
 
     else:
         print("skip add submodule ActionTemplate-Python3")
 
-    git_cmd(["commit", "-m", '"' + GIT_COMMIT_M + '"'])
+    subprocess_cmd(["git", "commit", "-m", '"' + GIT_COMMIT_M + '"'])
 
     # create repo
     # gh repo create BPSVCommonService/Action-ATCtest --private
@@ -88,7 +89,7 @@ if GIT_COMMIT == "yes" or GIT_COMMIT == "":
     check_repo_exist_cmd = ["git", "ls-remote", GIT_REMOTE_URL]
     check_repo_exist_cmd = subprocess.list2cmdline((map(str, check_repo_exist_cmd)))
     print("Try to cmd:", check_repo_exist_cmd)
-    p = subprocess.run(check_repo_exist_cmd, capture_output=True, check=False, shell=True, encoding="utf-8")
+    p = subprocess.run(check_repo_exist_cmd, capture_output=True, shell=True, encoding="utf-8")
     # print("err", p.stderr)
     # print( "out",p.stderr)
     if "Repository not found" not in p.stderr:
@@ -113,4 +114,4 @@ if GIT_COMMIT == "yes" or GIT_COMMIT == "":
     except subprocess.CalledProcessError as e:
         print("ERROR: ", e.output)
 
-    git_cmd(["push", "-u", "origin", "master"])
+    subprocess_cmd(["git", "push", "-u", "origin", "master"])

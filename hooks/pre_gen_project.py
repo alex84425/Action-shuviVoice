@@ -46,6 +46,6 @@ if GIT_COMMIT not in YES_NO:
     print(f"ERROR: git commit  the value should be {YES_NO}")
     sys.exit(1)
 
-if GIT_COMMIT_M == "" and GIT_COMMIT == YES_NO[0:2]:
+if GIT_COMMIT_M == "" and GIT_COMMIT in YES_NO[0:2]:
     print(f"ERROR: git commit  the value should be {YES_NO}")
     sys.exit(1)
