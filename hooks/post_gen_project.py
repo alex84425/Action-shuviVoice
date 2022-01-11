@@ -17,15 +17,32 @@ GIT_COMMIT_M = "{{cookiecutter.git_commit_m}}"
 def git_cmd(cmd: list,check="True"):    
     cmd = subprocess.list2cmdline( (  map(str, ["git"] + cmd ) ))
     #print(cmd)
-    p = subprocess.run( cmd , capture_output=True, check=check, shell=True,encoding="utf-8")
     print("Try to run: ",cmd)
+    """
+    
+    p = subprocess.run( cmd , capture_output=True, check=check, shell=True,encoding="utf-8")
     if p.stdout != "":
         print("stdout: ", p.stdout)
 
     if p.stderr != "":
         print("stderr: ", p.stderr)
+    """
+    #"""
+    if check:
+        try:
+            subprocess.check_output(cmd
+                , stderr=subprocess.STDOUT
+                , shell=True)
+        except subprocess.CalledProcessError as e:
+            print("ERROR: ",e.output)
+    else:
+        p = subprocess.run( cmd , capture_output=True, check=check, shell=True,encoding="utf-8")
+        if p.stdout != "":
+            print("stdout: ", p.stdout)
 
-
+        if p.stderr != "":
+            print("stderr: ", p.stderr)
+    #"""
 
 
 if INIT_GIT == "yes" or INIT_GIT == "":
@@ -66,6 +83,7 @@ if GIT_COMMIT == "yes" or GIT_COMMIT == "":
     repo_name = GIT_REMOTE_URL.split(":")[1].split(".")[0]
     add_repo_flag = input("set new repo to [public] of private:")
     while add_repo_flag not in ["public","private",""]:
+        print("input user para in list: ",["public","private",""])
         add_repo_flag = input("set new repo to [public] of private:")
 
     if add_repo_flag == "public" or  add_repo_flag == "":
@@ -73,31 +91,36 @@ if GIT_COMMIT == "yes" or GIT_COMMIT == "":
     else:        
         gh_cmd = "gh repo create {} --private".format(repo_name)  
     # check repo exist
-    check_repo_exist_cmd = ["git","ls-remote","git@github.azc.ext.hp.com:BPSVCommonService/Action-ExecutorTemplateAlex_123.git"]
+    check_repo_exist_cmd = ["git","ls-remote",GIT_REMOTE_URL]
     check_repo_exist_cmd = subprocess.list2cmdline( (  map(str,  check_repo_exist_cmd ) ))
     print("Try to cmd:", check_repo_exist_cmd)
     p = subprocess.run( check_repo_exist_cmd , capture_output=True, check=False, shell=True,encoding="utf-8")  
     #print("err", p.stderr)
     #print( "out",p.stderr)
     if "Repository not found"  not in p.stderr:
-        print("ERROR: repo name has been used!!")
+        print("stderr", p.stderr)
+        print( "stdout",p.stderr)
+        print("ERROR: repo name has been used and other error !!")
         print("Remove repo clone by cookiecutter!")       
         shutil.rmtree("Action-{}.git".format(ACTION_NAME))
         
         sys.exit(1)
     else:
-        print("repo name is valid, try to create!")
-
-
+        print("repo name is valid, try to gh create!")
 
     print("Try to subprocess gh cmd: ",gh_cmd)
-    
+    """    
     p = subprocess.run( gh_cmd , capture_output=True, check=True, shell=True,encoding="utf-8")    
     print("Try to run: ", gh_cmd)
     print("stdout: ", p.stdout)
     print("stderr: ", p.stderr)
-
-
+    """
+    try:
+        subprocess.check_output(gh_cmd
+            , stderr=subprocess.STDOUT
+            , shell=True)
+    except subprocess.CalledProcessError as e:
+        print("ERROR: ",e.output)
 
     git_cmd(["push","-u","origin","master"])
 

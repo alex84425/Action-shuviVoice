@@ -22,6 +22,9 @@
         # for win10 
         scoop bucket add github-gh https://github.com/cli/scoop-gh.git
         scoop install gh
+        # Or
+        choco install gh
+
         ```
     * gh login to set configure:    
 
@@ -34,13 +37,14 @@
         <img width="551" alt="gh login" src="https://media.github.azc.ext.hp.com/user/25873/files/f1ee01f4-5b45-47a0-b913-6316869c4e75">
 
  
-## 2. Clone repo by cookiecutter
+## 2. Clone template by cookiecutter
 ```
 cookiecutter  git@github.azc.ext.hp.com:BPSVCommonService/Action-ExecutorTemplate.git
 ```
 Notice: cookiecutter currently not support "clone with submodule" and "clone from branch"
 
 ## 3. Input required variables
+Except input project name, you can keep press "enter" to set in default.
 <img width="433" alt="cookie_usertyping" src="https://media.github.azc.ext.hp.com/user/25873/files/eeb8a75b-ebd4-4992-bc2f-fe6b4888c800">
 
 * Expect result
@@ -116,7 +120,8 @@ git submodule update --init --recursive
 https://gist.github.com/myusuf3/7f645819ded92bda6677
 
 # need to fixs:
-1. print("stdout") fo subprocess (O)
-2. accept "" input as default input (O)
+1. print("stdout") for subprocess (O)
+2. accept null_input("") as default input (O)
 3. remove cook url****Alex (O)
 4. gh create may ask "Y or N" lead to crush
+5. check repo exit before create repo (O)
