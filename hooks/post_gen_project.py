@@ -67,6 +67,9 @@ if GIT_COMMIT == "yes" or GIT_COMMIT == "":
         subprocess_cmd(
             ["git", "submodule", "add", "https://github.azc.ext.hp.com/BPSVCommonService/ActionTemplate-Python3.git"]
         )
+        subprocess_cmd(["git", "submodule", "update", "--remote", "--merge"])
+
+        subprocess_cmd(["git", "submodule", "update", "--init", "--recursive"])
 
     else:
         print("skip add submodule ActionTemplate-Python3")
