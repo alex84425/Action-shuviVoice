@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import os
+
 from app.config import get_settings
 from fastapi import APIRouter
 
@@ -13,3 +15,18 @@ async def root():
 @router.get("/ping")
 async def pong():
     return {"ping": "pong!"}
+
+
+@router.get("/data")
+async def show_data():
+    # FIXME not a async file op
+    def path_to_dict(path):
+        d = {"name": os.path.basename(path)}
+        if os.path.isdir(path):
+            d["type"] = "directory"
+            d["children"] = [path_to_dict(os.path.join(path, x)) for x in os.listdir(path)]
+        else:
+            d["type"] = "file"
+        return d
+
+    return path_to_dict("/data")
