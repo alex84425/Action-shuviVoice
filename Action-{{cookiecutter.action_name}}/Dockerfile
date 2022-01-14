@@ -92,5 +92,5 @@ RUN python -m safety check
 ###########################################################################
 # Build production image - api
 ###########################################################################
-FROM dev-base
+FROM dev-base as prd
 VOLUME [ "/data" ]
