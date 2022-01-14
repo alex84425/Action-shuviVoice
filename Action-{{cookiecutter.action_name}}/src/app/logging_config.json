@@ -1,6 +1,6 @@
 {
   "logger": {
-    "filepath": "log/debug.log",
+    "filepath": "/data/logs/debug.log",
     "format": "[{extra[request_id]}] <green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> <level>{level: <5}</level> <cyan>{file}:{line}</cyan> - <level>{message}</level>",
     "level": "debug",
     "retention": "1 months",
