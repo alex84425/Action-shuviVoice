@@ -1,8 +1,8 @@
 #!/bin/bash
 # verify image by `bash local-build.sh`
 
-project_name='ActionInfo'
-docker_name='actioninfo'
+project_name='project_name'
+docker_name='docker_name'
 prod_docker='prod_docker'
 container_name='container_name'
 
