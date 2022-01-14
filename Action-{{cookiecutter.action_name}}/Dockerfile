@@ -1,4 +1,26 @@
 ###########################################################################
+# Build uut operation proxy base image
+###########################################################################
+FROM node:14.18-slim AS uut-operation-proxy-base
+
+RUN apt update && apt install -y vim curl
+
+# for nodejs 14
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
+RUN apt -y install nodejs
+RUN node -v
+
+COPY ./ActionTemplate-Python3/UUTOperationProxy/. /UUTOperationProxy
+
+WORKDIR /UUTOperationProxy
+
+RUN npm ci
+
+RUN npm install -g pkg
+
+RUN pkg .
+
+###########################################################################
 # Build dev base image
 ###########################################################################
 FROM tiangolo/uvicorn-gunicorn:python3.8-slim AS dev-base
@@ -21,10 +43,18 @@ RUN apt-get update \
   zip \
   curl \
   procps \
+  vim \
+  git \
+  openssl \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* \
   && pip install --upgrade pip
 
+###### setup uut operaiont proxy binary  ########
+
+COPY --from=uut-operation-proxy-base /UUTOperationProxy/dist/uut-operation-proxy-linux ./uut-operation-proxy-linux
+
+###### done setup uut operaiont proxy binary #########
 
 # Install Poetry (append poetry bin path)
 ENV PATH="/root/.local/bin:$PATH"
