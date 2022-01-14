@@ -57,12 +57,12 @@ def setup_logging(config_path):
     format = config.get("format")
 
     logger.remove()
-    logger.add(sys.stdout, enqueue=True, backtrace=False, diagnose=False, level=level.upper(), format=format)
+    logger.add(sys.stdout, enqueue=False, backtrace=False, diagnose=False, level=level.upper(), format=format)
     logger.add(
         str(filepath),
         rotation=rotation,
         retention=retention,
-        enqueue=True,
+        enqueue=False,
         backtrace=False,
         diagnose=False,
         level=level.upper(),
