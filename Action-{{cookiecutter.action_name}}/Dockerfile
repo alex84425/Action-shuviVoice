@@ -85,7 +85,8 @@ RUN python -m safety check
 # RUN pip install debugpy
 
 # WORKDIR /app/
-# CMD python -m debugpy --wait-for-client --listen 0.0.0.0:5678 -m "command"
+# CMD python -m debugpy --wait-for-client --listen 0.0.0.0:5678 \
+#   -m uvicorn app.main:app --reload --log-level debug --host 0.0.0.0 --port 8080 --root-path /
 
 
 ###########################################################################
