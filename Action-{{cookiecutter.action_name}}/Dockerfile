@@ -20,6 +20,7 @@ RUN apt-get update \
   gcc \
   zip \
   curl \
+  procps \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* \
   && pip install --upgrade pip
