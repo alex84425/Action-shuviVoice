@@ -38,13 +38,7 @@ RUN poetry install --no-root --no-dev
 COPY ./ActionTemplate-Python3/ /opt/action_template/
 RUN pip install -e /opt/action_template/
 
-# use default /gunicorn_conf.py
-# ENV PORT 8080
-# use default /start.sh
-# exec gunicorn -k "$WORKER_CLASS" -c "$GUNICORN_CONF" "$APP_MODULE"
 COPY ./src /app
-
-
 
 ###########################################################################
 # Build dev env image
@@ -94,3 +88,9 @@ RUN python -m safety check
 ###########################################################################
 FROM dev-base as prd
 VOLUME [ "/data" ]
+
+# use Gunicorn running Uvicorn workers in the container
+CMD /start.sh
+
+# running a single Uvicorn process
+# CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80", "--reload"]
