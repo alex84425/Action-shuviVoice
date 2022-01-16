@@ -10,6 +10,6 @@ services:
     ports:
       - 8080:8080
       # - 5678:5678
-    command: /start-reload.sh
+    # command: /start-reload.sh
     environment:
       - ROOT_PATH=/

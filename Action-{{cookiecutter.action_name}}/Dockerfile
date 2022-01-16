@@ -121,7 +121,7 @@ FROM dev-base as prd
 VOLUME [ "/data" ]
 
 # use Gunicorn running Uvicorn workers in the container
-CMD /start.sh
+# CMD /start.sh
 
 # running a single Uvicorn process
-# CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80", "--reload"]
+CMD uvicorn app.main:app --host 0.0.0.0 --port 8080 --reload
