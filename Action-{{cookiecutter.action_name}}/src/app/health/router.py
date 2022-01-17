@@ -18,8 +18,8 @@ async def pong():
 
 
 @router.get("/data")
-async def show_data():
-    # FIXME not a async file op
+def show_data():
+    """run in an external threadpool"""
     def path_to_dict(path):
         d = {"name": os.path.basename(path)}
         if os.path.isdir(path):
