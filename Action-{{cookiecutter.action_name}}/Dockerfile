@@ -11,14 +11,21 @@ RUN apt -y install nodejs
 RUN node -v
 
 COPY ./ActionTemplate-Python3/UUTOperationProxy/. /UUTOperationProxy
-
 WORKDIR /UUTOperationProxy
-
 RUN npm ci
-
 RUN npm install -g pkg
-
 RUN pkg .
+
+###########################################################################
+# Create requirements from poetry
+###########################################################################
+FROM python:3.8-slim-buster as requirements-stage
+
+WORKDIR /tmp
+RUN pip install poetry
+COPY ./pyproject.toml ./poetry.lock* /tmp/
+RUN poetry export -f requirements.txt --output requirements.txt --without-hashes
+RUN poetry export --dev -f requirements.txt --output requirements-dev.txt --without-hashes
 
 ###########################################################################
 # Build dev base image
@@ -33,7 +40,6 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV PORT 8080
 EXPOSE 8080
-
 
 # install system dependencies
 RUN apt-get update \
@@ -51,19 +57,11 @@ RUN apt-get update \
   && pip install --upgrade pip
 
 ###### setup uut operaiont proxy binary  ########
-
-COPY --from=uut-operation-proxy-base /UUTOperationProxy/dist/uut-operation-proxy-linux ./uut-operation-proxy-linux
-
+COPY --from=uut-operation-proxy-base /UUTOperationProxy/dist/uut-operation-proxy-linux /opt/uut-operation-proxy-linux
 ###### done setup uut operaiont proxy binary #########
 
-# Install Poetry (append poetry bin path)
-ENV PATH="/root/.local/bin:$PATH"
-RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python - && \
-  poetry config virtualenvs.create false
-
-# Copy using poetry.lock* in case it doesn't exist yet
-COPY ./pyproject.toml ./poetry.lock* /app/
-RUN poetry install --no-root --no-dev
+COPY --from=requirements-stage /tmp/requirements.txt /opt/requirements.txt
+RUN pip install --no-cache-dir --upgrade -r /opt/requirements.txt
 
 # Install submodule
 COPY ./ActionTemplate-Python3/ /opt/action_template/
@@ -75,8 +73,8 @@ COPY ./src /app
 # Build dev env image
 ###########################################################################
 FROM dev-base AS dev-env
-RUN poetry install --no-root
-
+COPY --from=requirements-stage /tmp/requirements-dev.txt /opt/requirements-dev.txt
+RUN pip install --no-cache-dir --upgrade -r /opt/requirements-dev.txt
 
 ###########################################################################
 # Build lint image
@@ -102,7 +100,6 @@ FROM dev-env AS dev-security
 RUN python -m bandit -r /var/src/app/.
 RUN python -m safety check
 
-
 ###########################################################################
 # Build debugger
 ###########################################################################
@@ -112,7 +109,6 @@ RUN python -m safety check
 # WORKDIR /app/
 # CMD python -m debugpy --wait-for-client --listen 0.0.0.0:5678 \
 #   -m uvicorn app.main:app --reload --log-level debug --host 0.0.0.0 --port 8080 --root-path /
-
 
 ###########################################################################
 # Build production image - api
@@ -126,4 +122,3 @@ VOLUME [ "/data" ]
 # running a single Uvicorn process
 # CMD uvicorn app.main:app --host 0.0.0.0 --port 8080 --reload
 CMD /start-reload.sh
-
