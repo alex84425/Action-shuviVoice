@@ -117,11 +117,13 @@ RUN python -m safety check
 ###########################################################################
 # Build production image - api
 ###########################################################################
-FROM dev-base as prd
+FROM dev-base AS prd
 VOLUME [ "/data" ]
 
 # use Gunicorn running Uvicorn workers in the container
 # CMD /start.sh
 
 # running a single Uvicorn process
-CMD uvicorn app.main:app --host 0.0.0.0 --port 8080 --reload
+# CMD uvicorn app.main:app --host 0.0.0.0 --port 8080 --reload
+CMD /start-reload.sh
+
