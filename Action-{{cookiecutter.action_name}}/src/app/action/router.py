@@ -48,7 +48,7 @@ async def post_to_action_dryrun(act: models.MyActionPostModel):
     ).dict()
 
     logging.info("this is template /action/dryrun")
-    raise body
+    return body
 
 
 @router.post("/act")
@@ -72,4 +72,4 @@ async def post_to_action(act: models.MyActionPostModel):
     ).dict()
 
     logging.info("this is template /action/act")
-    raise body
+    return body
