@@ -1,20 +1,20 @@
 ###########################################################################
-# Build uut operation proxy base image
+# Build uut operation proxy base image (temp solution for ssh)
 ###########################################################################
-FROM node:14.18-slim AS uut-operation-proxy-base
+# FROM node:14.18-slim AS uut-operation-proxy-base
 
-RUN apt update && apt install -y vim curl
+# RUN apt update && apt install -y vim curl
 
-# for nodejs 14
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
-RUN apt -y install nodejs
-RUN node -v
+# # for nodejs 14
+# RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
+# RUN apt -y install nodejs
+# RUN node -v
 
-COPY ./ActionTemplate-Python3/UUTOperationProxy/. /UUTOperationProxy
-WORKDIR /UUTOperationProxy
-RUN npm ci
-RUN npm install -g pkg
-RUN pkg .
+# COPY ./ActionTemplate-Python3/UUTOperationProxy/. /UUTOperationProxy
+# WORKDIR /UUTOperationProxy
+# RUN npm ci
+# RUN npm install -g pkg
+# RUN pkg .
 
 ###########################################################################
 # Create requirements from poetry
@@ -57,7 +57,7 @@ RUN apt-get update \
   && pip install --upgrade pip
 
 ###### setup uut operaiont proxy binary  ########
-COPY --from=uut-operation-proxy-base /UUTOperationProxy/dist/uut-operation-proxy-linux /opt/uut-operation-proxy-linux
+# COPY --from=uut-operation-proxy-base /UUTOperationProxy/dist/uut-operation-proxy-linux /opt/uut-operation-proxy-linux
 ###### done setup uut operaiont proxy binary #########
 
 COPY --from=requirements-stage /tmp/requirements.txt /opt/requirements.txt
