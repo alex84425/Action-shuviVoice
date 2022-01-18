@@ -56,11 +56,6 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/* \
   && pip install --upgrade pip
 
-###### setup uut operaiont proxy binary  ########
-ENV UUTOPERATIONPROXY 0
-COPY --from=uut-operation-proxy-base /UUTOperationProxy/dist/uut-operation-proxy-linux /opt/uut-operation-proxy-linux
-###### done setup uut operaiont proxy binary #########
-
 COPY --from=requirements-stage /tmp/requirements.txt /opt/requirements.txt
 RUN pip install --no-cache-dir --upgrade -r /opt/requirements.txt
 
@@ -116,6 +111,11 @@ RUN python -m safety check
 ###########################################################################
 FROM dev-base AS prd
 VOLUME [ "/data" ]
+
+###### setup uut operaiont proxy binary  ########
+ENV UUTOPERATIONPROXY 0
+COPY --from=uut-operation-proxy-base /UUTOperationProxy/dist/uut-operation-proxy-linux /opt/uut-operation-proxy-linux
+###### done setup uut operaiont proxy binary #########
 
 # use Gunicorn running Uvicorn workers in the container
 # CMD /start.sh
