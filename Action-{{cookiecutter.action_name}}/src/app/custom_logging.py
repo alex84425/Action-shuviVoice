@@ -33,7 +33,7 @@ class InterceptHandler(logging.Handler):
             depth += 1
         try:
             task_id = asyncio.current_task().get_name()
-        except RuntimeError:
+        except Exception:
             task_id = "NoTask"
         log = logger.bind(request_id=task_id)
         msgs = record.getMessage()
