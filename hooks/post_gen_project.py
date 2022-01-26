@@ -104,8 +104,8 @@ if GIT_COMMIT == "yes" or GIT_COMMIT == "":
         print("repo name is valid, try to gh create!")
 
     print("Try to subprocess gh cmd: ", gh_cmd)
-    """    
-    p = subprocess.run( gh_cmd , capture_output=True, check=True, shell=True,encoding="utf-8")    
+    """
+    p = subprocess.run( gh_cmd , capture_output=True, check=True, shell=True,encoding="utf-8")
     print("Try to run: ", gh_cmd)
     print("stdout: ", p.stdout)
     print("stderr: ", p.stderr)
