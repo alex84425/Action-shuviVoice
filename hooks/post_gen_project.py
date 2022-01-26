@@ -1,8 +1,6 @@
-import re
 import shutil
-import sys
 import subprocess
-
+import sys
 
 ACTION_NAME = "{{cookiecutter.action_name}}"
 MODULE_REGEX = r"^[a-zA-Z]+$"
