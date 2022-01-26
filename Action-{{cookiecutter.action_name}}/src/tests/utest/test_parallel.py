@@ -34,9 +34,20 @@ async def test_parallel_act():
                 },
                 "target": {
                     "ip": "15.36.158.55",
+                    "port": "string",
+                    "protocol": "string",
+                    "serialNumber": "string",
+                    "configuration": {},
+                    "ssh": {},
                 },
                 "task": {"taskId": f"{i:08}"},
-                "actionData": {"data": {}},
+                "actionData": {
+                    "type": "string",
+                    "version": "string",
+                    "data": {"test": "string"},
+                    "index": 0,
+                    "haltOnError": False,
+                },
             }
         )
 
