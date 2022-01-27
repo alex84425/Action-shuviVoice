@@ -3,7 +3,7 @@ import asyncio
 import logging
 
 from app.action import models
-from app.config import Settings, get_fake_settings, get_settings, FakeSettings
+from app.config import FakeSettings, Settings, get_fake_settings, get_settings
 from fastapi import APIRouter, Depends
 from vcosmosapiclient.api import MonitorFileResponse
 from vcosmosapiclient.depends import ApiDepends, FakeDepends
