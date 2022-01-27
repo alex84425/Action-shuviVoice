@@ -7,7 +7,7 @@ from vcosmosapiclient.models import BaseActionModel
 
 
 class MyDataModel(BaseModel):
-    pass
+    test: str
 
 
 class MyActionDataModel(BaseModel):
