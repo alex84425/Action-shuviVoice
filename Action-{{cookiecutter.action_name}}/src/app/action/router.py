@@ -87,6 +87,6 @@ async def post_to_action(
 
     logging.info("this is template /action/act")
 
-    bios_value = api.bios.get_bios_on_remote(act)
+    bios_value = await api.bios.get_bios_on_remote(act)
     logging.info(bios_value)
     return body
