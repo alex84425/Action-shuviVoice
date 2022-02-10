@@ -93,7 +93,7 @@ RUN mkdir -p /var/src/htmlcov \
 # Build security check image
 ###########################################################################
 FROM dev-env AS dev-security
-RUN python -m bandit -r /app/.
+RUN python -m bandit -r /app
 RUN python -m safety check
 
 ###########################################################################
