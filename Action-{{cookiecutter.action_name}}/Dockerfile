@@ -93,7 +93,7 @@ RUN mkdir -p /var/src/htmlcov \
 # Build security check image
 ###########################################################################
 FROM dev-env AS dev-security
-RUN python -m bandit -r /var/src/app/.
+RUN python -m bandit -r /app/.
 RUN python -m safety check
 
 ###########################################################################
@@ -113,7 +113,6 @@ FROM dev-base AS prd
 VOLUME [ "/data" ]
 
 ###### setup uut operaiont proxy binary  ########
-ENV UUTOPERATIONPROXY 0
 COPY --from=uut-operation-proxy-base /UUTOperationProxy/dist/uut-operation-proxy-linux /opt/uut-operation-proxy-linux
 ###### done setup uut operaiont proxy binary #########
 
