@@ -8,7 +8,7 @@ from fastapi import APIRouter, Depends
 from vcosmosapiclient.api import MonitorFileResponse
 from vcosmosapiclient.depends import ApiDepends, FakeDepends
 from vcosmosapiclient.utils import validator
-from executor import main_task_handler, monitor_task_error
+from app.action.executor import main_task_handler, monitor_task_error
 
 router = APIRouter()
 
@@ -115,6 +115,6 @@ async def post_to_action(
 
     logging.info("this is template /action/act")
 
-    result = await main_task_handler(act, api)
-    logging.info(result)
+    asyncio.create_task(main_task_handler(act, api))
+
     return body

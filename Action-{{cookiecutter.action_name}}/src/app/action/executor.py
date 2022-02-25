@@ -13,7 +13,7 @@ async def monitor_task_error(workingDirectory: str):
 
 async def main_task_handler(act: models.MyActionPostModel, api: ApiDepends):
     try:
-        return await main_task(act, api)
+        await main_task(act, api)
     except Exception as e:
         workingDirectory = act.context.workingDirectory
         ErrorTaskTable.update({workingDirectory: e})
@@ -21,4 +21,4 @@ async def main_task_handler(act: models.MyActionPostModel, api: ApiDepends):
 
 async def main_task(act: models.MyActionPostModel, api: ApiDepends):
     bios = await api.bios.get_bios_on_remote(act)
-    return bios
+    print(bios)
