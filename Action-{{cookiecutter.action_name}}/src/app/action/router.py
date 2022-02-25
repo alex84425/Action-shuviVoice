@@ -97,7 +97,7 @@ async def post_to_action(
         status_file="LOGS/status.json",
     ).dict()
 
-    monitor_data = models.ErrorMonitorModel(workingDirectory=act.context.get("workingDirectory"))
+    monitor_data = models.ErrorMonitorModel(workingDirectory=act.context.workingDirectory)
     project_name = get_settings().PROJECT_NAME
 
     errorOccurRequestData = {

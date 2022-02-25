@@ -14,7 +14,7 @@ async def main_task_handler(act: models.MyActionPostModel):
     try:
         await main_task(act)
     except Exception as e:
-        workingDirectory = act.context.get("workingDirectory")
+        workingDirectory = act.context.workingDirectory
         ErrorTaskTable.update({workingDirectory: e})
 
 
