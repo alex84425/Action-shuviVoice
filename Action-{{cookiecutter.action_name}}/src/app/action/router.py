@@ -98,7 +98,7 @@ async def post_to_action(
     ).dict()
 
     monitor_data = models.ErrorMonitorModel(workingDirectory=act.context.get("workingDirectory"))
-    project_name = get_settings().RESPONSE_BODY.PROJECT_NAME
+    project_name = get_settings().PROJECT_NAME
 
     errorOccurRequestData = {
         "url": f"http://{project_name}:8080/action/monitor/task",
