@@ -98,7 +98,7 @@ async def post_to_action(
     ).dict()
 
     monitor_data = models.ErrorMonitorModel(workingDirectory=act.context.workingDirectory)
-    project_name = get_settings().PROJECT_NAME
+    project_name = get_settings().PROJECT_NAME.lower()
 
     errorOccurRequestData = {
         "url": f"http://{project_name}:8080/action/monitor/task",
@@ -115,6 +115,6 @@ async def post_to_action(
 
     logging.info("this is template /action/act")
 
-    result = await main_task_handler(act)
+    result = await main_task_handler(act, api)
     logging.info(result)
     return body
