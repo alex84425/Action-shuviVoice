@@ -4,10 +4,11 @@ import logging
 
 from app.action import models
 from app.config import FakeSettings, Settings, get_fake_settings, get_settings
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 from vcosmosapiclient.api import MonitorFileResponse
 from vcosmosapiclient.depends import ApiDepends, FakeDepends
 from vcosmosapiclient.utils import validator
+from executor import main_task_handler, monitor_task_error
 
 router = APIRouter()
 
@@ -28,6 +29,17 @@ async def health():
     https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/tree/master/ActionExecutor#required-endpoint--contract
     """  # noqa
     return {"status": "ok"}
+
+
+@router.post("/monitor/task")
+async def router_action_task_monitor(task: models.ErrorMonitorModel):
+    result = await monitor_task_error(task.workingDirectory)
+    if not result:
+        return {}
+    else:
+        return {
+            "ErrorMsg": result
+        }
 
 
 @router.post("/dryrun")
@@ -85,8 +97,24 @@ async def post_to_action(
         status_file="LOGS/status.json",
     ).dict()
 
+    monitor_data = models.ErrorMonitorModel(workingDirectory=act.context.get("workingDirectory"))
+    project_name = get_settings().RESPONSE_BODY.PROJECT_NAME
+
+    errorOccurRequestData = {
+        "url": f"http://{project_name}:8080/action/monitor/task",
+        "method": "POST",
+        "headers": {
+            "Content-type": "application/json"
+        },
+        "data": monitor_data.json(),
+        "timeout": 3600,
+    }
+
+    body.update({"errorOccurType": "request",
+                 "errorOccurRequestData": errorOccurRequestData})
+
     logging.info("this is template /action/act")
 
-    bios_value = await api.bios.get_bios_on_remote(act)
-    logging.info(bios_value)
+    result = await main_task_handler(act)
+    logging.info(result)
     return body

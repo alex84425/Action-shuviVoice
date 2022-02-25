@@ -23,3 +23,8 @@ class MyActionPostModel(BaseActionModel):
 
     def taskIdworkdir(self):
         return PureWindowsPath(self.context.workingDirectory)
+
+
+class ErrorMonitorModel(BaseModel):
+    workingDirectory: str
+
