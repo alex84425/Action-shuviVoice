@@ -106,7 +106,7 @@ async def post_to_action(
         "headers": {
             "Content-type": "application/json"
         },
-        "data": monitor_data.json(),
+        "data": monitor_data.dict(),
         "timeout": 3600,
     }
 
