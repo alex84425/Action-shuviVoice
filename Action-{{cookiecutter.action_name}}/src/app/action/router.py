@@ -4,7 +4,7 @@ import logging
 
 from app.action import models
 from app.config import FakeSettings, Settings, get_fake_settings, get_settings
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, status
 from vcosmosapiclient.api import MonitorFileResponse
 from vcosmosapiclient.depends import ApiDepends, FakeDepends
 from vcosmosapiclient.utils import validator
@@ -35,7 +35,10 @@ async def health():
 async def router_action_task_monitor(task: models.ErrorMonitorModel):
     result = await monitor_task_error(task.workingDirectory)
     if not result:
-        return {}
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No error found.",
+        )
     else:
         return {
             "ErrorMsg": result
