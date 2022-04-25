@@ -1,0 +1,29 @@
+resources:
+  repositories:
+    - repository: azurepipeline-template
+      type: githubenterprise
+      name: BPSValidation/azurepipeline-template
+      endpoint: BPS-Validation-AzureDveOps-GitHub # service connection name from azure project setting.
+
+pool:
+  name: vCosmos Runner
+
+trigger:
+  - master
+  - dev
+  - itg
+  - prd
+
+pr:
+  - master
+  - itg
+  - prd
+
+extends:
+  template: dockerBasedAction.yml@azurepipeline-template
+  parameters:
+    project_name: "Action-{{cookiecutter.action_name}}"
+    submodules_mode: "recursive"
+    lfs_enabled: true
+    with_envs: true
+    volume_mount_path: /data/

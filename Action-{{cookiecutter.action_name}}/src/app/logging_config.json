@@ -1,9 +1,9 @@
 {
   "logger": {
-    "filepath": "/data/logs/debug.log",
-    "format": "[{extra[request_id]}] <green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> <level>{level: <5}</level> <cyan>{file}:{line}</cyan> - <level>{message}</level>",
+    "filepath": "/data/log/debug.log",
+    "format": "<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> [{extra[request_id]}] <level>{level: <5}</level> <level>{message}</level> - <cyan>{file}:{line}</cyan>",
     "level": "debug",
     "retention": "1 months",
-    "rotation": "20 days"
+    "rotation": "1 days"
   }
 }
