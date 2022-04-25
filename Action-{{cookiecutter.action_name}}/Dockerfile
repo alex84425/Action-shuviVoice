@@ -120,5 +120,5 @@ COPY --from=uut-operation-proxy-base /UUTOperationProxy/dist/uut-operation-proxy
 # CMD /start.sh
 
 # running a single Uvicorn process
-# CMD uvicorn app.main:app --host 0.0.0.0 --port 8080 --reload
-CMD /start-reload.sh
+CMD uvicorn app.main:app --host 0.0.0.0 --port 8080 --workers 1
+# CMD /start-reload.sh
