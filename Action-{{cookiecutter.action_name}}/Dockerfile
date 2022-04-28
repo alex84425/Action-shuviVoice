@@ -111,6 +111,7 @@ RUN python -m safety check
 ###########################################################################
 FROM dev-base AS prd
 ENV MAX_WORKERS=1
+ENV LOG_LEVEL=debug
 VOLUME [ "/data" ]
 
 ###### setup uut operaiont proxy binary  ########
