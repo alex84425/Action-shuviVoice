@@ -57,16 +57,10 @@ if GIT_COMMIT == "yes" or GIT_COMMIT == "":
 
     subprocess_cmd(["git", "add", "-A"])
 
-    ask_add_submodule = input(
-        " Action-ExecutorTemplate require ActionTemplate-Python3, do you want to add submodule? [yes]"
-    )
+    ask_add_submodule = input(" Action-ExecutorTemplate require ActionTemplate-Python3, do you want to add submodule? [yes]")
     if ask_add_submodule == "yes" or ask_add_submodule == "":
         # git submodule add https://github.azc.ext.hp.com/BPSVCommonService/ActionTemplate-Python3.git
-        subprocess_cmd(
-            ["git", "submodule", "add", "https://github.azc.ext.hp.com/BPSVCommonService/ActionTemplate-Python3.git"]
-        )
-        subprocess_cmd(["git", "submodule", "update", "--remote", "--merge"])
-
+        subprocess_cmd(["git", "submodule", "add", "https://github.azc.ext.hp.com/BPSVCommonService/ActionTemplate-Python3.git"])
         subprocess_cmd(["git", "submodule", "update", "--init", "--recursive"])
 
     else:
