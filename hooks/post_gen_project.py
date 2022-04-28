@@ -74,45 +74,45 @@ if GIT_COMMIT == "yes" or GIT_COMMIT == "":
 
     subprocess_cmd(["git", "commit", "-m", '"' + GIT_COMMIT_M + '"'])
 
-    # create repo
-    # gh repo create BPSVCommonService/Action-ATCtest --private
-    repo_name = GIT_REMOTE_URL.split(":")[1].split(".")[0]
-    add_repo_flag = input("set new repo to [public] of private:")
-    while add_repo_flag not in ["public", "private", ""]:
-        print("input user para in list: ", ["public", "private", ""])
-        add_repo_flag = input("set new repo to [public] of private:")
+    # # create repo
+    # # gh repo create BPSVCommonService/Action-ATCtest --private
+    # repo_name = GIT_REMOTE_URL.split(":")[1].split(".")[0]
+    # add_repo_flag = input("set new repo to [public] of private:")
+    # while add_repo_flag not in ["public", "private", ""]:
+    #     print("input user para in list: ", ["public", "private", ""])
+    #     add_repo_flag = input("set new repo to [public] of private:")
 
-    if add_repo_flag == "public" or add_repo_flag == "":
-        gh_cmd = "gh repo create {} --public".format(repo_name)
-    else:
-        gh_cmd = "gh repo create {} --private".format(repo_name)
-    # check repo exist
-    check_repo_exist_cmd = ["git", "ls-remote", GIT_REMOTE_URL]
-    check_repo_exist_cmd = subprocess.list2cmdline((map(str, check_repo_exist_cmd)))
-    print("Try to cmd:", check_repo_exist_cmd)
-    p = subprocess.run(check_repo_exist_cmd, capture_output=True, shell=True, encoding="utf-8")
-    # print("err", p.stderr)
-    # print( "out",p.stderr)
-    if "Repository not found" not in p.stderr:
-        print("stderr", p.stderr)
-        print("stdout", p.stderr)
-        print("ERROR: repo name has been used and other error !!")
-        print("Remove repo clone by cookiecutter!")
-        shutil.rmtree("Action-{}.git".format(ACTION_NAME))
-        sys.exit(1)
-    else:
-        print("repo name is valid, try to gh create!")
+    # if add_repo_flag == "public" or add_repo_flag == "":
+    #     gh_cmd = "gh repo create {} --public".format(repo_name)
+    # else:
+    #     gh_cmd = "gh repo create {} --private".format(repo_name)
+    # # check repo exist
+    # check_repo_exist_cmd = ["git", "ls-remote", GIT_REMOTE_URL]
+    # check_repo_exist_cmd = subprocess.list2cmdline((map(str, check_repo_exist_cmd)))
+    # print("Try to cmd:", check_repo_exist_cmd)
+    # p = subprocess.run(check_repo_exist_cmd, capture_output=True, shell=True, encoding="utf-8")
+    # # print("err", p.stderr)
+    # # print( "out",p.stderr)
+    # if "Repository not found" not in p.stderr:
+    #     print("stderr", p.stderr)
+    #     print("stdout", p.stderr)
+    #     print("ERROR: repo name has been used and other error !!")
+    #     print("Remove repo clone by cookiecutter!")
+    #     shutil.rmtree("Action-{}.git".format(ACTION_NAME))
+    #     sys.exit(1)
+    # else:
+    #     print("repo name is valid, try to gh create!")
 
-    print("Try to subprocess gh cmd: ", gh_cmd)
-    """
-    p = subprocess.run( gh_cmd , capture_output=True, check=True, shell=True,encoding="utf-8")
-    print("Try to run: ", gh_cmd)
-    print("stdout: ", p.stdout)
-    print("stderr: ", p.stderr)
-    """
-    try:
-        subprocess.check_output(gh_cmd, stderr=subprocess.STDOUT, shell=True)
-    except subprocess.CalledProcessError as e:
-        print("ERROR: ", e.output)
+    # print("Try to subprocess gh cmd: ", gh_cmd)
+    # """
+    # p = subprocess.run( gh_cmd , capture_output=True, check=True, shell=True,encoding="utf-8")
+    # print("Try to run: ", gh_cmd)
+    # print("stdout: ", p.stdout)
+    # print("stderr: ", p.stderr)
+    # """
+    # try:
+    #     subprocess.check_output(gh_cmd, stderr=subprocess.STDOUT, shell=True)
+    # except subprocess.CalledProcessError as e:
+    #     print("ERROR: ", e.output)
 
-    subprocess_cmd(["git", "push", "-u", "origin", "master"])
+    # subprocess_cmd(["git", "push", "-u", "origin", "master"])
