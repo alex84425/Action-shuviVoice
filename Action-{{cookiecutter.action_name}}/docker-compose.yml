@@ -1,15 +1,15 @@
 version: '3.5'
 
 services:
-  action{{cookiecutter.action_name|lower}}:
+  "action{{cookiecutter.action_name|lower}}":
     build: .
-      #target: debug
+    #target: debug
     volumes:
       - ./src:/app
       - ./ActionTemplate-Python3:/opt/action_template
     ports:
       - 8080:8080
       # - 5678:5678
-    # command: /start-reload.sh
+    command: /start-reload.sh
     environment:
       - ROOT_PATH=/

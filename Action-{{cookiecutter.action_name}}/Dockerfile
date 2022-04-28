@@ -110,15 +110,15 @@ RUN python -m safety check
 # Build production image - api
 ###########################################################################
 FROM dev-base AS prd
+ENV MAX_WORKERS=1
 VOLUME [ "/data" ]
 
 ###### setup uut operaiont proxy binary  ########
 COPY --from=uut-operation-proxy-base /UUTOperationProxy/dist/uut-operation-proxy-linux /opt/uut-operation-proxy-linux
-###### done setup uut operaiont proxy binary #########
 
 # use Gunicorn running Uvicorn workers in the container
 # CMD /start.sh
 
 # running a single Uvicorn process
-CMD uvicorn app.main:app --host 0.0.0.0 --port 8080 --workers 1
+# CMD uvicorn app.main:app --host 0.0.0.0 --port 8080 --workers 1
 # CMD /start-reload.sh
