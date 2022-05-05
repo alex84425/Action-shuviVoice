@@ -22,7 +22,7 @@ pr:
 extends:
   template: dockerBasedAction.yml@azurepipeline-template
   parameters:
-    project_name: "Action-{{cookiecutter.action_name}}"
+    project_name: "Action-HelloWorld"
     submodules_mode: "recursive"
     lfs_enabled: true
     with_envs: true
