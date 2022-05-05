@@ -1,0 +1,3 @@
+[submodule "ActionTemplate-Python3"]
+	path = ActionTemplate-Python3
+	url = https://github.azc.ext.hp.com/BPSVCommonService/ActionTemplate-Python3.git
