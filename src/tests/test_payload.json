@@ -1,0 +1,28 @@
+{
+    "context": {
+        "environmentVariables": {},
+        "parameters": {},
+        "actionResults": [],
+        "workingDirectory": "c:/TestAutomation/TestJobs/6260f5a1c99ce10012a6eb79/00_WinPVT_undefined_undefined"
+    },
+    "target": {
+        "ip": "15.36.159.40",
+        "port": "22",
+        "protocol": "ssh",
+        "serialNumber": "5CG0224PNL",
+        "configuration": {},
+        "ssh": {
+            "user": "administrator",
+            "key": "dummy key",
+            "error": ""
+        }
+    },
+    "task": {
+        "taskId": "6260f5a1c99ce10012a6eb79"
+    },
+    "actionData": {
+        "data": {
+            "MyTestData": "GGG"
+        }
+    }
+}

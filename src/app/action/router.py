@@ -40,9 +40,7 @@ async def router_action_task_monitor(task: models.ErrorMonitorModel):
             detail="No error found.",
         )
     else:
-        return {
-            "ErrorMsg": result
-        }
+        return {"ErrorMsg": result}
 
 
 @router.post("/dryrun")
@@ -80,9 +78,7 @@ async def post_to_action_dryrun(
 
 @router.post("/act")
 @validator.post
-async def post_to_action(
-    act: models.MyActionPostModel, api: ApiDepends = Depends(), config: Settings = Depends(get_settings)
-):
+async def post_to_action(act: models.MyActionPostModel, api: ApiDepends = Depends(), config: Settings = Depends(get_settings)):
     """
     Required endpoint
     https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/tree/master/ActionExecutor#required-endpoint--contract
@@ -91,7 +87,7 @@ async def post_to_action(
     https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/blob/master/ActionExecutor/ActionActResponse.schema.json
     """  # noqa
     task = asyncio.current_task()
-    task.set_name(act.sub_task_id()[-8:])
+    task.set_name(act.sub_task_id())
 
     body = MonitorFileResponse(
         task_folder=act.context.workingDirectory,
@@ -99,25 +95,4 @@ async def post_to_action(
         result_file="LOGS/ResultDetails.json",
         status_file="LOGS/status.json",
     ).dict()
-
-    monitor_data = models.ErrorMonitorModel(workingDirectory=act.context.workingDirectory)
-    project_name = get_settings().PROJECT_NAME.lower()
-
-    errorOccurRequestData = {
-        "url": f"http://{project_name}:8080/action/monitor/task",
-        "method": "POST",
-        "headers": {
-            "Content-type": "application/json"
-        },
-        "data": monitor_data.dict(),
-        "timeout": 3600,
-    }
-
-    body.update({"errorOccurType": "request",
-                 "errorOccurRequestData": errorOccurRequestData})
-
-    logging.info("this is template /action/act")
-
-    asyncio.create_task(main_task_handler(act, api))
-
     return body

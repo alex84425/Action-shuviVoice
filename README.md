@@ -12,7 +12,6 @@
 4. Install poetry (python packages dependency manager)
 
     ```
-    cd Action-YourAction
     pip install poetry
     ```
 
@@ -20,6 +19,7 @@
     ```
     poetry env use C:\Python38\python.exe (your python 3.8 path)
     ```
+
 6. package management
 
     - install env
@@ -65,14 +65,13 @@
 
 <br/><br/>
 
-# Add submodule to your repo
+# Clone or update submodule to your repo
 
 7. init/update submodule
-    - execute `update_submodule.bat` or the following command
+    - execute `update_submodule.cmd` or the following command
     ```
     git submodule update --init --recursive --remote 
     ```
-
 
 10. Remove submodule from your repo
     https://gist.github.com/myusuf3/7f645819ded92bda6677

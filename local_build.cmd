@@ -12,3 +12,4 @@ docker rm -v container_name
 
 echo 'Build Prod Image'
 docker build --network=host -t prod_docker .
+pause

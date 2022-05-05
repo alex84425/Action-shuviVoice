@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import asyncio
 import logging
-
+import copy
 import pytest
 from app.config import get_fake_settings, get_settings
 from app.main import app
@@ -10,7 +10,7 @@ from vcosmosapiclient.depends import ApiDepends, FakeDepends
 
 
 @pytest.mark.asyncio
-async def test_parallel_act():
+async def test_parallel_act(act_raw):
     FakeDepends.bios.fake_return["get_bios_on_remote"] = {
         "Manufacturing Programming Mode": "Lock",
         "Serial Number": "0123456789",
@@ -24,32 +24,9 @@ async def test_parallel_act():
 
     act_list = []
     for i in range(client_number):
-        act_list.append(
-            {
-                "context": {
-                    "environmentVariables": {},
-                    "parameters": {},
-                    "actionResults": ["string"],
-                    "workingDirectory": "C:\\TestAutomation\\53456575542",
-                },
-                "target": {
-                    "ip": "15.36.158.55",
-                    "port": "string",
-                    "protocol": "string",
-                    "serialNumber": "string",
-                    "configuration": {},
-                    "ssh": {},
-                },
-                "task": {"taskId": f"{i:08}"},
-                "actionData": {
-                    "type": "string",
-                    "version": "string",
-                    "data": {"test": "string"},
-                    "index": 0,
-                    "haltOnError": False,
-                },
-            }
-        )
+        payload = copy.deepcopy(act_raw)
+        payload["task"]["taskId"] = f"{i:08}"
+        act_list.append(payload)
 
     async with AsyncClient(app=app, base_url="http://test") as ac:
         tasks = []
@@ -58,7 +35,8 @@ async def test_parallel_act():
 
         results = await asyncio.gather(*tasks, return_exceptions=True)
 
+    # logging.info(act_list[-1])
     for response in list(results):
-        logging.info(response)
+        logging.info(response.text)
         assert response.status_code == 200
         assert not response.json().get("errorOccurRequestData", None)
