@@ -7,7 +7,7 @@ authors = ["Mason Lin <mason.lin1@hp.com>"]
 [tool.poetry.dependencies]
 python = "^3.8"
 fastapi = "0.68.1"
-httpx = "1.0.0b0"
+httpx = "0.22.0"
 requests = "2.26.0"
 uvicorn = "0.15.0"
 jsonschema = "^4.1.2"
