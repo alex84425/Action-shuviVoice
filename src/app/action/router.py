@@ -71,7 +71,7 @@ async def post_to_action_dryrun(
         "Universally Unique Identifier (UUID)": "11111111112222222222333333333344",
     }
 
-    bios_value = api.bios.get_bios_on_remote(act)
+    bios_value = await api.bios.get_bios_on_remote(act)
     logging.info(bios_value)
     return body
 
@@ -86,8 +86,6 @@ async def post_to_action(act: models.MyActionPostModel, api: ApiDepends = Depend
     Response schema:
     https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/blob/master/ActionExecutor/ActionActResponse.schema.json
     """  # noqa
-    task = asyncio.current_task()
-    task.set_name(act.sub_task_id())
 
     body = MonitorFileResponse(
         task_folder=act.context.workingDirectory,
