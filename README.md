@@ -2,8 +2,8 @@
 
 ## 1. Create new repo by template in Github
 
-
-![image](https://media.github.azc.ext.hp.com/user/25873/files/7ba26cbc-2d96-4854-9b5d-2aca6bcfbd56)
+![image](https://media.github.azc.ext.hp.com/user/14519/files/5de2a1e0-64d9-4d12-9847-9ce5f156c663)
+![image](https://media.github.azc.ext.hp.com/user/14519/files/9e6272da-97ee-4619-911c-8839d9b9b663)
 
 <br/><br/>
 
