@@ -12,10 +12,7 @@ class Settings(BaseSettings):
     VERSION: str = "0.0.1"
     ENVIRONMENT: str = os.getenv("ENVIRONMENT", "dev")
     HOME: Path = Path("/data")
-
-
-class FakeSettings(Settings):
-    HOME: Path = Path("tests/dummy_home")
+    LOG_HOME: Path = HOME / "log"
 
 
 @lru_cache()
@@ -25,4 +22,7 @@ def get_settings() -> Settings:
 
 @lru_cache()
 def get_fake_settings() -> Settings:
-    return FakeSettings()
+    return Settings(
+        HOME=Path("tests/dummy_home"),
+        LOG_HOME=Path("tests/dummy_home") / "log",
+    )

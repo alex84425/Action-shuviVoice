@@ -15,6 +15,7 @@ pylama = "^8.3.6"
 python-multipart = "^0.0.5"
 loguru = "^0.5.3"
 aiofiles = "^0.8.0"
+ansi2html = "^1.7.0"
 
 [tool.poetry.dev-dependencies]
 bandit = "1.7.0"

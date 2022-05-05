@@ -7,6 +7,18 @@ optional = false
 python-versions = ">=3.6,<4.0"
 
 [[package]]
+name = "ansi2html"
+version = "1.7.0"
+description = ""
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.extras]
+docs = ["sphinx", "setuptools-scm", "sphinx-rtd-theme"]
+test = ["pytest", "pytest-cov"]
+
+[[package]]
 name = "anyio"
 version = "3.5.0"
 description = "High level compatibility layer for multiple asynchronous event loop implementations"
@@ -823,12 +835,16 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "91ce11994996d5bbe85ce25e5fbfa9959efb5f7c57ea6d6c4bf502f3a8bf81aa"
+content-hash = "e37c5140df1d49a85b5423d42c0c5be4ca887f4c7f18fcc8d1877d4ff9ef7bb6"
 
 [metadata.files]
 aiofiles = [
     {file = "aiofiles-0.8.0-py3-none-any.whl", hash = "sha256:7a973fc22b29e9962d0897805ace5856e6a566ab1f0c8e5c91ff6c866519c937"},
     {file = "aiofiles-0.8.0.tar.gz", hash = "sha256:8334f23235248a3b2e83b2c3a78a22674f39969b96397126cc93664d9a901e59"},
+]
+ansi2html = [
+    {file = "ansi2html-1.7.0-py3-none-any.whl", hash = "sha256:50517716d2e54f4167dadcec583fc7339e3684e4ff50a5f3d516fc8b54ce5875"},
+    {file = "ansi2html-1.7.0.tar.gz", hash = "sha256:69316be8c68ac91c5582d397c2890e69c993cc7cda52062ac7e45fcb660d8edc"},
 ]
 anyio = [
     {file = "anyio-3.5.0-py3-none-any.whl", hash = "sha256:b5fa16c5ff93fa1046f2eeb5bbff2dad4d3514d6cda61d02816dba34fa8c3c2e"},

@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
-import asyncio
 import logging
 
 from app.action import models
-from app.config import FakeSettings, Settings, get_fake_settings, get_settings
+from app.action.executor import monitor_task_error
+from app.config import Settings, get_fake_settings, get_settings
 from fastapi import APIRouter, Depends, HTTPException, status
 from vcosmosapiclient.api import MonitorFileResponse
 from vcosmosapiclient.depends import ApiDepends, FakeDepends
 from vcosmosapiclient.utils import validator
-from app.action.executor import main_task_handler, monitor_task_error
 
 router = APIRouter()
 
@@ -45,9 +44,7 @@ async def router_action_task_monitor(task: models.ErrorMonitorModel):
 
 @router.post("/dryrun")
 @validator.post
-async def post_to_action_dryrun(
-    act: models.MyActionPostModel, api: FakeDepends = Depends(), config: FakeSettings = Depends(get_fake_settings)
-):
+async def post_to_action_dryrun(act: models.MyActionPostModel, api: FakeDepends = Depends(), config: Settings = Depends(get_fake_settings)):
     """
     Required endpoint
     https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/tree/master/ActionExecutor#required-endpoint--contract
