@@ -38,6 +38,8 @@ WORKDIR /app/
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+ENV MAX_WORKERS=1
+ENV LOG_LEVEL=debug
 ENV PORT 8080
 EXPOSE 8080
 
@@ -110,8 +112,7 @@ RUN python -m safety check
 # Build production image - api
 ###########################################################################
 FROM dev-base AS prd
-ENV MAX_WORKERS=1
-ENV LOG_LEVEL=debug
+
 VOLUME [ "/data" ]
 
 ###### setup uut operaiont proxy binary  ########
