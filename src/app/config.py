@@ -7,7 +7,7 @@ from pydantic import BaseSettings
 
 
 class Settings(BaseSettings):
-    PROJECT_NAME: str = "Action-HelloWorld"
+    PROJECT_NAME: str = "Action-ExecutorTemplate"
     PREFIX: str = os.environ.get("ROOT_PATH", f"/{PROJECT_NAME.lower()}")
     VERSION: str = "0.0.1"
     ENVIRONMENT: str = os.getenv("ENVIRONMENT", "dev")
