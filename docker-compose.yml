@@ -7,6 +7,7 @@ services:
     volumes:
       - ./src:/app
       - ./ActionTemplate-Python3:/opt/action_template
+      - ./log:/data
     ports:
       - 8080:8080
     command: /start-reload.sh
