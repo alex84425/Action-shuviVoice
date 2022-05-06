@@ -3,7 +3,14 @@
 ## 1. Create new repo by template in Github
 
 ![image](https://media.github.azc.ext.hp.com/user/14519/files/5de2a1e0-64d9-4d12-9847-9ce5f156c663)
-![image](https://media.github.azc.ext.hp.com/user/14519/files/9e6272da-97ee-4619-911c-8839d9b9b663)
+![image](https://media.github.azc.ext.hp.com/user/14519/files/3348e925-92d3-444b-9581-3d5dcdb1cc2e)
+
+## 2. Update Action Name
+
+1. Execute `update_action_name.cmd` and push the changes
+![image](https://media.github.azc.ext.hp.com/user/14519/files/0ebd9253-8aca-4c1e-ad19-7cc14226bb54)
+![image](https://media.github.azc.ext.hp.com/user/14519/files/dd5f4572-0da4-400f-88d6-88ec4e821d89)
+
 
 <br/><br/>
 
@@ -65,7 +72,7 @@
 
 <br/><br/>
 
-# Clone or update submodule to your repo
+# Clone submodule to your repo or update submodule
 
 7. init/update submodule
     - execute `update_submodule.cmd` or the following command
@@ -75,6 +82,27 @@
 
 10. Remove submodule from your repo
     https://gist.github.com/myusuf3/7f645819ded92bda6677
+
+# Add Azure Pipeline
+
+1. <img src='https://media.github.azc.ext.hp.com/user/14519/files/1253a1ca-7d6a-48c5-af55-25f550b50dd1' align='top'/>
+2. <img src='https://media.github.azc.ext.hp.com/user/14519/files/663b5d63-b7ff-4509-a5bf-3bc385e02659' align='top'/>
+3. <img src='https://media.github.azc.ext.hp.com/user/14519/files/3aa4cc49-ec13-45f2-a4a0-03d7a4235bdf' align='top'/>
+4. <img src='https://media.github.azc.ext.hp.com/user/14519/files/553e954d-0e8a-4916-a995-be3c2f1e24e2' align='top'/>
+5. <img src='https://media.github.azc.ext.hp.com/user/14519/files/e3628d33-cc54-4241-8c54-f141b936452a' align='top'/>
+6. <img src='https://media.github.azc.ext.hp.com/user/14519/files/00687dd3-bf3f-4bc3-a1c5-b143fe80cf57' align='top'/>
+7. <img src='https://media.github.azc.ext.hp.com/user/14519/files/7d8714de-afcd-46c0-9582-cd0a716e6aec' align='top'/>
+
+# Add Azure Release
+
+1. <img src='https://media.github.azc.ext.hp.com/user/14519/files/6c9483b7-a109-4c1a-a68c-360947538873' align='top'/>
+2. <img src='https://media.github.azc.ext.hp.com/user/14519/files/31e051c4-7527-473d-b19b-808c1f8ec197' align='top'/>
+3. <img src='https://media.github.azc.ext.hp.com/user/14519/files/6d81ff33-d773-470b-98fd-33a4624873a1' align='top'/>
+4. <img src='https://media.github.azc.ext.hp.com/user/14519/files/0c0162d5-097f-4860-bb68-8e769b964c25' align='top'/>
+5. <img src='https://media.github.azc.ext.hp.com/user/14519/files/2b4741e3-e040-4926-af38-1a85ed29c810' align='top'/>
+6. <img src='https://media.github.azc.ext.hp.com/user/14519/files/9ffee659-96e3-435c-9bda-186224f6589b' align='top'/>
+7. <img src='https://media.github.azc.ext.hp.com/user/14519/files/e93a8acc-2ad0-41f9-8bbb-0c507ebe95f9' align='top'/>
+
 
 # Related URL
 
