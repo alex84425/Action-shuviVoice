@@ -5,7 +5,6 @@ from fastapi import FastAPI
 from vcosmosapiclient.custom_logging import setup_logging
 from vcosmosapiclient.middlewares import RequestContextLogMiddleware
 
-
 setup_logging()
 
 app = FastAPI(

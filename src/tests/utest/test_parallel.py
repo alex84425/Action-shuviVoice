@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import asyncio
-import logging
 import copy
+import logging
+
 import pytest
 from app.config import get_fake_settings, get_settings
 from app.main import app
