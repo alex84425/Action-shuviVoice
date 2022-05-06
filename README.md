@@ -39,22 +39,22 @@
 Please follow the same steps 10 ~ 12 of `Dev site Setting` (branch in step 12 should be selected to master/itg/prd)
 
 
-<br/><br/>
+# Features
 
-# Install packeges by poetry
+## Package management by poetry
 
-4. Install poetry (python packages dependency manager)
+* Install poetry (python packages dependency manager)
 
     ```
     pip install poetry
     ```
 
-5. if default python version if not 3.8
+* if default python version if not 3.8
     ```
     poetry env use C:\Python38\python.exe (your python 3.8 path)
     ```
 
-6. package management
+* package management commands
 
     - install env
         ```
@@ -86,7 +86,44 @@ Please follow the same steps 10 ~ 12 of `Dev site Setting` (branch in step 12 sh
         poetry remove XXX
         ```
 
-7. Git LFS
+
+## Submodule management
+
+* init/update submodule
+    - execute `update_submodule.cmd` or the following command
+    ```
+    git submodule update --init --recursive --remote 
+    ```
+
+* Remove submodule from your repo
+    https://gist.github.com/myusuf3/7f645819ded92bda6677
+
+
+## APIs
+* Log https://vcosmos-tpe-qa-1.corp.hpicloud.net/action-executortemplate/log
+* Commit id https://vcosmos-tpe-qa-1.corp.hpicloud.net/action-executortemplate/action/info
+* Version and History https://vcosmos-tpe-qa-1.corp.hpicloud.net/action-executortemplate
+
+## Log analysis
+![image](https://media.github.azc.ext.hp.com/user/14519/files/e02cabff-5cff-4246-8019-2f092d714eef)
+
+* Task Id: XXXXX_YY
+    * XXXXX: last five character of atc task id
+    * YY: The order of target actions, from 00 to 99
+* Request Id: A random id for per request
+
+
+# Related URL
+
+-   Jenkins
+
+```
+https://boss.corp.hpicloud.net/job/BPSValidation/job/BPSVCommonService/
+```
+
+# Related commands
+
+* Git LFS
     - lfs track a new file type
         ```
         git lfs track *.zip
@@ -97,27 +134,6 @@ Please follow the same steps 10 ~ 12 of `Dev site Setting` (branch in step 12 sh
         git lfs ls-files
         ```
 
-<br/><br/>
-
-# Clone submodule to your repo or update submodule
-
-7. init/update submodule
-    - execute `update_submodule.cmd` or the following command
-    ```
-    git submodule update --init --recursive --remote 
-    ```
-
-10. Remove submodule from your repo
-    https://gist.github.com/myusuf3/7f645819ded92bda6677
-
-
-# Related URL
-
--   Jenkins
-
-```
-https://boss.corp.hpicloud.net/job/BPSValidation/job/BPSVCommonService/
-```
 
 # need to fixs:
 
