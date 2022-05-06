@@ -2,8 +2,12 @@ version: '3.5'
 
 services:
   "actionexecutortemplate":
-    build: .
-    #target: debug
+    build:
+      context: .
+      # target: dev-security
+      # target: dev-coverage
+      # target: dev-linter
+      # target: debug
     volumes:
       - ./src:/app
       - ./ActionTemplate-Python3:/opt/action_template

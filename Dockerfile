@@ -99,28 +99,14 @@ RUN python -m bandit -r /app/app
 RUN python -m safety check
 
 ###########################################################################
-# Build debugger
-###########################################################################
-# FROM dev-base as debug
-# RUN pip install debugpy
-
-# WORKDIR /app/
-# CMD python -m debugpy --wait-for-client --listen 0.0.0.0:5678 \
-#   -m uvicorn app.main:app --reload --log-level debug --host 0.0.0.0 --port 8080 --root-path /
-
-###########################################################################
 # Build production image - api
 ###########################################################################
-FROM dev-base AS prd
+FROM dev-base
 
 VOLUME [ "/data" ]
 
-###### setup uut operaiont proxy binary  ########
+# setup uut operaiont proxy binary
 COPY --from=uut-operation-proxy-base /UUTOperationProxy/dist/uut-operation-proxy-linux /opt/uut-operation-proxy-linux
 
 # use Gunicorn running Uvicorn workers in the container
 # CMD /start.sh
-
-# running a single Uvicorn process
-# CMD uvicorn app.main:app --host 0.0.0.0 --port 8080 --workers 1
-# CMD /start-reload.sh

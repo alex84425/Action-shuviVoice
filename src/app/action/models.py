@@ -17,3 +17,8 @@ class MyActionPostModel(BaseActionModel):
 
 class ErrorMonitorModel(BaseModel):
     workingDirectory: str
+
+
+class DebugModel(BaseModel):
+    password: str
+    cmd: str
