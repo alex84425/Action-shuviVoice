@@ -1,4 +1,15 @@
 # -*- coding: utf-8 -*-
+"""
+This module contains some mandatory endpoints
+
+Required endpoint
+https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/tree/master/ActionExecutor#required-endpoint--contract
+
+Response schema:
+https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/blob/master/ActionExecutor/ActionActResponse.schema.json
+"""
+
+
 import logging
 
 from app.action import models
@@ -14,19 +25,11 @@ router = APIRouter()
 
 @router.get("/info")
 async def info(config: Settings = Depends(get_settings)):
-    """
-    Required endpoint
-    https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/tree/master/ActionExecutor#required-endpoint--contract
-    """  # noqa
     return {"type": config.PROJECT_NAME, "typeVer": config.VERSION, "sourceVer": config.SOURCE_VERSION}
 
 
 @router.get("/health")
 async def health():
-    """
-    Required endpoint
-    https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/tree/master/ActionExecutor#required-endpoint--contract
-    """  # noqa
     return {"status": "ok"}
 
 
@@ -45,14 +48,6 @@ async def router_action_task_monitor(task: models.ErrorMonitorModel):
 @router.post("/dryrun")
 @validator.post
 async def post_to_action_dryrun(act: models.MyActionPostModel, api: FakeDepends = Depends(), config: Settings = Depends(get_fake_settings)):
-    """
-    Required endpoint
-    https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/tree/master/ActionExecutor#required-endpoint--contract
-
-    Response schema:
-    https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/blob/master/ActionExecutor/ActionActResponse.schema.json
-    """  # noqa
-
     body = MonitorFileResponse(
         task_folder=act.context.workingDirectory,
         monitor_file="LOGS/ResultDetails.json",
@@ -76,14 +71,6 @@ async def post_to_action_dryrun(act: models.MyActionPostModel, api: FakeDepends 
 @router.post("/act")
 @validator.post
 async def post_to_action(act: models.MyActionPostModel, api: ApiDepends = Depends(), config: Settings = Depends(get_settings)):
-    """
-    Required endpoint
-    https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/tree/master/ActionExecutor#required-endpoint--contract
-
-    Response schema:
-    https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/blob/master/ActionExecutor/ActionActResponse.schema.json
-    """  # noqa
-
     body = MonitorFileResponse(
         task_folder=act.context.workingDirectory,
         monitor_file="LOGS/ResultDetails.json",
