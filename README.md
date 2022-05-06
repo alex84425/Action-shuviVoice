@@ -105,7 +105,7 @@ Please follow the same steps 10 ~ 12 of `Dev site Setting` (branch in step 12 sh
 * Version and History https://vcosmos-tpe-qa-1.corp.hpicloud.net/action-executortemplate
 
 ## Log analysis
-![image](https://media.github.azc.ext.hp.com/user/14519/files/9e0d1941-5538-4acd-bcec-64aed1b74255)
+![image](https://media.github.azc.ext.hp.com/user/14519/files/e02cabff-5cff-4246-8019-2f092d714eef)
 
 * Task Id: XXXXX_YY
     * XXXXX: last five character of atc task id
