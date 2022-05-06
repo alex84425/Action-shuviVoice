@@ -10,4 +10,7 @@ powershell -command "$action_name = '%ActionName%'.ToLower(); (Get-Content %file
 
 set file=src\app\config.py
 powershell -command "$action_name = '%ActionName%'; (Get-Content %file%) -Replace 'ExecutorTemplate', $action_name | Set-Content %file%"
+
+set file=azure-pipelines.yml
+powershell -command "$action_name = '%ActionName%'; (Get-Content %file%) -Replace 'ExecutorTemplate', $action_name | Set-Content %file%"
 pause
