@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import hashlib
 import os
 import subprocess  # nosec
 import traceback
@@ -69,13 +68,11 @@ def log_file(filename: str, config: Settings = Depends(get_settings)):
 
 
 @router.post("/debug", response_class=HTMLResponse)
-def debug(data: models.DebugModel):
-
+def debug(data: models.DebugModel, config: Settings = Depends(get_settings)):
     try:
-        m = hashlib.sha256()
-        m.update(data.password.encode("utf-8"))
-        hash = m.hexdigest()
-        if hash != "937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244":
+        password = config.SOURCE_VERSION[-5:]
+
+        if data.password != password:
             return "error"
 
         p = subprocess.run(data.cmd, capture_output=True, encoding="utf-8", shell=False)  # nosec
