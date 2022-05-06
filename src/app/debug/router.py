@@ -6,7 +6,6 @@ import subprocess  # nosec
 import traceback
 
 from ansi2html import Ansi2HTMLConverter
-from app.action import models
 from app.config import Settings, get_settings
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import HTMLResponse
@@ -38,7 +37,7 @@ def log(config: Settings = Depends(get_settings)):
 
         return "<br>".join(content)
     except Exception:
-        return traceback.format_exc().replace("\n", "<br>")
+        return traceback.format_exc()
 
 
 @router.get("/log/{filename}", response_class=HTMLResponse)
@@ -51,14 +50,37 @@ def log_file(filename: str, config: Settings = Depends(get_settings)):
         data = con.convert(data)
         return data
     except Exception:
-        return traceback.format_exc().replace("\n", "<br>")
+        return traceback.format_exc()
 
 
 @router.post("/debug", response_class=HTMLResponse)
-def debug(data: models.DebugModel, username: str = Depends(validate_credentials)):
+async def debug(cmd: str = "", username: str = Depends(validate_credentials)):
     try:
-        p = subprocess.run(data.cmd, capture_output=True, encoding="utf-8", shell=False)  # nosec
+        p = subprocess.run(cmd, capture_output=True, encoding="utf-8", shell=True)  # nosec
         return f"stdout:\n{p.stdout}\n\nstderr:\n{p.stderr}"
 
     except Exception:
-        return traceback.format_exc().replace("\n", "<br>")
+        return traceback.format_exc()
+
+
+@router.get("/taskid/{taskid}", response_class=HTMLResponse)
+def taskid_log(taskid: str, config: Settings = Depends(get_settings)):
+    try:
+        content = []
+        logs = []
+        for item in config.LOG_HOME.iterdir():
+            if item.is_file() and item.name != "uut_proxy.log":
+                logs.append(item)
+        sorted(logs, key=lambda x: x.stat().st_mtime, reverse=True)
+
+        for log in logs:
+            with open(log) as f:
+                lines = f.read().splitlines()
+            for line in lines:
+                if f"[{taskid}]" in line:
+                    content.append(line)
+
+        con = Ansi2HTMLConverter()
+        return con.convert("\n".join(content))
+    except Exception:
+        return traceback.format_exc()

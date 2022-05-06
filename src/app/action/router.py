@@ -71,10 +71,15 @@ async def post_to_action_dryrun(act: models.MyActionPostModel, api: FakeDepends 
 @router.post("/act")
 @validator.post
 async def post_to_action(act: models.MyActionPostModel, api: ApiDepends = Depends(), config: Settings = Depends(get_settings)):
-    body = MonitorFileResponse(
-        task_folder=act.context.workingDirectory,
-        monitor_file="LOGS/ResultDetails.json",
-        result_file="LOGS/ResultDetails.json",
-        status_file="LOGS/status.json",
-    ).dict()
-    return body
+    if act.actionData.data.MyTestData is not None:
+        # return direct pass for this template
+        raise validator.DirectStatusPass("test passed")
+    else:
+        # never go there for this template
+        body = MonitorFileResponse(
+            task_folder=act.context.workingDirectory,
+            monitor_file="LOGS/ResultDetails.json",
+            result_file="LOGS/ResultDetails.json",
+            status_file="LOGS/status.json",
+        ).dict()
+        return body
