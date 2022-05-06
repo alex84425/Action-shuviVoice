@@ -18,7 +18,7 @@ async def info(config: Settings = Depends(get_settings)):
     Required endpoint
     https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/tree/master/ActionExecutor#required-endpoint--contract
     """  # noqa
-    return {"type": config.PROJECT_NAME, "typeVer": config.VERSION}
+    return {"type": config.PROJECT_NAME, "typeVer": config.VERSION, "sourceVer": config.SOURCE_VERSION}
 
 
 @router.get("/health")
