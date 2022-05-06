@@ -20,5 +20,4 @@ class ErrorMonitorModel(BaseModel):
 
 
 class DebugModel(BaseModel):
-    password: str
     cmd: str

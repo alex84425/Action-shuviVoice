@@ -16,4 +16,4 @@ app = FastAPI(
 
 app.include_router(health.router, tags=["health"])
 app.include_router(action.router, tags=["action"], prefix="/action")
-app.include_router(debug.router, tags=["debug"], prefix="/debug")
+app.include_router(debug.router, tags=["debug"])

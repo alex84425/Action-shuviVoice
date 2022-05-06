@@ -18,7 +18,7 @@ security = HTTPBasic()
 
 def validate_credentials(credentials: HTTPBasicCredentials = Depends(security), config: Settings = Depends(get_settings)):
     correct_username = secrets.compare_digest(credentials.username, "admin")
-    correct_password = secrets.compare_digest(credentials.password, config.SOURCE_VERSION[-5:])
+    correct_password = secrets.compare_digest(credentials.password, config.SOURCE_VERSION[:5])
     if not (correct_username and correct_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
