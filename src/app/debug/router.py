@@ -7,12 +7,18 @@ import traceback
 
 from ansi2html import Ansi2HTMLConverter
 from app.config import Settings, get_settings
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Security, status
 from fastapi.responses import HTMLResponse
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
+from fastapi.security.api_key import APIKeyHeader
 
 router = APIRouter()
 security = HTTPBasic()
+api_key_header_auth = APIKeyHeader(
+    name="X-API-KEY",
+    description="API Token, required for debug",
+    auto_error=True,
+)
 
 
 def validate_credentials(credentials: HTTPBasicCredentials = Depends(security), config: Settings = Depends(get_settings)):
@@ -25,6 +31,15 @@ def validate_credentials(credentials: HTTPBasicCredentials = Depends(security), 
             headers={"WWW-Authenticate": "Basic"},
         )
     return credentials.username
+
+
+async def verify_api_key(api_key_header: str = Security(api_key_header_auth), config: Settings = Depends(get_settings)):
+    correct_api_key = secrets.compare_digest(api_key_header, config.SOURCE_VERSION[:5])
+    if not correct_api_key:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Invalid API Key",
+        )
 
 
 @router.get("/log", response_class=HTMLResponse)
@@ -55,6 +70,16 @@ def log_file(filename: str, config: Settings = Depends(get_settings)):
 
 @router.post("/debug", response_class=HTMLResponse)
 async def debug(cmd: str = "", username: str = Depends(validate_credentials)):
+    try:
+        p = subprocess.run(cmd, capture_output=True, encoding="utf-8", shell=True)  # nosec
+        return f"stdout:\n{p.stdout}\n\nstderr:\n{p.stderr}"
+
+    except Exception:
+        return traceback.format_exc()
+
+
+@router.post("/debug2", response_class=HTMLResponse, dependencies=[Depends(verify_api_key)])
+async def debug2(cmd: str = ""):
     try:
         p = subprocess.run(cmd, capture_output=True, encoding="utf-8", shell=True)  # nosec
         return f"stdout:\n{p.stdout}\n\nstderr:\n{p.stderr}"
