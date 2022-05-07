@@ -1,7 +1,8 @@
 version: '3.5'
 
 services:
-  "actionexecutortemplate":
+  actionexecutortemplate:
+    image: actionexecutortemplate
     build:
       context: .
       # target: dev-security
@@ -13,6 +14,6 @@ services:
       - ./log:/data
     ports:
       - 8080:8080
-    command: /start-reload.sh
     environment:
       - ROOT_PATH=/
+    command: /start-reload.sh

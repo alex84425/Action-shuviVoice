@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
+import vcosmosapiclient
 from app.config import Settings, get_settings
 from fastapi import APIRouter, Depends
-import vcosmosapiclient
 
 router = APIRouter()
 
