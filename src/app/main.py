@@ -1,3 +1,4 @@
+import vcosmosapiclient
 from app.action import router as action
 from app.config import get_settings
 from app.debug import router as debug
@@ -7,11 +8,21 @@ from vcosmosapiclient.custom_logging import setup_logging
 
 setup_logging()
 
+config = get_settings()
+description = f"""
+    service: {config.PROJECT_NAME}
+    version: {config.VERSION}
+    history: {list(config.HISTORY.values())[0]}
+    commit id: {config.SOURCE_VERSION}
+    lib version: {vcosmosapiclient.VERSION}
+    lib history: {list(vcosmosapiclient.HISTORY.values())[0]}
+"""
+
 app = FastAPI(
-    title=get_settings().PROJECT_NAME,
-    description=get_settings().PROJECT_NAME,
-    version=get_settings().VERSION,
-    root_path=get_settings().PREFIX,
+    title=config.PROJECT_NAME,
+    description=description,
+    version=config.VERSION,
+    root_path=config.PREFIX,
 )
 
 app.include_router(health.router, tags=["health"])

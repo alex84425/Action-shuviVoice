@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from app.config import Settings, get_settings
 from fastapi import APIRouter, Depends
+import vcosmosapiclient
 
 router = APIRouter()
 
@@ -10,6 +11,10 @@ async def root(config: Settings = Depends(get_settings)):
     return {
         "service": config.PROJECT_NAME,
         "version": config.VERSION,
+        "history": config.HISTORY,
+        "commit id": config.SOURCE_VERSION,
+        "lib version": vcosmosapiclient.VERSION,
+        "lib history": vcosmosapiclient.HISTORY,
     }
 
 
