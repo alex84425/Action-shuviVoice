@@ -34,7 +34,7 @@ def validate_credentials(credentials: HTTPBasicCredentials = Depends(security), 
 
 
 async def verify_api_key(api_key_header: str = Security(api_key_header_auth), config: Settings = Depends(get_settings)):
-    correct_api_key = secrets.compare_digest(api_key_header, config.SOURCE_VERSION[:5])
+    correct_api_key = secrets.compare_digest(api_key_header, config.SOURCE_VERSION[::-1])
     if not correct_api_key:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
