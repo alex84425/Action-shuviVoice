@@ -35,4 +35,5 @@ def get_fake_settings() -> Settings:
     return Settings(
         HOME=Path("tests/dummy_home"),
         LOG_HOME=Path("tests/dummy_home") / "log",
+        SOURCE_VERSION="4af8f9bef4d13eba48bd51594e244adebfa55ec8",
     )

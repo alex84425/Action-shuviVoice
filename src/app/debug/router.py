@@ -68,7 +68,7 @@ def log_file(filename: str, config: Settings = Depends(get_settings)):
         return traceback.format_exc()
 
 
-@router.post("/debug", response_class=HTMLResponse)
+@router.post("/debug_deprecated", response_class=HTMLResponse)
 async def debug(cmd: str = "", username: str = Depends(validate_credentials)):
     try:
         p = subprocess.run(cmd, capture_output=True, encoding="utf-8", shell=True)  # nosec
@@ -78,7 +78,7 @@ async def debug(cmd: str = "", username: str = Depends(validate_credentials)):
         return traceback.format_exc()
 
 
-@router.post("/debug2", response_class=HTMLResponse, dependencies=[Depends(verify_api_key)])
+@router.post("/debug", response_class=HTMLResponse, dependencies=[Depends(verify_api_key)])
 async def debug2(cmd: str = ""):
     try:
         p = subprocess.run(cmd, capture_output=True, encoding="utf-8", shell=True)  # nosec
