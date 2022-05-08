@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
-from app.config import get_settings
 from fastapi import status
-
-SETTINGS = get_settings()
 
 
 def test_hello(test_app):
