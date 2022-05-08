@@ -52,24 +52,8 @@ async def router_action_task_monitor(task: models.ErrorMonitorModel):
 @router.post("/dryrun")
 @validator.post
 async def post_to_action_dryrun(act: models.MyActionPostModel, api: FakeDepends = Depends(), config: Settings = Depends(get_fake_settings)):
-    body = MonitorFileResponse(
-        task_folder=act.context.workingDirectory,
-        monitor_file="LOGS/ResultDetails.json",
-        result_file="LOGS/ResultDetails.json",
-        status_file="LOGS/status.json",
-    ).dict()
-
-    logging.info("this is template /action/dryrun")
-
-    api.bios.fake_return["get_bios_on_remote"] = {
-        "Manufacturing Programming Mode": "Lock",
-        "Serial Number": "0123456789",
-        "Universally Unique Identifier (UUID)": "11111111112222222222333333333344",
-    }
-
-    bios_value = await api.bios.get_bios_on_remote(act)
-    logging.info(bios_value)
-    return body
+    # this endpoint may deprecated
+    return await post_to_action(act, api, config)
 
 
 @router.post("/act")
