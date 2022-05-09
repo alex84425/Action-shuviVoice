@@ -16,9 +16,8 @@ from pathlib import Path
 
 import aiofiles
 from app.action import models
-from app.action.executor import monitor_task_error
 from app.config import Settings, get_fake_settings, get_settings
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends
 from vcosmosapiclient.api import MonitorFileResponse
 from vcosmosapiclient.api_proxy import execute_on_remote, send_file_to_remote
 from vcosmosapiclient.depends import ApiDepends, FakeDepends
@@ -35,18 +34,6 @@ async def info(config: Settings = Depends(get_settings)):
 @router.get("/health")
 async def health():
     return {"status": "ok"}
-
-
-@router.post("/monitor/task")
-async def router_action_task_monitor(task: models.ErrorMonitorModel):
-    result = await monitor_task_error(task.workingDirectory)
-    if not result:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="No error found.",
-        )
-    else:
-        return {"ErrorMsg": result}
 
 
 @router.post("/dryrun")
