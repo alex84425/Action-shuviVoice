@@ -1,7 +1,11 @@
 from pathlib import Path
 
-HERE = Path(__file__).parent
-print(HERE)
+HERE = Path(__file__).parent.resolve()
+print(f"folder name: {HERE.name}")
+
+if "Action-" not in HERE.name:
+    raise ValueError("Wrong repo name, repo should be like 'Action-XXX'")
+
 action_name = HERE.name.lstrip("Action-")
 print("The new action name is:", action_name)
 
