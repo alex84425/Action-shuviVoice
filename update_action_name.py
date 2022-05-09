@@ -13,3 +13,5 @@ files = [
 ]
 for file in files:
     file.write_text(file.read_text().replace("ExecutorTemplate", action_name))
+
+HERE.joinpath("README.md").write_text(f"# Action: {action_name}")
