@@ -100,12 +100,15 @@ Please follow the same steps 10 ~ 12 of `Dev site Setting` (branch in step 12 sh
 
 
 ## APIs
-* Log https://vcosmos-tpe-qa-1.corp.hpicloud.net/action-executortemplate/log
+* Console Log https://vcosmos-tpe-qa-1.corp.hpicloud.net/action-executortemplate/log
+* Task Log https://vcosmos-tpe-qa-1.corp.hpicloud.net/action-executortemplate/taskid/{taskid}
+    
+    (ex: https://vcosmos-tpe-itg-3.corp.hpicloud.net/action-executortemplate/taskid/c7463_00)
 * Commit id https://vcosmos-tpe-qa-1.corp.hpicloud.net/action-executortemplate/action/info
 * Version and History https://vcosmos-tpe-qa-1.corp.hpicloud.net/action-executortemplate
 
 ## Log analysis
-![image](https://media.github.azc.ext.hp.com/user/14519/files/e02cabff-5cff-4246-8019-2f092d714eef)
+![image](https://media.github.azc.ext.hp.com/user/14519/files/a075bd6c-6708-40fb-a9ff-dfe76ec61aaa)
 
 * Task Id: XXXXX_YY
     * XXXXX: last five character of atc task id
