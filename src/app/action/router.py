@@ -9,8 +9,7 @@ Response schema:
 https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/blob/master/ActionExecutor/ActionActResponse.schema.json
 """
 
-from app.action import models
-from app.action.executor import execute_action
+from app.action import models, executor
 from app.config import Settings, get_fake_settings, get_settings
 from fastapi import APIRouter, Depends
 from vcosmosapiclient.depends import ApiDepends, FakeDepends
@@ -39,4 +38,4 @@ async def post_to_action_dryrun(act: models.MyActionPostModel, api: FakeDepends 
 @router.post("/act")
 @validator.post
 async def post_to_action(act: models.MyActionPostModel, api: ApiDepends = Depends(), config: Settings = Depends(get_settings)):
-    return await execute_action(act)
+    return await executor.execute_action(act)
