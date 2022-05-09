@@ -4,10 +4,19 @@ https://fastapi.tiangolo.com/advanced/security/http-basic-auth/
 import secrets
 import subprocess  # nosec
 import traceback
+from pathlib import Path
 
 from ansi2html import Ansi2HTMLConverter
 from app.config import Settings, get_settings
-from fastapi import APIRouter, Depends, HTTPException, Security, status
+from fastapi import (
+    APIRouter,
+    Depends,
+    File,
+    HTTPException,
+    Security,
+    UploadFile,
+    status,
+)
 from fastapi.responses import HTMLResponse
 from fastapi.security.api_key import APIKeyHeader
 
@@ -85,3 +94,10 @@ def taskid_log(taskid: str, config: Settings = Depends(get_settings)):
         return con.convert("\n".join(content))
     except Exception:
         return traceback.format_exc()
+
+
+@router.post("/upload", description="upload something to executor", dependencies=[Depends(verify_api_key)])
+def upload(file: UploadFile = File(...)):
+    file_path = Path("/tmp") / file.filename
+    size = file_path.write_bytes(file.file.read())
+    return {"result": f"{size} bytes uploaded"}
