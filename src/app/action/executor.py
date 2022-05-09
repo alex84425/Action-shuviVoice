@@ -3,13 +3,21 @@ import logging
 from pathlib import Path
 
 import aiofiles
+from app.action import models
 from app.action.models import MyActionPostModel
 from vcosmosapiclient.api import MonitorFileResponse
-from vcosmosapiclient.api_proxy import execute_on_remote, send_file_to_remote
+from vcosmosapiclient.api_proxy import (
+    execute_on_remote,
+    send_file_to_remote,
+    send_string_to_remote,
+)
+from vcosmosapiclient.depends import ApiDepends
 from vcosmosapiclient.utils import validator
 
+ErrorTaskTable = dict()
 
-async def execute(act: MyActionPostModel):
+
+async def execute_action(act: MyActionPostModel):
 
     # Sample code for direct pass
     if act.actionData.data.MyTestData == "PASS":
@@ -20,6 +28,8 @@ async def execute(act: MyActionPostModel):
         raise RuntimeError("test failed")
 
     # Sample code for most use case
+
+    # === style 1 ===
     data_from_atc = act.actionData.data.dict()
     logging.info(data_from_atc)
     async with aiofiles.tempfile.TemporaryDirectory() as d:
@@ -37,6 +47,13 @@ async def execute(act: MyActionPostModel):
         working_directory=act.context.workingDirectory,
     )
 
+    # === style 2 ===
+    remote_path = act.context.workingDirectory / "LOGS" / "ResultDetails.json"
+    await send_string_to_remote(act.target, json.dumps(data_from_atc, indent=4), remote_path)
+
+    remote_path = act.context.workingDirectory / "LOGS" / "status.txt"
+    await send_string_to_remote(act.target, "PASS", remote_path)
+
     body = MonitorFileResponse(
         task_folder=act.context.workingDirectory,
         monitor_file="LOGS/status.txt",
@@ -44,3 +61,23 @@ async def execute(act: MyActionPostModel):
         status_file="LOGS/status.txt",
     ).dict()
     return body
+
+
+async def monitor_task_error(workingDirectory: str):
+    if workingDirectory in ErrorTaskTable:
+        return ErrorTaskTable.get(workingDirectory, False)
+    else:
+        return False
+
+
+async def execute_task(act: models.MyActionPostModel, api: ApiDepends):
+    """
+    Usage asyncio.create_task(executor.main_task(act, ...))
+    """
+
+    try:
+        raise NotImplementedError("Add your code here")
+
+    except Exception as e:
+        workingDirectory = act.context.workingDirectory
+        ErrorTaskTable.update({workingDirectory: e})
