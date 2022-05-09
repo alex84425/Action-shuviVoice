@@ -62,10 +62,10 @@ Please follow the same steps 10 ~ 12 of `Dev site Setting` (branch in step 12 sh
     pip install poetry
     ```
 
--   if default python version if not 3.8
+-   if default python version if not 3.9
 
     ```
-    poetry env use C:\Python38\python.exe (your python 3.8 path)
+    poetry env use C:\Python39\python.exe (your python 3.9 path)
     ```
 
 -   package management commands
