@@ -1,4 +1,5 @@
 {
+    "0.0.3": "[2022-05-09] ready to release",
     "0.0.2": "[2022-05-08] support debug, daily build, apiKey lock, add sample code and unit test",
     "0.0.1": "[2022-05-07] init version"
 }
