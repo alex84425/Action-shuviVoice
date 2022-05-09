@@ -3,6 +3,7 @@ https://fastapi.tiangolo.com/advanced/security/http-basic-auth/
 """
 import secrets
 import subprocess  # nosec
+import tempfile
 import traceback
 from pathlib import Path
 
@@ -98,6 +99,6 @@ def taskid_log(taskid: str, config: Settings = Depends(get_settings)):
 
 @router.post("/upload", description="upload something to executor", dependencies=[Depends(verify_api_key)])
 def upload(file: UploadFile = File(...)):
-    file_path = Path("/tmp") / file.filename
-    size = file_path.write_bytes(file.file.read())
-    return {"result": f"{size} bytes uploaded"}
+    with tempfile.TemporaryFile() as tmp:
+        tmp.write(file.file.read())
+    return {"result": "uploaded"}
