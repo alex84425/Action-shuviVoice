@@ -1,24 +1,46 @@
-from app.action import models
-from vcosmosapiclient.depends import ApiDepends
+import json
+import logging
+from pathlib import Path
 
-ErrorTaskTable = dict()
-
-
-async def monitor_task_error(workingDirectory: str):
-    if workingDirectory in ErrorTaskTable:
-        return ErrorTaskTable.get(workingDirectory, False)
-    else:
-        return False
+import aiofiles
+from app.action.models import MyActionPostModel
+from vcosmosapiclient.api import MonitorFileResponse
+from vcosmosapiclient.api_proxy import execute_on_remote, send_file_to_remote
+from vcosmosapiclient.utils import validator
 
 
-async def main_task_handler(act: models.MyActionPostModel, api: ApiDepends):
-    try:
-        await main_task(act, api)
-    except Exception as e:
-        workingDirectory = act.context.workingDirectory
-        ErrorTaskTable.update({workingDirectory: e})
+async def execute(act: MyActionPostModel):
 
+    # Sample code for direct pass
+    if act.actionData.data.MyTestData == "PASS":
+        raise validator.DirectStatusPass("test passed")
 
-async def main_task(act: models.MyActionPostModel, api: ApiDepends):
-    bios = await api.bios.get_bios_on_remote(act)
-    print(bios)
+    # Sample code for direct fail
+    if act.actionData.data.MyTestData == "FAIL":
+        raise RuntimeError("test failed")
+
+    # Sample code for most use case
+    data_from_atc = act.actionData.data.dict()
+    logging.info(data_from_atc)
+    async with aiofiles.tempfile.TemporaryDirectory() as d:
+        result_path = Path(d, "ResultDetails.json")
+        async with aiofiles.open(result_path, mode="w", encoding="utf-8") as f:
+            await f.write(json.dumps(data_from_atc, indent=4))
+        await send_file_to_remote(
+            act.target, file_path=result_path, remote_path=act.context.workingDirectory / "LOGS", override=True, timeout=60
+        )
+
+    # execute on remote
+    await execute_on_remote(
+        act.target,
+        command=["echo", "PASS", ">", str(act.context.workingDirectory / "LOGS" / "status.txt")],
+        working_directory=act.context.workingDirectory,
+    )
+
+    body = MonitorFileResponse(
+        task_folder=act.context.workingDirectory,
+        monitor_file="LOGS/status.txt",
+        result_file="LOGS/ResultDetails.json",
+        status_file="LOGS/status.txt",
+    ).dict()
+    return body
