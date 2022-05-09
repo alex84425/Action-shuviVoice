@@ -11,6 +11,16 @@
 1. Execute `update_action_name.cmd` and push the changes
    ![image](https://media.github.azc.ext.hp.com/user/14519/files/2f082776-98a1-4cd9-8073-71f5ca0a6d47)
 
+```
+for example:
+git clone git@github.azc.ext.hp.com:BPSVCommonService/Action-MyTestAction.git
+cd Action-MyTestAction
+.\update_action_name.cmd
+git add .
+git commit -m 'rename action'
+git push
+```
+
 ## 3. Add Azure Pipeline
 
 2. <img src='https://media.github.azc.ext.hp.com/user/14519/files/1253a1ca-7d6a-48c5-af55-25f550b50dd1' align='top'/>
