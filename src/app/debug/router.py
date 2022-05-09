@@ -5,7 +5,6 @@ import secrets
 import subprocess  # nosec
 import tempfile
 import traceback
-from pathlib import Path
 
 from ansi2html import Ansi2HTMLConverter
 from app.config import Settings, get_settings
