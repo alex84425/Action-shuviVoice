@@ -1,4 +1,5 @@
 {
+    "0.0.6": "[2022-05-09] fix docker file",
     "0.0.5": "[2022-05-09] fix build fail",
     "0.0.4": "[2022-05-09] update readme",
     "0.0.3": "[2022-05-09] ready to release",
