@@ -72,7 +72,7 @@ async def monitor_task_error(workingDirectory: str):
 
 async def execute_task(act: models.MyActionPostModel, api: ApiDepends):
     """
-    Usage asyncio.create_task(executor.main_task(act, ...))
+    Usage asyncio.create_task(executor.execute_task(act, ...))
     """
 
     try:
