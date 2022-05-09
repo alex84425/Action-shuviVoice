@@ -15,6 +15,7 @@ loguru = "^0.6.0"
 aiofiles = "^0.8.0"
 ansi2html = "^1.7.0"
 ipython = "^8.3.0"
+tenacity = "^8.0.1"
 
 [tool.poetry.dev-dependencies]
 bandit = "^1.7.4"
