@@ -43,8 +43,9 @@ async def test_parallel_act_direct_fail(async_app_client):
 @pytest.mark.asyncio
 async def test_parallel_act_happy_path(mocker, async_app_client):
     mocked = AsyncMock(return_value="dummy")
-    mocked_send_file_to_remote = mocker.patch("app.action.router.send_file_to_remote", new_callable=AsyncMock)
-    mocked_execute_on_remote = mocker.patch("app.action.router.execute_on_remote", side_effect=mocked)
+    mocked_send_file_to_remote = mocker.patch("app.action.executor.send_file_to_remote", new_callable=AsyncMock)
+    mocked_send_string_to_remote = mocker.patch("app.action.executor.send_string_to_remote", new_callable=AsyncMock)
+    mocked_execute_on_remote = mocker.patch("app.action.executor.execute_on_remote", side_effect=mocked)
     payload = generate_act_payload()
 
     tasks = [async_app_client.post("/action/act", json=payload) for _ in range(CLIENT_NUMBER)]
@@ -56,4 +57,5 @@ async def test_parallel_act_happy_path(mocker, async_app_client):
         assert not response.json().get("errorOccurRequestData", None)
 
     assert mocked_send_file_to_remote.call_count == CLIENT_NUMBER
+    assert mocked_send_string_to_remote.call_count == CLIENT_NUMBER * 2
     assert mocked_execute_on_remote.call_count == CLIENT_NUMBER
