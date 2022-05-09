@@ -8,8 +8,7 @@
 ## 2. Update Action Name
 
 1. Execute `update_action_name.cmd` and push the changes
-![image](https://media.github.azc.ext.hp.com/user/14519/files/0ebd9253-8aca-4c1e-ad19-7cc14226bb54)
-![image](https://media.github.azc.ext.hp.com/user/14519/files/dd5f4572-0da4-400f-88d6-88ec4e821d89)
+![image](https://media.github.azc.ext.hp.com/user/14519/files/2f082776-98a1-4cd9-8073-71f5ca0a6d47)
 
 
 ## 3. Add Azure Pipeline
