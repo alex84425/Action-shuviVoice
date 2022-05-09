@@ -2,21 +2,21 @@
 
 ## 1. Create new repo by template in Github
 
-- Open https://github.azc.ext.hp.com/BPSVCommonService/Action-ExecutorTemplate/tree/master and `Use this template`
-![image](https://media.github.azc.ext.hp.com/user/14519/files/5de2a1e0-64d9-4d12-9847-9ce5f156c663)
-![image](https://media.github.azc.ext.hp.com/user/14519/files/dbfa92a9-41b3-4ca6-aad3-ce414b519dda)
-
+-   Open https://github.azc.ext.hp.com/BPSVCommonService/Action-ExecutorTemplate/tree/master and `Use this template`
+    ![image](https://media.github.azc.ext.hp.com/user/14519/files/5de2a1e0-64d9-4d12-9847-9ce5f156c663)
+    ![image](https://media.github.azc.ext.hp.com/user/14519/files/dbfa92a9-41b3-4ca6-aad3-ce414b519dda)
 
 ## 2. Update Action Name
 
-1. Execute `update_action_name.cmd` and push the changes
+1. Execute `update_action_name.py` and push the changes
    ![image](https://media.github.azc.ext.hp.com/user/14519/files/2f082776-98a1-4cd9-8073-71f5ca0a6d47)
 
-```
 for example:
+
+```cmd
 git clone git@github.azc.ext.hp.com:BPSVCommonService/Action-MyTestAction.git
 cd Action-MyTestAction
-.\update_action_name.cmd
+py .\update_action_name.py
 git add .
 git commit -m 'rename action'
 git push

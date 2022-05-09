@@ -1,8 +1,8 @@
 version: '3.5'
 
 services:
-  actionexecutortemplate:
-    image: actionexecutortemplate
+  actionExecutorTemplate:
+    image: actionExecutorTemplate
     build:
       context: .
       # target: dev-security
