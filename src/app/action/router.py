@@ -9,7 +9,7 @@ Response schema:
 https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/blob/master/ActionExecutor/ActionActResponse.schema.json
 """
 
-from app.action import models, executor
+from app.action import executor, models
 from app.config import Settings, get_fake_settings, get_settings
 from fastapi import APIRouter, Depends
 from vcosmosapiclient.depends import ApiDepends, FakeDepends
