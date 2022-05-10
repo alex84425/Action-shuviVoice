@@ -9,7 +9,6 @@
 ## 2. Update Action Name
 
 1. Execute `update_action_name.py` and push the changes
-   ![image](https://media.github.azc.ext.hp.com/user/14519/files/2f082776-98a1-4cd9-8073-71f5ca0a6d47)
 
 for example:
 
@@ -52,69 +51,9 @@ Please follow the same steps 10 ~ 12 of `Dev site Setting` (branch in step 12 sh
 
 **IMPORTANT** 13~16 only for Dev site
 
+---
+
 # Features
-
-## Package management by poetry
-
--   Install poetry (python packages dependency manager)
-
-    ```
-    pip install poetry
-    ```
-
--   if default python version if not 3.9
-
-    ```
-    poetry env use C:\Python39\python.exe (your python 3.9 path)
-    ```
-
--   package management commands
-
-    -   install env
-        ```
-        poetry install
-        ```
-    -   add module (dev)
-
-        ```
-        poetry add -D XXX
-        ```
-
-    -   add module (producetion)
-
-        ```
-        poetry add XXX
-        ```
-
-    -   add/update module to specific version (producetion)
-
-        ```
-        poetry add XXX==version
-        ```
-
-    -   remove module (dev)
-
-        ```
-        poetry remove -D XXX
-        ```
-
-    -   remove module (producetion)
-        ```
-        poetry remove XXX
-        ```
-
-## Submodule management
-
--   init/update submodule
-
-    -   execute `update_submodule.cmd` or the following command
-
-    ```
-    git submodule update --init --recursive --remote
-    ```
-
--   Remove submodule from your repo
-    https://gist.github.com/myusuf3/7f645819ded92bda6677
 
 ## APIs
 
@@ -133,33 +72,51 @@ Please follow the same steps 10 ~ 12 of `Dev site Setting` (branch in step 12 sh
     -   YY: The order of target actions, from 00 to 99
 -   Request Id: A random id for per request
 
-# Related URL
+# Development tools tutorial
 
--   Jenkins
+## [Poetry]: a tool for dependency management and packaging in Python.
 
-```
-https://boss.corp.hpicloud.net/job/BPSValidation/job/BPSVCommonService/
-```
+[poetry]: https://python-poetry.org/docs/basic-usage/
 
-# Related commands
+-   Install poetry `py -3.9 -m pip install poetry` in your python 3.9 env
+-   List your all python version and its path `py -0p`
+-   Select python version 3.9 for this project
 
--   Git LFS
+    `poetry env use C:\Python39\python.exe (your python 3.9 path)`
 
-    -   lfs track a new file type
+-   Activate virtual env `poetry shell`
+-   Install dependency `poetry install`
+-   Examples of adding dependencies package
+    -   Add package `httpx` to producetion `poetry add httpx@latest`
+    -   Add package `pytest` to development `poetry add -D pytest@latest`
+-   Examples of adding dependencies package
+    -   Remove package `httpx` from producetion `poetry remove httpx`
+    -   Remove package `pytest` from development `poetry remove -D pytest`
+-   Examples of dependencies package version control
+    -   Lock in specific version `poetry add httpx==0.22.0`
+    -   Allow specific version or newer `poetry add httpx>=0.22.0`
 
-        ```
-        git lfs track *.zip
-        ```
+## Git Tools - [Submodules]:
 
-    -   check file was tracked by lfs
-        ```
-        git lfs ls-files
-        ```
+[submodules]: https://git-scm.com/book/en/v2/Git-Tools-Submodules
 
-# need to fixs:
+-   After clone this repo, you should also pull the submodules. We provide a command file for init & update submodules.
 
-1. print("stdout") for subprocess (O)
-2. accept null_input("") as default input (O)
-3. remove cook url\*\*\*\*Alex (O)
-4. gh create may ask "Y or N" lead to crush
-5. check repo exit before create repo (O)
+    Simply run `update_submodule.cmd` and it will help to do the following command _`git submodule update --init --recursive --remote`_
+
+-   [Remove] submodule `git rm <path-to-submodule>` and commit.
+
+[remove]: https://gist.github.com/myusuf3/7f645819ded92bda6677
+
+## Git LFS
+
+-   lfs track a new file type `git lfs track *.zip`
+-   check file was tracked by lfs `git lfs ls-files`
+
+---
+
+# Related Build URL
+
+-   [Azure Pipelines](https://dev.azure.com/hp-csrd-validation/vCosmos/_build)
+-   [Azure Release](https://dev.azure.com/hp-csrd-validation/vCosmos/_release?_a=releases&view=all&path=%5C)
+-   _Deprecated_ [Jenkins](https://boss.corp.hpicloud.net/job/BPSValidation/job/BPSVCommonService/)
