@@ -6,15 +6,24 @@
     ![image](https://media.github.azc.ext.hp.com/user/14519/files/5de2a1e0-64d9-4d12-9847-9ce5f156c663)
     ![image](https://media.github.azc.ext.hp.com/user/14519/files/dbfa92a9-41b3-4ca6-aad3-ce414b519dda)
 
-## 2. Update Action Name
+## 2. Initialize this repository
 
-1. Execute `update_action_name.py` and push the changes
+-   Execute following commands and it will sync the upstream and update action name
 
-for example:
+> windows cmd
 
 ```cmd
+echo "Clone template"
 git clone git@github.azc.ext.hp.com:BPSVCommonService/Action-MyTestAction.git
 cd Action-MyTestAction
+
+echo "Sync up template"
+git remote add upstream git@github.azc.ext.hp.com:BPSVCommonService/Action-ExecutorTemplate.git
+git fetch upstream
+git merge upstream/master --allow-unrelated-histories
+git remote remove upstream
+
+echo "Update action name"
 py .\update_action_name.py
 git add .
 git commit -m 'rename action'
@@ -112,6 +121,16 @@ Please follow the same steps 10 ~ 12 of `Dev site Setting` (branch in step 12 sh
 
 -   lfs track a new file type `git lfs track *.zip`
 -   check file was tracked by lfs `git lfs ls-files`
+
+## In the future, if you want to sync up template again, you can run the command
+
+```cmd
+echo "Sync up template"
+git remote add upstream git@github.azc.ext.hp.com:BPSVCommonService/Action-ExecutorTemplate.git
+git fetch upstream
+git merge upstream/master --allow-unrelated-histories
+git remote remove upstream
+```
 
 ---
 
