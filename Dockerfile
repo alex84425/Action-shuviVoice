@@ -46,19 +46,16 @@ RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/inst
   poetry config virtualenvs.create false
 
 # Copy using poetry.lock* in case it doesn't exist yet
+COPY ./src /app
 COPY ./pyproject.toml ./poetry.lock* /app/
+COPY ./ActionTemplate-Python3/ /ActionTemplate-Python3
 RUN poetry install --no-root --no-dev
-
-# Install submodule
-COPY ./ActionTemplate-Python3/ /opt/action_template/
-RUN pip install -e /opt/action_template/
 
 ###########################################################################
 # Build dev env image
 ###########################################################################
 FROM dev-base AS dev-env
 RUN poetry install --no-root
-COPY ./src /app
 
 ###########################################################################
 # Build lint image
@@ -85,10 +82,12 @@ RUN python -m safety check
 ###########################################################################
 FROM dev-base AS prd
 VOLUME [ "/data" ]
-COPY ./src /app
 
 # setup uut operation proxy binary
 COPY --from=uut-operation-proxy-base /UUTOperationProxy/dist/uut-operation-proxy-linux /opt/uut-operation-proxy-linux
 
+# zip all sub folder in static folder
+RUN python3 /app/static/make_archive.py
+
 # use Gunicorn running Uvicorn workers in the container
-# CMD /start.sh
+CMD /start.sh

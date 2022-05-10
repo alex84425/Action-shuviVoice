@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     PREFIX: str = os.environ.get("ROOT_PATH", f"/{PROJECT_NAME.lower()}")
     HISTORY: OrderedDict = get_history()
     VERSION: str = list(HISTORY.keys())[0]
-    HOME: Path = Path("/data")
+    HOME: Path = Path(os.environ.get("HOME", "/data"))
     LOG_HOME: Path = HOME / "log"
     SOURCE_VERSION: str = os.environ.get("SOURCE_VERSION", "local")
 

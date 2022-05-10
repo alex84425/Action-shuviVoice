@@ -19,6 +19,7 @@ for file in files:
 files = [
     HERE / "docker-compose.yml",
     HERE / "docker-compose-debug.yml",
+    HERE / "pyproject.toml",
 ]
 for file in files:
     file.write_text(file.read_text().replace("executortemplate", action_name.lower()))

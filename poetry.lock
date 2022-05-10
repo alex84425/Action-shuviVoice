@@ -56,7 +56,7 @@ tests = ["pytest", "pytest-asyncio", "mypy (>=0.800)"]
 
 [[package]]
 name = "astroid"
-version = "2.11.4"
+version = "2.11.5"
 description = "An abstract syntax tree for Python with inference support."
 category = "dev"
 optional = false
@@ -1134,6 +1134,26 @@ h11 = ">=0.8"
 standard = ["websockets (>=10.0)", "httptools (>=0.4.0)", "watchgod (>=0.6)", "python-dotenv (>=0.13)", "PyYAML (>=5.1)", "uvloop (>=0.14.0,!=0.15.0,!=0.15.1)", "colorama (>=0.4)"]
 
 [[package]]
+name = "vcosmos-api-python-client"
+version = "0.0.4"
+description = ""
+category = "main"
+optional = false
+python-versions = ">=3.7"
+develop = true
+
+[package.dependencies]
+aiofiles = "*"
+httpx = "*"
+jsonschema = "*"
+loguru = "*"
+pydantic = "*"
+
+[package.source]
+type = "directory"
+url = "../ActionTemplate-Python3"
+
+[[package]]
 name = "virtualenv"
 version = "20.14.1"
 description = "Virtual Python Environment builder"
@@ -1181,7 +1201,7 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "291ea4cc1596f9982ec2f0d351af1d26f68c4cf42ec5bedf12159559f527b04b"
+content-hash = "c779714f6f38b740826fbf6a2339e9c2dfa5e528ee401418f7e53b5a2ddb54de"
 
 [metadata.files]
 aiofiles = [
@@ -1205,8 +1225,8 @@ asgiref = [
     {file = "asgiref-3.5.1.tar.gz", hash = "sha256:fddeea3c53fa99d0cdb613c3941cc6e52d822491fc2753fba25768fb5bf4e865"},
 ]
 astroid = [
-    {file = "astroid-2.11.4-py3-none-any.whl", hash = "sha256:da0632b7c046d8361dfe1b1abb2e085a38624961fabe2997565a9c06c1be9d9a"},
-    {file = "astroid-2.11.4.tar.gz", hash = "sha256:561dc6015eecce7e696ff7e3b40434bc56831afeff783f0ea853e19c4f635c06"},
+    {file = "astroid-2.11.5-py3-none-any.whl", hash = "sha256:14ffbb4f6aa2cf474a0834014005487f7ecd8924996083ab411e7fa0b508ce0b"},
+    {file = "astroid-2.11.5.tar.gz", hash = "sha256:f4e4ec5294c4b07ac38bab9ca5ddd3914d4bf46f9006eb5c0ae755755061044e"},
 ]
 asttokens = [
     {file = "asttokens-2.0.5-py2.py3-none-any.whl", hash = "sha256:0844691e88552595a6f4a4281a9f7f79b8dd45ca4ccea82e5e05b4bbdb76705c"},
@@ -1737,6 +1757,7 @@ uvicorn = [
     {file = "uvicorn-0.17.6-py3-none-any.whl", hash = "sha256:19e2a0e96c9ac5581c01eb1a79a7d2f72bb479691acd2b8921fce48ed5b961a6"},
     {file = "uvicorn-0.17.6.tar.gz", hash = "sha256:5180f9d059611747d841a4a4c4ab675edf54c8489e97f96d0583ee90ac3bfc23"},
 ]
+vcosmos-api-python-client = []
 virtualenv = [
     {file = "virtualenv-20.14.1-py2.py3-none-any.whl", hash = "sha256:e617f16e25b42eb4f6e74096b9c9e37713cf10bf30168fb4a739f3fa8f898a3a"},
     {file = "virtualenv-20.14.1.tar.gz", hash = "sha256:ef589a79795589aada0c1c5b319486797c03b67ac3984c48c669c0e4f50df3a5"},
