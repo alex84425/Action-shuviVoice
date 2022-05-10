@@ -5,9 +5,8 @@ from app.health import router as health
 from fastapi import FastAPI
 from vcosmosapiclient.custom_logging import setup_logging
 
-setup_logging()
-
 config = get_settings()
+setup_logging(config.LOG_HOME / "debug.log")
 
 app = FastAPI(
     title=config.PROJECT_NAME,

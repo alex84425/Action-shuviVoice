@@ -47,11 +47,13 @@ RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/inst
 
 # Copy using poetry.lock* in case it doesn't exist yet
 COPY ./pyproject.toml ./poetry.lock* /app/
+# COPY ./ActionTemplate-Python3/ /ActionTemplate-Python3
 RUN poetry install --no-root --no-dev
 
 # Install submodule
-COPY ./ActionTemplate-Python3/ /opt/action_template/
-RUN pip install -e /opt/action_template/
+# COPY ./ActionTemplate-Python3/ /opt/action_template/
+# RUN pip install -e /opt/action_template/
+
 
 ###########################################################################
 # Build dev env image
