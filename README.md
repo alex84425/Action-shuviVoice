@@ -89,7 +89,7 @@ Please follow the same steps 10 ~ 12 of `Dev site Setting` (branch in step 12 sh
 
 [poetry]: https://python-poetry.org/docs/basic-usage/
 
--   Install poetry `py -3.9 -m pip install poetry` in your python 3.9 env
+-   Install poetry `pip install poetry`
 -   List your all python version and its path `py -0p`
 -   Select python version 3.9 for this project
 

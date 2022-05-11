@@ -1,33 +1,29 @@
-# pytest
-pytest.ini			pytest config for vscode
-src\pytest.ini			pytest config for container (coverage test)
-
 # azure
 azure-pipelines.envs		Declare environment variables which from Azure
-azure-pipelines.yml		Azure pipelines config
+azure-pipelines.yml		    Azure pipelines config
 
 # github
-CODEOWNERS			github config: code owners
+CODEOWNERS			        github config: code owners
 
 # docker
-Dockerfile			container configuration file
-docker-compose.yml		local test config, command: docker compose up
-setup.cfg			configuration file of pylama (linter)
+Dockerfile			        container configuration file
+docker-compose.yml		    local test config, command: docker compose up
+setup.cfg			        configuration file of pylama (linter)
 
 # poetry
-pyproject.toml			python modules management file, managed by poetry
-poetry.lock			python modules management file, managed by poetry
+pyproject.toml		    	python modules management file, managed by poetry
+poetry.lock		        	python modules management file, managed by poetry
 
 # debugger
 docker-compose-debug.yml	python debugger configuration file for container
-.vscode\launch.json		python debugger configuration file for vscode
+.vscode\launch.json	    	python debugger configuration file for vscode
 
 # static files
-src\static\{files}		files like powershell script, exe or zip, which to be sent to UUT
-src\static\{folder}		all folders in static folder will be archived to {foldername}.zip
+src\static\{files}		    files like powershell script, exe or zip, which to be sent to UUT
+src\static\{folder}	    	all folders in static folder will be archived to {foldername}.zip
 
 # tools
-local_build.cmd			local test tool
+local_build.cmd		    	local test tool
 update_action_name.py		to update action name after clone the template
 update_submodule.cmd		to recursive init / update ActionTemplate-Python3
 		
