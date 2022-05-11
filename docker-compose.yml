@@ -9,7 +9,7 @@ services:
       # target: dev-coverage
       # target: dev-linter
     volumes:
-      - ./src:/app
+      - ./src/app:/app/app
       - ./ActionTemplate-Python3:/ActionTemplate-Python3
       - ./log:/data
     ports:

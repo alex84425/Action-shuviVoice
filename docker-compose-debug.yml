@@ -5,7 +5,7 @@ services:
     image: debugexecutortemplate
     build: .
     volumes:
-      - ./src:/app
+      - ./src/app:/app/app
       - ./ActionTemplate-Python3:/ActionTemplate-Python3
       - ./log:/data
     ports:
