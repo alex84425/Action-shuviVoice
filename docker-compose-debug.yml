@@ -6,13 +6,13 @@ services:
     build: .
     volumes:
       - ./src/app:/app/app
-      - ./ActionTemplate-Python3:/ActionTemplate-Python3
+      - ./ActionTemplate-Python3:/app/ActionTemplate-Python3
       - ./log:/data
     ports:
       - 8080:8080
       - 5678:5678
     environment:
-      - HOME=./data
+      - HOME=./log
     command:
       [
         "sh",
