@@ -12,7 +12,6 @@ services:
       - 8080:8080
       - 5678:5678
     environment:
-      - ROOT_PATH=/
       - HOME=./data
     command:
       [
