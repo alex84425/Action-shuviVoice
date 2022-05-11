@@ -17,7 +17,7 @@ ansi2html = "^1.7.0"
 ipython = "^8.3.0"
 tenacity = "^8.0.1"
 python-multipart = "^0.0.5"
-vcosmos-api-python-client = {path = "../ActionTemplate-Python3", develop = true}
+vcosmos-api-python-client = {path = "ActionTemplate-Python3", develop = true}
 
 [tool.poetry.dev-dependencies]
 bandit = "^1.7.4"

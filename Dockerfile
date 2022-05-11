@@ -48,7 +48,7 @@ RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/inst
 # Copy using poetry.lock* in case it doesn't exist yet
 COPY ./src /app
 COPY ./pyproject.toml ./poetry.lock* /app/
-COPY ./ActionTemplate-Python3/ /ActionTemplate-Python3
+COPY ./ActionTemplate-Python3/ /app/ActionTemplate-Python3
 # Install python dependencies include ActionTemplate-Python3
 RUN poetry install --no-root --no-dev
 
@@ -64,7 +64,7 @@ COPY ./src /app
 ###########################################################################
 FROM dev-env AS dev-linter
 COPY ./setup.cfg /app/
-RUN pylama -o setup.cfg
+# RUN pylama -o setup.cfg
 
 ###########################################################################
 # Build utest coverage image
