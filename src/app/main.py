@@ -1,3 +1,5 @@
+import logging
+
 from app.action import router as action
 from app.config import get_settings
 from app.debug import router as debug
@@ -7,6 +9,8 @@ from vcosmosapiclient.custom_logging import setup_logging
 
 config = get_settings()
 setup_logging(config.LOG_HOME / "debug.log")
+logging.info(config)
+
 
 app = FastAPI(
     title=config.PROJECT_NAME,
