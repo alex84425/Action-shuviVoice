@@ -46,7 +46,6 @@ RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/inst
   poetry config virtualenvs.create false
 
 # Copy using poetry.lock* in case it doesn't exist yet
-COPY ./src /app
 COPY ./pyproject.toml ./poetry.lock* /app/
 COPY ./ActionTemplate-Python3/ /app/ActionTemplate-Python3
 # Install python dependencies include ActionTemplate-Python3
