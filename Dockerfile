@@ -49,6 +49,7 @@ RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/inst
 COPY ./src /app
 COPY ./pyproject.toml ./poetry.lock* /app/
 COPY ./ActionTemplate-Python3/ /ActionTemplate-Python3
+# Install python dependencies include ActionTemplate-Python3
 RUN poetry install --no-root --no-dev
 
 ###########################################################################
@@ -56,6 +57,7 @@ RUN poetry install --no-root --no-dev
 ###########################################################################
 FROM dev-base AS dev-env
 RUN poetry install --no-root
+COPY ./src /app
 
 ###########################################################################
 # Build lint image
@@ -82,6 +84,7 @@ RUN python -m safety check
 ###########################################################################
 FROM dev-base AS prd
 VOLUME [ "/data" ]
+COPY ./src /app
 
 # setup uut operation proxy binary
 COPY --from=uut-operation-proxy-base /UUTOperationProxy/dist/uut-operation-proxy-linux /opt/uut-operation-proxy-linux
