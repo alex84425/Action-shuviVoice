@@ -20,7 +20,7 @@ pr:
   - prd
 
 extends:
-  template: dockerBasedAction.yml@azurepipeline-template
+  template: dockerBasedActionNew.yml@azurepipeline-template
   parameters:
     project_name: "Action-ExecutorTemplate"
     submodules_mode: "recursive"
