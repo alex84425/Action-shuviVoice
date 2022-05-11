@@ -45,5 +45,9 @@ def generate_taskid() -> str:
 
 def generate_act_payload() -> dict:
     payload = copy.deepcopy(PAYLOAD)
-    payload["task"]["taskId"] = generate_taskid()
+    taskid = generate_taskid()
+    payload["task"]["taskId"] = taskid
+    temp: str = payload["context"]["workingDirectory"]
+    temp = temp.replace("6260f5a1c99ce10012a6eb79", taskid)
+    payload["context"]["workingDirectory"] = temp
     return payload
