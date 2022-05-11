@@ -20,8 +20,8 @@ async def test_parallel_act_direct_pass(async_app_client):
 
     for response in list(results):
         logging.info(response.text)
-        assert response.status_code == status.HTTP_200_OK
         assert not response.json().get("errorOccurRequestData", None)
+        assert response.status_code == status.HTTP_200_OK
         assert response.json()["resultStatusGetRequestData"] == "PASS"
 
 
@@ -35,8 +35,8 @@ async def test_parallel_act_direct_fail(async_app_client):
 
     for response in list(results):
         logging.info(response.text)
-        assert response.status_code == status.HTTP_200_OK
         assert response.json()["errorOccurRequestData"]
+        assert response.status_code == status.HTTP_200_OK
         assert response.json()["resultStatusGetRequestData"] == "FAIL"
 
 
@@ -53,8 +53,8 @@ async def test_parallel_act_happy_path(mocker, async_app_client):
 
     for response in list(results):
         logging.debug(response)
-        assert response.status_code == status.HTTP_200_OK
         assert not response.json().get("errorOccurRequestData", None)
+        assert response.status_code == status.HTTP_200_OK
 
     assert mocked_send_file_to_remote.call_count == CLIENT_NUMBER
     assert mocked_send_string_to_remote.call_count == CLIENT_NUMBER * 2
