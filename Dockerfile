@@ -64,7 +64,7 @@ COPY ./src /app
 ###########################################################################
 FROM dev-env AS dev-linter
 COPY ./setup.cfg /app/
-# RUN pylama -o setup.cfg
+RUN pylama -o setup.cfg app
 
 ###########################################################################
 # Build utest coverage image
