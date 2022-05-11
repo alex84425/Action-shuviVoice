@@ -15,5 +15,5 @@ services:
     ports:
       - 8080:8080
     environment:
-      - HOME=./log
+      - HOME=/data
     command: /start-reload.sh

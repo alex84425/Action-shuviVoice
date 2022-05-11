@@ -43,7 +43,7 @@ def log(config: Settings = Depends(get_settings)):
         content = []
         for item in config.LOG_HOME.iterdir():
             if item.is_file():
-                content.append(f'<a href="{config.PREFIX}/log/{item.name}">{item.name}</a>')
+                content.append(f'<a href="./log/{item.name}">{item.name}</a>')
 
         return "<br>".join(content)
     except Exception:
