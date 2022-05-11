@@ -17,7 +17,7 @@ def get_history(history_path: Path = Path(__file__).with_name("history.json")):
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "Action-ExecutorTemplate"
-    PREFIX: str = os.environ.get("PATH_PREFIX", "/")
+    PREFIX: str = f"/{os.environ.get('PATH_PREFIX', '')}"
     HISTORY: OrderedDict = get_history()
     VERSION: str = list(HISTORY.keys())[0]
     HOME: Path = Path(os.environ.get("HOME", "/data"))
