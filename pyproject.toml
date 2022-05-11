@@ -38,6 +38,12 @@ pytest-xdist = "^2.5.0"
 requests-toolbelt = "^0.9.1"
 pre-commit = "^2.19.0"
 
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -s -v"
+asyncio_mode = "strict"
+norecursedirs = "ActionTemplate-Python3"
+
 [tool.isort]
 profile = "black"
 src_paths = ["isort", "test"]
