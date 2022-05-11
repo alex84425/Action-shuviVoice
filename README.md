@@ -14,7 +14,7 @@
 
 ```cmd
 echo "Clone template"
-git clone git@github.azc.ext.hp.com:BPSVCommonService/Action-MyTestAction.git
+git clone --recurse-submodules git@github.azc.ext.hp.com:BPSVCommonService/Action-MyTestAction.git
 cd Action-MyTestAction
 
 echo "Sync up template"
@@ -24,11 +24,13 @@ git merge upstream/master --allow-unrelated-histories
 git remote remove upstream
 
 echo "Update action name"
-py .\update_action_name.py
+py update_action_name.py
 git add .
 git commit -m 'rename action'
 git push
 ```
+
+-   Try to run the container `docker compose up` and open browser `http://localhost:8080`
 
 ## 3. Add Azure Pipeline
 
