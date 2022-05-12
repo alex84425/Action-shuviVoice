@@ -43,11 +43,17 @@ def generate_taskid() -> str:
     return f"{timestamp:x}{rest}"
 
 
+def generate_working_directory(taskid: str) -> str:
+    return f"c:/TestAutomation/TestJobs/{taskid}/00_ActionName_undefined_undefined"
+
+
 def generate_act_payload() -> dict:
+    """
+    Generate ACT payload from test_payload.json.
+    But replace taskId, and workingDirectory dynamically.
+    """
     payload = copy.deepcopy(PAYLOAD)
     taskid = generate_taskid()
     payload["task"]["taskId"] = taskid
-    temp: str = payload["context"]["workingDirectory"]
-    temp = temp.replace("6260f5a1c99ce10012a6eb79", taskid)
-    payload["context"]["workingDirectory"] = temp
+    payload["context"]["workingDirectory"] = generate_working_directory(taskid)
     return payload
