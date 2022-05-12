@@ -1,5 +1,6 @@
 {
-    "0.0.19": "[2022-05-11] refine unit test payload generator and submodule update with merge",
+    "0.0.20": "[2022-05-12] fix log path not correct",
+    "0.0.19": "[2022-05-12] refine unit test payload generator and submodule update with merge",
     "0.0.18": "[2022-05-11] fix payload bug",
     "0.0.17": "[2022-05-11] fix openapi",
     "0.0.16": "[2022-05-11] refine PR 30, refine pyproject.toml",
