@@ -22,7 +22,7 @@ pr:
 extends:
   template: dockerBasedActionNew.yml@azurepipeline-template
   parameters:
-    project_name: "Action-ExecutorTemplate"
+    project_name: "Action-BIOSTable"
     submodules_mode: "recursive"
     lfs_enabled: true
     with_envs: true

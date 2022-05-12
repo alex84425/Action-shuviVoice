@@ -17,7 +17,7 @@ def get_history(history_path: Path = Path(__file__).with_name("history.json")):
 
 class Settings(BaseSettings):
     # local run has no environment virables, using default; online run will have environment variables
-    PROJECT_NAME: str = "Action-ExecutorTemplate"
+    PROJECT_NAME: str = "Action-BIOSTable"
     PREFIX: str = os.environ.get("PATH_PREFIX", "/")
     HISTORY: OrderedDict = get_history()
     VERSION: str = list(HISTORY.keys())[0]
