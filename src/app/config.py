@@ -21,7 +21,7 @@ class Settings(BaseSettings):
     PREFIX: str = os.environ.get("PATH_PREFIX", "/")
     HISTORY: OrderedDict = get_history()
     VERSION: str = list(HISTORY.keys())[0]
-    VOLUME: Path = os.environ.get("VOLUME_MOUNT_PATH", "/data")
+    VOLUME: Path = Path(os.environ.get("VOLUME_MOUNT_PATH", "/data"))
     LOG_FOLDER: Path = VOLUME / "log"
     SOURCE_VERSION: str = os.environ.get("SOURCE_VERSION", "local")
 
