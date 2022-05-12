@@ -16,12 +16,13 @@ def get_history(history_path: Path = Path(__file__).with_name("history.json")):
 
 
 class Settings(BaseSettings):
+    # local run has no environment virables, using default; online run will have environment variables
     PROJECT_NAME: str = "Action-ExecutorTemplate"
-    PREFIX: str = f"/{os.environ.get('PATH_PREFIX', '')}"
+    PREFIX: str = os.environ.get("PATH_PREFIX", "/")
     HISTORY: OrderedDict = get_history()
     VERSION: str = list(HISTORY.keys())[0]
-    HOME: Path = Path(os.environ.get("HOME", "/data"))
-    LOG_HOME: Path = HOME / "log"
+    VOLUME: Path = Path(os.environ.get("VOLUME_MOUNT_PATH", "/data"))
+    LOG_FOLDER: Path = VOLUME / "log"
     SOURCE_VERSION: str = os.environ.get("SOURCE_VERSION", "local")
 
     DESCRIPTION = f"""
@@ -42,7 +43,7 @@ def get_settings() -> Settings:
 @lru_cache()
 def get_fake_settings() -> Settings:
     return Settings(
-        HOME=Path("tests/dummy_home"),
-        LOG_HOME=Path("tests/dummy_home") / "log",
+        VOLUME=Path("tests/dummy_volume"),
+        LOG_FOLDER=Path("tests/dummy_volume") / "log",
         SOURCE_VERSION="4af8f9bef4d13eba48bd51594e244adebfa55ec8",
     )

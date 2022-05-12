@@ -41,7 +41,7 @@ async def verify_api_key(api_key_header: str = Security(api_key_header_auth), co
 def log(config: Settings = Depends(get_settings)):
     try:
         content = []
-        for item in config.LOG_HOME.iterdir():
+        for item in config.LOG_FOLDER.iterdir():
             if item.is_file():
                 content.append(f'<a href="./log/{item.name}">{item.name}</a>')
 
@@ -53,7 +53,7 @@ def log(config: Settings = Depends(get_settings)):
 @router.get("/log/{filename}", response_class=HTMLResponse)
 def log_file(filename: str, config: Settings = Depends(get_settings)):
     try:
-        with open(config.LOG_HOME / filename, encoding="utf-8") as f:
+        with open(config.LOG_FOLDER / filename, encoding="utf-8") as f:
             data = f.read()
 
         con = Ansi2HTMLConverter()
@@ -78,7 +78,7 @@ def taskid_log(taskid: str, config: Settings = Depends(get_settings)):
     try:
         content = []
         logs = []
-        for item in config.LOG_HOME.iterdir():
+        for item in config.LOG_FOLDER.iterdir():
             if item.is_file() and item.name != "uut_proxy.log":
                 logs.append(item)
         sorted(logs, key=lambda x: x.stat().st_mtime, reverse=True)

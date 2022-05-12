@@ -8,7 +8,7 @@ from fastapi import FastAPI
 from vcosmosapiclient.custom_logging import setup_logging
 
 config = get_settings()
-setup_logging(config.LOG_HOME / "debug.log")
+setup_logging(config.LOG_FOLDER / "debug.log")
 logging.info(config)
 
 
