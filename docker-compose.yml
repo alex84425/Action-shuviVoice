@@ -1,8 +1,8 @@
 version: '3.5'
 
 services:
-  actionbiostable:
-    image: actionbiostable
+  actionexecutortemplate:
+    image: actionexecutortemplate
     build:
       context: .
       # target: dev-security

@@ -1,8 +1,8 @@
 version: '3.5'
 
 services:
-  debugbiostable:
-    image: debugbiostable
+  debugexecutortemplate:
+    image: debugexecutortemplate
     build: .
     volumes:
       - ./src/app:/app/app

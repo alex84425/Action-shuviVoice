@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "action-biostable"
+name = "action-executortemplate"
 version = "1.0.0"
-description = "action-biostable"
+description = "action-executortemplate"
 authors = ["Mason Lin <mason.lin1@hp.com>"]
 
 [tool.poetry.dependencies]
