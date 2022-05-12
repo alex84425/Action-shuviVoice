@@ -75,6 +75,12 @@ async def debug(cmd: str = ""):
 
 @router.get("/taskid/{taskid}", response_class=HTMLResponse)
 def taskid_log(taskid: str, config: Settings = Depends(get_settings)):
+    """
+    # Example:
+    If workingDirectory is `c:/TestAutomation/TestJobs/6260f5a1c99ce10012a6eb79/00_Action`
+
+    Then the url is `/taskid/6eb79_00`
+    """
     try:
         content = []
         logs = []
