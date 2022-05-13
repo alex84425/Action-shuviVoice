@@ -53,7 +53,7 @@ git push
 
 ### Dev site Setting
 
-10. <img src='https://media.github.azc.ext.hp.com/user/14519/files/31e051c4-7527-473d-b19b-808c1f8ec197' align='top'/>
+10. <img src='https://media.github.azc.ext.hp.com/user/15211/files/48a499d1-7c47-497d-990a-c9714aafc5ed' align='top'/>
 11. <img src='https://media.github.azc.ext.hp.com/user/14519/files/6d81ff33-d773-470b-98fd-33a4624873a1' align='top'/>
 12. <img src='https://media.github.azc.ext.hp.com/user/14519/files/0c0162d5-097f-4860-bb68-8e769b964c25' align='top'/>
 13. <img src='https://media.github.azc.ext.hp.com/user/14519/files/2b4741e3-e040-4926-af38-1a85ed29c810' align='top'/>
