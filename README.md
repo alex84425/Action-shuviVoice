@@ -1,16 +1,18 @@
 # How to make a action from the template
 
-## 1. Create new repo by template in Github
+## A. Create new repo by template in Github
 
--   Open https://github.azc.ext.hp.com/BPSVCommonService/Action-ExecutorTemplate/tree/master and `Use this template`
-    ![image](https://media.github.azc.ext.hp.com/user/14519/files/5de2a1e0-64d9-4d12-9847-9ce5f156c663)
-    ![image](https://media.github.azc.ext.hp.com/user/14519/files/dbfa92a9-41b3-4ca6-aad3-ce414b519dda)
+Open https://github.azc.ext.hp.com/BPSVCommonService/Action-ExecutorTemplate/tree/master and `Use this template`
+![image](https://media.github.azc.ext.hp.com/user/14519/files/5de2a1e0-64d9-4d12-9847-9ce5f156c663)
+![image](https://media.github.azc.ext.hp.com/user/14519/files/dbfa92a9-41b3-4ca6-aad3-ce414b519dda)
 
-## 2. Initialize this repository
+## B. Initialize this repository
 
--   Execute following commands and it will sync the upstream and update action name
+1. Execute following commands and it will sync the upstream and update action name
 
-> windows cmd
+> You may need to setup [PAT] for submodules download
+
+[pat]: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
 
 ```cmd
 echo "Clone template"
@@ -32,17 +34,20 @@ git push
 
 -   Try to run the container `docker compose up` and open browser `http://localhost:8080`
 
-## 3. Add Azure Pipeline
+## C. Add Azure Pipeline
 
 2. <img src='https://media.github.azc.ext.hp.com/user/14519/files/1253a1ca-7d6a-48c5-af55-25f550b50dd1' align='top'/>
 3. <img src='https://media.github.azc.ext.hp.com/user/14519/files/663b5d63-b7ff-4509-a5bf-3bc385e02659' align='top'/>
 4. <img src='https://media.github.azc.ext.hp.com/user/14519/files/3aa4cc49-ec13-45f2-a4a0-03d7a4235bdf' align='top'/>
 5. <img src='https://media.github.azc.ext.hp.com/user/14519/files/553e954d-0e8a-4916-a995-be3c2f1e24e2' align='top'/>
+
+> The newly created repo may take a while to appear
+
 6. <img src='https://media.github.azc.ext.hp.com/user/14519/files/e3628d33-cc54-4241-8c54-f141b936452a' align='top'/>
 7. <img src='https://media.github.azc.ext.hp.com/user/14519/files/00687dd3-bf3f-4bc3-a1c5-b143fe80cf57' align='top'/>
 8. <img src='https://media.github.azc.ext.hp.com/user/14519/files/7d8714de-afcd-46c0-9582-cd0a716e6aec' align='top'/>
 
-## 4. Add Azure Release
+## D. Add Azure Release
 
 9. <img src='https://media.github.azc.ext.hp.com/user/14519/files/6c9483b7-a109-4c1a-a68c-360947538873' align='top'/>
 
@@ -133,6 +138,15 @@ git fetch upstream
 git merge upstream/master --allow-unrelated-histories
 git remote remove upstream
 ```
+
+## How to remove a service?
+
+-   Go to site portainer, Example [dev-portainer]
+    -   Ask vcosmos DevOps help to delete the nginx.conf
+    -   Remove Container
+    -   Remove image
+
+[dev-portainer]: https://vcosmos-tpe-itg-3.corp.hpicloud.net/portainer/#!/home
 
 ---
 
