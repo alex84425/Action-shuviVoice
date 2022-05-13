@@ -141,10 +141,9 @@ git remote remove upstream
 
 ## How to remove a service?
 
--   Go to site portainer, Example [dev-portainer]
-    -   Ask vcosmos DevOps help to delete the nginx.conf
-    -   Remove Container
-    -   Remove image
+1.  Add `disable_nginx_location: true` in `azure-pipelines.yml` and deploy once
+2.  Go to site portainer, Example [dev-portainer]
+3.  Remove Container & image
 
 [dev-portainer]: https://vcosmos-tpe-itg-3.corp.hpicloud.net/portainer/#!/home
 
