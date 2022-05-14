@@ -11,10 +11,8 @@ from vcosmosapiclient.api_proxy import (
     send_file_to_remote,
     send_string_to_remote,
 )
-from vcosmosapiclient.depends import ApiDepends
+from vcosmosapiclient.library.result import action_terminated
 from vcosmosapiclient.utils import validator
-
-ErrorTaskTable = dict()
 
 
 async def execute_action(act: MyActionPostModel):
@@ -63,21 +61,18 @@ async def execute_action(act: MyActionPostModel):
     return body
 
 
-async def monitor_task_error(workingDirectory: str):
-    if workingDirectory in ErrorTaskTable:
-        return ErrorTaskTable.get(workingDirectory, False)
-    else:
-        return False
+async def action_task(act: models.MyActionPostModel):
+    raise NotImplementedError("Add your code here")
 
 
-async def execute_task(act: models.MyActionPostModel, api: ApiDepends):
+async def execute_task(act: models.MyActionPostModel, response: dict):
     """
     Usage asyncio.create_task(executor.execute_task(act, ...))
     """
-
     try:
-        raise NotImplementedError("Add your code here")
-
+        ret = await action_task(act)
     except Exception as e:
-        workingDirectory = act.context.workingDirectory
-        ErrorTaskTable.update({workingDirectory: e})
+        logging.exception("Action got exception: %s", e)
+        await action_terminated(act, response, is_failed=True, reason=str(e))
+    else:
+        await action_terminated(act, response, is_failed=False, reason=ret)
