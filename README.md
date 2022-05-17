@@ -129,6 +129,11 @@ Please follow the same steps 10 ~ 12 of `Dev site Setting` (branch in step 12 sh
 -   lfs track a new file type `git lfs track *.zip`
 -   check file was tracked by lfs `git lfs ls-files`
 
+## pre-commit
+
+-   Install: poetry run pre-commit install
+-   Manual Run: poetry run pre-commit run --all-files
+
 ## In the future, if you want to sync up template again, you can run the command
 
 ```cmd
