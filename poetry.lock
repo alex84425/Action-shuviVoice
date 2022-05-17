@@ -1135,19 +1135,19 @@ standard = ["websockets (>=10.0)", "httptools (>=0.4.0)", "watchgod (>=0.6)", "p
 
 [[package]]
 name = "vcosmos-api-python-client"
-version = "0.0.4"
-description = ""
+version = "0.1.0"
+description = "vcosmos api python client"
 category = "main"
 optional = false
-python-versions = ">=3.7"
+python-versions = "^3.9"
 develop = true
 
 [package.dependencies]
-aiofiles = "*"
-httpx = "*"
-jsonschema = "*"
-loguru = "*"
-pydantic = "*"
+aiofiles = "^0.8.0"
+httpx = "^0.22.0"
+jsonschema = "^4.5.1"
+loguru = "^0.6.0"
+pydantic = "^1.9.0"
 
 [package.source]
 type = "directory"
