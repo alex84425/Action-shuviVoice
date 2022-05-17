@@ -26,4 +26,3 @@ src\static\{folder}	    	all folders in static folder will be archived to {folde
 local_build.cmd		    	local test tool
 update_action_name.py		to update action name after clone the template
 update_submodule.cmd		to recursive init / update ActionTemplate-Python3
-		

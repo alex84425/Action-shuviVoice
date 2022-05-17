@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 from collections import OrderedDict
 from functools import lru_cache
@@ -35,12 +34,12 @@ class Settings(BaseSettings):
         """
 
 
-@lru_cache()
+@lru_cache
 def get_settings() -> Settings:
     return Settings()
 
 
-@lru_cache()
+@lru_cache
 def get_fake_settings() -> Settings:
     return Settings(
         VOLUME=Path("tests/dummy_volume"),
