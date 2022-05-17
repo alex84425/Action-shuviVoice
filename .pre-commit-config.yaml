@@ -11,6 +11,7 @@ repos:
             args: [--autofix, --no-sort-keys, --indent=4]
           - id: fix-encoding-pragma
             args: [--remove]
+          - id: requirements-txt-fixer
           - id: end-of-file-fixer
           - id: trailing-whitespace
     - repo: https://github.com/asottile/pyupgrade
