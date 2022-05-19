@@ -30,6 +30,18 @@ py update_action_name.py
 git add .
 git commit -m 'rename action'
 git push
+
+echo "Create other branches"
+git checkout -b dev
+git push
+
+git checkout master
+git checkout -b itg
+git push
+
+git checkout -b prd
+git push
+git checkout master
 ```
 
 -   Try to run the container `docker compose up` and open browser `http://localhost:8080`
