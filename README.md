@@ -31,17 +31,16 @@ git add .
 git commit -m 'rename action'
 git push
 
-echo "Create other branches"
-git checkout -b dev
-git push
-
-git checkout master
+echo "Initialize all branches"
 git checkout -b itg
-git push
-
+git push -f -u origin itg
 git checkout -b prd
-git push
+git push -f -u origin prd
+git checkout -b dev
+git push -f -u origin dev
 git checkout master
+
+echo "ALL DONE"
 ```
 
 -   Try to run the container `docker compose up` and open browser `http://localhost:8080`
