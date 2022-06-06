@@ -1,3 +1,4 @@
+import asyncio
 import json
 import logging
 from pathlib import Path
@@ -48,6 +49,8 @@ async def execute_action(act: MyActionPostModel):
     # === style 2 ===
     remote_path = act.context.workingDirectory / "LOGS" / "ResultDetails.json"
     await send_string_to_remote(act.target, json.dumps(data_from_atc, indent=4), remote_path)
+
+    await asyncio.sleep(60)
 
     remote_path = act.context.workingDirectory / "LOGS" / "status.txt"
     await send_string_to_remote(act.target, "PASS", remote_path)
