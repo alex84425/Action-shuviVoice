@@ -7,6 +7,7 @@ https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/tre
 Response schema:
 https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/blob/master/ActionExecutor/ActionActResponse.schema.json
 """
+import asyncio
 import logging
 
 from app.action import executor, models
@@ -44,4 +45,14 @@ async def post_to_action(act: models.MyActionPostModel, api: ApiDepends = Depend
 @router.post("/onstart")
 async def onstart(data: dict):
     logging.debug(f"onstart: {data}")
+    return {"status": "ok"}
+
+
+@router.post("/onabort")
+async def onabort(data: dict):
+    logging.debug(f"onabort: {data}")
+
+    logging.debug("sleep 60 seconds, I'm aborting")
+    await asyncio.sleep(60)
+    logging.debug("aborted")
     return {"status": "ok"}

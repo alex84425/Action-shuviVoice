@@ -50,7 +50,9 @@ async def execute_action(act: MyActionPostModel):
     remote_path = act.context.workingDirectory / "LOGS" / "ResultDetails.json"
     await send_string_to_remote(act.target, json.dumps(data_from_atc, indent=4), remote_path)
 
+    logging.debug("sleep 60 seconds for abort")
     await asyncio.sleep(60)
+    logging.debug("wake up")
 
     remote_path = act.context.workingDirectory / "LOGS" / "status.txt"
     await send_string_to_remote(act.target, "PASS", remote_path)
@@ -63,11 +65,12 @@ async def execute_action(act: MyActionPostModel):
     ).dict()
     body["onAbort"] = [
         {
-            "executeType": "targetCommand",
-            "environmentVariables": {},
-            "workingDirectory": str(act.context.workingDirectory),
-            "waitFinished": True,
-            "command": ["powershell.exe", "echo", "123", ">", "123.txt"],
+            "executeType": "request",
+            "url": "http://action-executortemplate:8080/action/onabort",
+            "method": "POST",
+            "headers": {"Content-type": "application/json"},
+            "data": {"mykey": "onabort"},
+            "timeout": 99999,
         },
     ]
     body["monitorOnStart"] = [
@@ -76,8 +79,17 @@ async def execute_action(act: MyActionPostModel):
             "url": "http://action-executortemplate:8080/action/onstart",
             "method": "POST",
             "headers": {"Content-type": "application/json"},
-            "data": {"mykey": "myvalue"},
+            "data": {"mykey": "onstart"},
             "timeout": 99999,
+        },
+    ]
+    body["monitorOnStop"] = [
+        {
+            "executeType": "targetCommand",
+            "environmentVariables": {},
+            "workingDirectory": str(act.context.workingDirectory),
+            "waitFinished": True,
+            "command": ["powershell.exe", "echo", "stop", ">", "stop.txt"],
         },
     ]
     return body
