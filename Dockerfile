@@ -92,4 +92,7 @@ COPY --from=uut-operation-proxy-base /UUTOperationProxy/dist/uut-operation-proxy
 RUN python3 /app/static/make_archive.py
 
 # use Gunicorn running Uvicorn workers in the container
-CMD /start.sh
+# CMD /start.sh
+
+# running Uvicorn with auto reload in the container
+CMD /start-reload.sh
