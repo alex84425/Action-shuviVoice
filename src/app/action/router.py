@@ -7,6 +7,7 @@ https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/tre
 Response schema:
 https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/blob/master/ActionExecutor/ActionActResponse.schema.json
 """
+import logging
 
 from app.action import executor, models
 from app.config import Settings, get_fake_settings, get_settings
@@ -38,3 +39,9 @@ async def post_to_action_dryrun(act: models.MyActionPostModel, api: FakeDepends 
 @validator.post
 async def post_to_action(act: models.MyActionPostModel, api: ApiDepends = Depends(), config: Settings = Depends(get_settings)):
     return await executor.execute_action(act)
+
+
+@router.post("/onstart")
+async def onstart(data: dict):
+    logging.debug(f"onstart: {data}")
+    return {"status": "ok"}

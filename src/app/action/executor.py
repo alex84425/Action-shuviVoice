@@ -58,6 +58,25 @@ async def execute_action(act: MyActionPostModel):
         result_file="LOGS/ResultDetails.json",
         status_file="LOGS/status.txt",
     ).dict()
+    body["onAbort"] = [
+        {
+            "executeType": "targetCommand",
+            "environmentVariables": {},
+            "workingDirectory": str(act.context.workingDirectory),
+            "waitFinished": True,
+            "command": ["powershell.exe", "echo", "123", ">", "123.txt"],
+        },
+    ]
+    body["monitorOnStart"] = [
+        {
+            "executeType": "request",
+            "url": "http://action-executortemplate:8080/action/onstart",
+            "method": "POST",
+            "headers": {"Content-type": "application/json"},
+            "data": {"mykey": "myvalue"},
+            "timeout": 99999,
+        },
+    ]
     return body
 
 
