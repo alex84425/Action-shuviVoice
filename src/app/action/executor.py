@@ -79,22 +79,20 @@ async def execute_action(act: MyActionPostModel):
     ]
 
     # example of onAbort callback
-    task_name = str(act.context.workingDirectory)
-    on_abort_data = {"task_name": task_name}
     response["onAbort"] = [
         {
             "executeType": "request",
             "url": "http://action-executortemplate:8080/action/onabort",
             "method": "POST",
             "headers": {"Content-type": "application/json"},
-            "data": on_abort_data,
+            "data": act.dict(),
             "timeout": 300000,
         },
     ]
 
     # 2. create background task with name
     task = asyncio.create_task(execute_task(act, response))
-    task.set_name(task_name)
+    task.set_name(str(act.context.workingDirectory))
     return response
 
 
