@@ -143,4 +143,7 @@ async def onabort(act: MyActionPostModel):
                     status_code=status.HTTP_403_FORBIDDEN,
                     detail=f"task is cancelled {task_name=}",
                 )
+
+    remote_path = str(act.context.workingDirectory / "aborted.log")
+    await send_string_to_remote(act.target, "aborted", remote_path, override=True)
     return {"status": "ok"}
