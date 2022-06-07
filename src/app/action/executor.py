@@ -14,6 +14,7 @@ from vcosmosapiclient.api_proxy import (
     send_file_to_remote,
     send_string_to_remote,
 )
+from vcosmosapiclient.library.rebootapi import force_reboot_once
 from vcosmosapiclient.library.result import action_terminated
 from vcosmosapiclient.utils import validator
 
@@ -142,6 +143,7 @@ async def onabort(act: MyActionPostModel):
                     detail=f"task is cancelled {task_name=}",
                 )
 
+    await force_reboot_once(act)
     remote_path = str(act.context.workingDirectory / "aborted.log")
     await send_string_to_remote(act.target, "aborted", remote_path, override=True)
     return {"status": "ok"}
