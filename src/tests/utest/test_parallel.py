@@ -57,5 +57,5 @@ async def test_parallel_act_happy_path(mocker, async_app_client):
         assert response.status_code == status.HTTP_200_OK
 
     assert mocked_send_file_to_remote.call_count == CLIENT_NUMBER
-    assert mocked_send_string_to_remote.call_count == CLIENT_NUMBER * 2
+    assert mocked_send_string_to_remote.call_count == CLIENT_NUMBER
     assert mocked_execute_on_remote.call_count == CLIENT_NUMBER
