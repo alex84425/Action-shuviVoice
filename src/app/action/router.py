@@ -7,9 +7,6 @@ https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/tre
 Response schema:
 https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/blob/master/ActionExecutor/ActionActResponse.schema.json
 """
-import asyncio
-import logging
-
 from app.action import executor, models
 from app.config import Settings, get_fake_settings, get_settings
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -43,18 +40,11 @@ async def post_to_action(act: models.MyActionPostModel, api: ApiDepends = Depend
 
 
 @router.post("/onabort")
-async def onabort(on_abort_data: dict):
-    logging.debug(f"{on_abort_data=}")
-    task_name = on_abort_data["task_name"]
-
-    for task in asyncio.all_tasks():
-        if task.get_name() == task_name and not task.done():
-            try:
-                task.cancel()
-                break
-            except asyncio.CancelledError:
-                raise HTTPException(
-                    status_code=status.HTTP_403_FORBIDDEN,
-                    detail=f"task is cancelled {task_name=}",
-                )
-    return {"status": "ok"}
+async def onabort(act: models.MyActionPostModel):
+    try:
+        return await executor.onabort(act)
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail=f"Cannot Abort, because of an error {e}",
+        )

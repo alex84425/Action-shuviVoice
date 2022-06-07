@@ -1,10 +1,13 @@
 import asyncio
+import datetime
 import json
 import logging
 
 import static
 from app.action import models
 from app.action.models import MyActionPostModel
+from fastapi import HTTPException, status
+from tenacity import retry, stop_after_delay
 from vcosmosapiclient.api import MonitorFileResponse
 from vcosmosapiclient.api_proxy import (
     execute_on_remote,
@@ -13,6 +16,8 @@ from vcosmosapiclient.api_proxy import (
 )
 from vcosmosapiclient.library.result import action_terminated
 from vcosmosapiclient.utils import validator
+
+FIVE_MINUTES_IN_SECONDS = datetime.timedelta(minutes=5).seconds
 
 
 async def execute_action(act: MyActionPostModel):
@@ -120,3 +125,21 @@ async def execute_task(act: models.MyActionPostModel, response: dict):
         await action_terminated(act, response, is_failed=True, reason=str(e))
     else:
         await action_terminated(act, response, is_failed=False, reason=ret)
+
+
+@retry(reraise=True, stop=stop_after_delay(FIVE_MINUTES_IN_SECONDS))
+async def onabort(act: MyActionPostModel):
+    logging.debug(f"Aborting UUT {act.target.ip=}")
+    task_name = str(act.context.workingDirectory)
+
+    for task in asyncio.all_tasks():
+        if task.get_name() == task_name and not task.done():
+            try:
+                task.cancel()
+                break
+            except asyncio.CancelledError:
+                raise HTTPException(
+                    status_code=status.HTTP_403_FORBIDDEN,
+                    detail=f"task is cancelled {task_name=}",
+                )
+    return {"status": "ok"}
