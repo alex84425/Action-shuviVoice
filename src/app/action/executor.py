@@ -135,6 +135,7 @@ async def onabort(act: MyActionPostModel):
     for task in asyncio.all_tasks():
         if task.get_name() == task_name and not task.done():
             try:
+                logging.debug("Cancel task")
                 task.cancel()
                 break
             except asyncio.CancelledError:
