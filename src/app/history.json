@@ -1,4 +1,5 @@
 {
+    "0.1.2": "[2022-06-07] send aborted.log to UUT",
     "0.1.1": "[2022-06-07] example of task.cancel()",
     "0.1.0": "[2022-06-06] onAbort support",
     "0.0.28": "[2022-05-22] Add weekly auto merge",
