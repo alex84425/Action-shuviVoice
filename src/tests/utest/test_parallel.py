@@ -46,6 +46,7 @@ async def test_parallel_act_happy_path(mocker, async_app_client):
     mocked_send_file_to_remote = mocker.patch("app.action.executor.send_file_to_remote", new_callable=AsyncMock)
     mocked_send_string_to_remote = mocker.patch("app.action.executor.send_string_to_remote", new_callable=AsyncMock)
     mocked_execute_on_remote = mocker.patch("app.action.executor.execute_on_remote", side_effect=mocked)
+    mocked_action_handler = mocker.patch("app.action.executor.execute_task")
     payload = generate_act_payload()
 
     tasks = [async_app_client.post(ACTION_ENDPOINT, json=payload) for _ in range(CLIENT_NUMBER)]
@@ -57,5 +58,6 @@ async def test_parallel_act_happy_path(mocker, async_app_client):
         assert response.status_code == status.HTTP_200_OK
 
     assert mocked_send_file_to_remote.call_count == CLIENT_NUMBER
-    assert mocked_send_string_to_remote.call_count == CLIENT_NUMBER * 2
+    assert mocked_send_string_to_remote.call_count == CLIENT_NUMBER
     assert mocked_execute_on_remote.call_count == CLIENT_NUMBER
+    assert mocked_action_handler.call_count == CLIENT_NUMBER
