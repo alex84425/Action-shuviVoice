@@ -12,7 +12,7 @@ import logging
 
 from app.action import executor, models
 from app.config import Settings, get_fake_settings, get_settings
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, status
 from vcosmosapiclient.depends import ApiDepends, FakeDepends
 from vcosmosapiclient.utils import validator
 
@@ -42,17 +42,19 @@ async def post_to_action(act: models.MyActionPostModel, api: ApiDepends = Depend
     return await executor.execute_action(act)
 
 
-@router.post("/onstart")
-async def onstart(data: dict):
-    logging.debug(f"onstart: {data}")
-    return {"status": "ok"}
-
-
 @router.post("/onabort")
-async def onabort(data: dict):
-    logging.debug(f"onabort: {data}")
+async def onabort(on_abort_data: dict):
+    logging.debug(f"{on_abort_data=}")
+    task_name = on_abort_data["task_name"]
 
-    logging.debug("sleep 60 seconds, I'm aborting")
-    await asyncio.sleep(60)
-    logging.debug("aborted")
+    for task in asyncio.all_tasks():
+        if task.get_name() == task_name and not task.done():
+            try:
+                task.cancel()
+                break
+            except asyncio.CancelledError:
+                raise HTTPException(
+                    status_code=status.HTTP_403_FORBIDDEN,
+                    detail=f"task is cancelled {task_name=}",
+                )
     return {"status": "ok"}
