@@ -1135,7 +1135,7 @@ standard = ["websockets (>=10.0)", "httptools (>=0.4.0)", "watchgod (>=0.6)", "p
 
 [[package]]
 name = "vcosmosapiclient"
-version = "0.2.1"
+version = "0.2.2"
 description = "vcosmos api python client"
 category = "main"
 optional = false
