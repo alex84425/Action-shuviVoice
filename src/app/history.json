@@ -1,4 +1,5 @@
 {
+    "0.1.4": "[2022-06-08] Fixes busy loop",
     "0.1.3": "[2022-06-07] force reboot once",
     "0.1.2": "[2022-06-07] send aborted.log to UUT",
     "0.1.1": "[2022-06-07] example of task.cancel()",
