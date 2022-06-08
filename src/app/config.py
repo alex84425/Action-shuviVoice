@@ -23,6 +23,7 @@ class Settings(BaseSettings):
     VOLUME: Path = Path(os.environ.get("VOLUME_MOUNT_PATH", "/data"))
     LOG_FOLDER: Path = VOLUME / "log"
     SOURCE_VERSION: str = os.environ.get("SOURCE_VERSION", "local")
+    HOSTNAME_AND_PORT: str = f"{PROJECT_NAME.lower()}:{os.environ.get('PORT')}"
 
     DESCRIPTION = f"""
         service: {PROJECT_NAME}

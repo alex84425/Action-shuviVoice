@@ -6,6 +6,7 @@ import logging
 import static
 from app.action import models
 from app.action.models import MyActionPostModel
+from app.config import get_settings
 from fastapi import HTTPException, status
 from tenacity import retry, stop_after_delay, wait_fixed
 from vcosmosapiclient.api import MonitorFileResponse
@@ -17,6 +18,8 @@ from vcosmosapiclient.api_proxy import (
 from vcosmosapiclient.library.rebootapi import force_reboot_once
 from vcosmosapiclient.library.result import action_terminated
 from vcosmosapiclient.utils import validator
+
+settings = get_settings()
 
 TWENTY_SECONDS = datetime.timedelta(seconds=20).seconds
 FIVE_MINUTES_IN_SECONDS = datetime.timedelta(minutes=5).seconds
@@ -85,7 +88,7 @@ async def execute_action(act: MyActionPostModel):
     response["onAbort"] = [
         {
             "executeType": "request",
-            "url": "http://action-executortemplate:8080/action/onabort",
+            "url": f"http://{settings.HOSTNAME_AND_PORT}/action/onabort",
             "method": "POST",
             "headers": {"Content-type": "application/json"},
             "data": act.dict(),
