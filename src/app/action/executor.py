@@ -7,7 +7,7 @@ import static
 from app.action import models
 from app.action.models import MyActionPostModel
 from fastapi import HTTPException, status
-from tenacity import retry, stop_after_delay
+from tenacity import retry, stop_after_delay, wait_fixed
 from vcosmosapiclient.api import MonitorFileResponse
 from vcosmosapiclient.api_proxy import (
     execute_on_remote,
@@ -18,7 +18,9 @@ from vcosmosapiclient.library.rebootapi import force_reboot_once
 from vcosmosapiclient.library.result import action_terminated
 from vcosmosapiclient.utils import validator
 
+TWENTY_SECONDS = datetime.timedelta(seconds=20).seconds
 FIVE_MINUTES_IN_SECONDS = datetime.timedelta(minutes=5).seconds
+TEN_MINUTES_IN_MICROSECONDS = datetime.timedelta(minutes=10).seconds * 1000
 
 
 async def execute_action(act: MyActionPostModel):
@@ -87,7 +89,7 @@ async def execute_action(act: MyActionPostModel):
             "method": "POST",
             "headers": {"Content-type": "application/json"},
             "data": act.dict(),
-            "timeout": 300000,
+            "timeout": TEN_MINUTES_IN_MICROSECONDS,
         },
     ]
 
@@ -126,7 +128,7 @@ async def execute_task(act: models.MyActionPostModel, response: dict):
         await action_terminated(act, response, is_failed=False, reason=ret)
 
 
-@retry(reraise=True, stop=stop_after_delay(FIVE_MINUTES_IN_SECONDS))
+@retry(reraise=True, stop=stop_after_delay(FIVE_MINUTES_IN_SECONDS), wait=wait_fixed(TWENTY_SECONDS))
 async def onabort(act: MyActionPostModel):
     logging.debug(f"Aborting UUT {act.target.ip=}")
     task_name = str(act.context.workingDirectory)
