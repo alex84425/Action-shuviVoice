@@ -10,6 +10,7 @@ https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/blo
 from app.action import executor, models
 from app.config import Settings, get_fake_settings, get_settings
 from fastapi import APIRouter, Depends, HTTPException, status
+from vcosmosapiclient.custom_logging import log_wrapper
 from vcosmosapiclient.depends import ApiDepends, FakeDepends
 from vcosmosapiclient.utils import validator
 
@@ -40,6 +41,7 @@ async def post_to_action(act: models.MyActionPostModel, api: ApiDepends = Depend
 
 
 @router.post("/onabort")
+@log_wrapper
 async def onabort(act: models.MyActionPostModel):
     try:
         return await executor.onabort(act)
