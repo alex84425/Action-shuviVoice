@@ -19,7 +19,7 @@ RUN pkg .
 ###########################################################################
 # Build dev base image
 ###########################################################################
-FROM tiangolo/uvicorn-gunicorn:python3.9-slim AS dev-base
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.9-slim AS dev-base
 
 # set working directory
 WORKDIR /app/
