@@ -1,4 +1,4 @@
-![](https://polar-chamber-33379.herokuapp.com/codeCoverages?id=executortemplate)
+![](https://polar-chamber-33379.herokuapp.com/codeCoverages?id=action-executortemplate)
 
 # How to make a action from the template
 
