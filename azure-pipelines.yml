@@ -30,4 +30,4 @@ extends:
     testResultsFiles: '/app/junit.xml'
     reportDirectory: '/app/htmlcov'
     summaryFileLocation: '/app/coverage.xml'
-    ut_cc_badge_name: 'ExecutorTemplate'
+    enable_unittest_badge: true
