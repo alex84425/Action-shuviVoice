@@ -1,4 +1,5 @@
 {
+    "0.2.1": "[2022-06-10] fixes TooManyRedirects",
     "0.2.0": "[2022-06-10] Expose unit test coverage",
     "0.1.6": "[2022-06-08] force reboot immediately",
     "0.1.5": "[2022-06-08] logging enhancement, add @log_wrapper",
