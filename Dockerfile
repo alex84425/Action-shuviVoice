@@ -19,7 +19,7 @@ RUN pkg .
 ###########################################################################
 # Build dev base image
 ###########################################################################
-FROM tiangolo/uvicorn-gunicorn:python3.9-slim AS dev-base
+FROM tiangolo/uvicorn-gunicorn-fastapi:python3.9-slim AS dev-base
 
 # set working directory
 WORKDIR /app/
@@ -69,7 +69,7 @@ RUN pylama -o setup.cfg app
 # Build utest coverage image
 ###########################################################################
 FROM dev-env AS dev-coverage
-RUN coverage run -m pytest -p no:warnings --cov=. --cov-report html --cov-report xml
+RUN coverage run -m pytest -p no:warnings --junitxml=junit.xml --cov=. --cov-report html --cov-report xml
 
 ###########################################################################
 # Build security check image

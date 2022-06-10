@@ -8,6 +8,7 @@ echo 'Utest Coverage'
 docker build --pull --target=dev-coverage --network=host -t docker_name:dev-coverage .
 set errorcode=%errorlevel%
 docker create --name=container_name docker_name:dev-coverage
+docker cp container_name:/app/junit.xml .
 docker cp container_name:/app/coverage.xml .
 docker cp container_name:/app/htmlcov .
 docker rm -v container_name

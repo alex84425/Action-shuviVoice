@@ -1,3 +1,5 @@
+![](https://polar-chamber-33379.herokuapp.com/codeCoverages?id=executortemplate)
+
 # How to make a action from the template
 
 ## A. Create new repo by template in Github
