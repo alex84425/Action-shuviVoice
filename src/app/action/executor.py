@@ -21,9 +21,9 @@ from vcosmosapiclient.utils import validator
 
 settings = get_settings()
 
-TWENTY_SECONDS = datetime.timedelta(seconds=20).seconds
-FIVE_MINUTES_IN_SECONDS = datetime.timedelta(minutes=5).seconds
-TEN_MINUTES_IN_MICROSECONDS = datetime.timedelta(minutes=10).seconds * 1000
+TWENTY_SECONDS = datetime.timedelta(seconds=20).total_seconds()
+FIVE_MINUTES_IN_SECONDS = datetime.timedelta(minutes=5).total_seconds()
+TEN_MINUTES_IN_MICROSECONDS = int(datetime.timedelta(minutes=10).total_seconds() * 1000)  # for axios
 
 
 async def execute_action(act: MyActionPostModel):

@@ -1,4 +1,5 @@
 {
+    "0.2.3": "[2022-06-11] fix time calculations, should use total_time()",
     "0.2.2": "[2022-06-10] enable_unittest_badge: true",
     "0.2.1": "[2022-06-10] fixes TooManyRedirects",
     "0.2.0": "[2022-06-10] Expose unit test coverage",
