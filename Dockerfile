@@ -69,7 +69,7 @@ RUN pylama -o setup.cfg app
 # Build utest coverage image
 ###########################################################################
 FROM dev-env AS dev-coverage
-RUN coverage run -m pytest -p no:warnings --junitxml=junit.xml --cov=. --cov-report html --cov-report xml
+RUN coverage run -m pytest -p no:warnings --junitxml=junit.xml --cov=app --cov-report html --cov-report xml
 
 ###########################################################################
 # Build security check image
