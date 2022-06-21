@@ -1,4 +1,5 @@
 {
+    "0.2.5": "[2022-06-21] edit az",
     "0.2.4": "[2022-06-13] coverage is wrong",
     "0.2.3": "[2022-06-11] fix time calculations, should use total_time()",
     "0.2.2": "[2022-06-10] enable_unittest_badge: true",
