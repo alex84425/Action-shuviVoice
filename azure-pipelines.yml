@@ -3,7 +3,7 @@ resources:
     - repository: azurepipeline-template
       type: githubenterprise
       name: BPSValidation/azurepipeline-template
-      endpoint: BPS-Validation-AzureDveOps-GitHub # service connection name from azure project setting.
+      endpoint: vCosmos-GitHub # service connection name from azure project setting.
 
 pool:
   name: vCosmos Runner
