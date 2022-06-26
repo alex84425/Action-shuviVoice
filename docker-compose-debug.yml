@@ -1,9 +1,13 @@
 version: '3.5'
 
 services:
-  debugexecutortemplate:
-    image: debugexecutortemplate
-    build: .
+  actionexecutortemplate:
+    image: actionexecutortemplate
+    build:
+      context: .
+      # target: dev-security
+      # target: dev-coverage
+      # target: dev-linter
     volumes:
       - ./src/app:/app/app
       - ./ActionTemplate-Python3:/app/ActionTemplate-Python3
