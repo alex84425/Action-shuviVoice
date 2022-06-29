@@ -1,20 +1,8 @@
-# ##########################################################################
+# syntax = edrevo/dockerfile-plus
+###########################################################################
 # Build uut operation proxy base image (temp solution for ssh)
-# ##########################################################################
-FROM node:14.18-slim AS uut-operation-proxy-base
-
-RUN apt update && apt install -y vim curl
-
-# for nodejs 14
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
-RUN apt -y install nodejs
-RUN node -v
-
-COPY ./ActionTemplate-Python3/UUTOperationProxy/. /UUTOperationProxy
-WORKDIR /UUTOperationProxy
-RUN npm ci
-RUN npm install -g pkg
-RUN pkg .
+###########################################################################
+INCLUDE+ ./ActionTemplate-Python3/UUTOperationProxy/DockerfileAction
 
 ###########################################################################
 # Build dev base image
