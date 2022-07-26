@@ -1,4 +1,3 @@
-
 # syntax = edrevo/dockerfile-plus
 ###########################################################################
 # Build uut operation proxy base image (temp solution for ssh)
