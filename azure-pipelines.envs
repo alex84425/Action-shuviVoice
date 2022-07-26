@@ -4,3 +4,4 @@ HTTPS_PROXY: ${HTTPS_PROXY}
 https_proxy: ${HTTPS_PROXY}
 NO_PROXY: ${NO_PROXY}
 no_proxy: ${NO_PROXY}
+HOST_IP: ${HOST_IP}

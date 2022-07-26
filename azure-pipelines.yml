@@ -1,33 +1,34 @@
 resources:
-  repositories:
-    - repository: azurepipeline-template
-      type: githubenterprise
-      name: BPSValidation/azurepipeline-template
-      endpoint: vCosmos-GitHub # service connection name from azure project setting.
+    repositories:
+        - repository: azurepipeline-template
+          type: githubenterprise
+          name: BPSValidation/azurepipeline-template
+          endpoint: vCosmos-GitHub # service connection name from azure project setting.
 
 pool:
-  name: vCosmos Runner
+    name: vCosmos Runner
 
 trigger:
-  - master
-  - dev
-  - itg
-  - prd
+    - master
+    - dev
+    - itg
+    - prd
 
 pr:
-  - master
-  - itg
-  - prd
+    - master
+    - itg
+    - prd
 
 extends:
-  template: dockerBasedAction.yml@azurepipeline-template
-  parameters:
-    project_name: "Action-ExecutorTemplate"
-    submodules_mode: "recursive"
-    lfs_enabled: true
-    with_envs: true
-    volume_mount_path: /data/
-    testResultsFiles: '/app/junit.xml'
-    reportDirectory: '/app/htmlcov'
-    summaryFileLocation: '/app/coverage.xml'
-    enable_unittest_badge: true
+    template: dockerBasedAction.yml@azurepipeline-template
+    parameters:
+        project_name: "Action-ExecutorTemplate"
+        submodules_mode: "recursive"
+        lfs_enabled: true
+        with_envs: true
+        volume_mount_path: /data/
+        testResultsFiles: "/app/junit.xml"
+        reportDirectory: "/app/htmlcov"
+        summaryFileLocation: "/app/coverage.xml"
+        enable_unittest_badge: true
+        testing_docker_file: "integration.dockerfile"

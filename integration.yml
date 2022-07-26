@@ -1,0 +1,11 @@
+version: "3.5"
+
+services:
+    itgexecutortemplate:
+        image: itgexecutortemplate
+        container_name: itgexecutortemplate
+        build:
+            context: .
+            dockerfile: integration.dockerfile
+# Usage
+# docker compose -f integration.yml up --build
