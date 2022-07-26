@@ -7,7 +7,7 @@ import pytest
 logging.basicConfig()
 logging.getLogger().setLevel(logging.DEBUG)
 HOST_IP = os.environ.get("HOST_IP")
-# ACTIONS = ["smr", "winpvt", "biostable"]
+
 ACTIONS = ["executortemplate"]
 
 
