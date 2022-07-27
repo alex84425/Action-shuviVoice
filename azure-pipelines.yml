@@ -27,8 +27,8 @@ extends:
     lfs_enabled: true
     with_envs: true
     volume_mount_path: /data/
-    testResultsFiles: "/app/junit.xml"
-    reportDirectory: "/app/htmlcov"
-    summaryFileLocation: "/app/coverage.xml"
+    testResultsFiles: '/app/junit.xml'
+    reportDirectory: '/app/htmlcov'
+    summaryFileLocation: '/app/coverage.xml'
     enable_unittest_badge: true
 		testing_docker_file: "integration.dockerfile"
