@@ -1,15 +1,13 @@
 version: "3.5"
 
 services:
-  itgexecutortemplate:
-    image: itgexecutortemplate
-    container_name: itgexecutortemplate
+  itgtest:
+    image: itgtest
+    container_name: itgtest
     build:
       context: .
       dockerfile: integration.dockerfile
     environment:
       - HOST_IP=15.36.156.53
-
-    # env_file: integration-test.env
 # Usage
 # docker compose -f integration.yml up --build
