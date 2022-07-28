@@ -8,5 +8,6 @@ services:
       context: .
       dockerfile: integration.dockerfile
     env_file: integration-test.env
+    environment: HOST_IP="15.36.156.53"
 # Usage
 # docker compose -f integration.yml up --build

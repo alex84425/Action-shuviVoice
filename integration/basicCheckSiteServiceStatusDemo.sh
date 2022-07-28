@@ -8,7 +8,7 @@ echo '<?xml version="1.0" ?>
         <testcase classname="test.service.action.executortemplate"        name="Test Action-ExecutorTemplate" time="66.345000" Status="FAIL"/>
     </testsuite>
     <description>
-        This is an example report which is only generate in local test.
+        This is an example report which is generated only when your site is not in dev/qa/itg/prd.
         I am not an error.
     </description>
 </testsuites>' > ${TEST_RESULT_FOLDER}/TEST-result_docker.xml
