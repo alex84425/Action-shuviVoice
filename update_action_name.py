@@ -12,6 +12,7 @@ print("The new action name is:", action_name)
 files = [
     HERE / "src" / "app" / "config.py",
     HERE / "azure-pipelines.yml",
+    HERE / "integration" / "basicCheckSiteServiceStatusDemo.sh",
 ]
 for file in files:
     file.write_text(file.read_text().replace("ExecutorTemplate", action_name))
@@ -22,6 +23,7 @@ files = [
     HERE / "pyproject.toml",
     HERE / "integration" / "test_ping.py",
     HERE / "integration.yml",
+    HERE / "integration" / "basicCheckSiteServiceStatusDemo.sh",
     
     
 ]
