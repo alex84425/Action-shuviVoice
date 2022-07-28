@@ -21,8 +21,7 @@ files = [
     HERE / "docker-compose.yml",
     HERE / "docker-compose-debug.yml",
     HERE / "pyproject.toml",
-    HERE / "integration" / "test_ping.py",
-    HERE / "integration.yml",
+    HERE / "integration" / "test_ping.py",    
     HERE / "integration" / "basicCheckSiteServiceStatusDemo.sh",
     
     
