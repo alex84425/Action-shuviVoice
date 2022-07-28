@@ -23,7 +23,8 @@ files = [
     HERE / "pyproject.toml",
     HERE / "integration" / "test_ping.py",    
     HERE / "integration" / "basicCheckSiteServiceStatusDemo.sh",
-    
+    HERE / "integration.yml"
+
     
 ]
 for file in files:

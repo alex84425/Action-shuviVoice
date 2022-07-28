@@ -1,9 +1,9 @@
 version: "3.5"
 
 services:
-  itgtest:
-    image: itgtest
-    container_name: itgtest
+  itgexecutortemplate:
+    image: itgexecutortemplate
+    container_name: itgexecutortemplate
     build:
       context: .
       dockerfile: integration.dockerfile
