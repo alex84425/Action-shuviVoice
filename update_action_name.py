@@ -12,6 +12,7 @@ print("The new action name is:", action_name)
 files = [
     HERE / "src" / "app" / "config.py",
     HERE / "azure-pipelines.yml",
+    HERE / "integration" / "basicCheckSiteServiceStatusDemo.sh",
 ]
 for file in files:
     file.write_text(file.read_text().replace("ExecutorTemplate", action_name))
@@ -20,6 +21,10 @@ files = [
     HERE / "docker-compose.yml",
     HERE / "docker-compose-debug.yml",
     HERE / "pyproject.toml",
+    HERE / "integration" / "test_ping.py",    
+    HERE / "integration" / "basicCheckSiteServiceStatusDemo.sh",
+    
+    
 ]
 for file in files:
     file.write_text(file.read_text().replace("executortemplate", action_name.lower()))
