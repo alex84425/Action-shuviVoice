@@ -3,6 +3,7 @@ version: '3.5'
 services:
   actionexecutortemplate:
     image: actionexecutortemplate
+    env_file: local.env
     build:
       context: .
       # target: dev-security

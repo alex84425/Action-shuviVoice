@@ -4,10 +4,10 @@ services:
   itgexecutortemplate:
     image: itgexecutortemplate
     container_name: itgexecutortemplate
+    env_file: local.env
     build:
       context: .
       dockerfile: integration.dockerfile
-    environment:
-      - HOST_IP=15.36.156.53
+
 # Usage
 # docker compose -f integration.yml up --build
