@@ -21,11 +21,9 @@ files = [
     HERE / "docker-compose.yml",
     HERE / "docker-compose-debug.yml",
     HERE / "pyproject.toml",
-    HERE / "integration" / "test_ping.py",    
+    HERE / "integration" / "test_ping.py",
     HERE / "integration" / "basicCheckSiteServiceStatusDemo.sh",
-    HERE / "integration.yml"
-
-    
+    HERE / "integration.yml",
 ]
 for file in files:
     file.write_text(file.read_text().replace("executortemplate", action_name.lower()))

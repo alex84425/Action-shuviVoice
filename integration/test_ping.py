@@ -11,7 +11,6 @@ HOST_IP = os.environ.get("HOST_IP")
 ACTIONS = ["executortemplate"]
 
 
-
 @pytest.mark.parametrize("action", ACTIONS)
 def test_ping(action):
     logging.debug(f"{HOST_IP=}")
@@ -21,4 +20,3 @@ def test_ping(action):
     resp = httpx.get(url, verify=False, proxies={}, timeout=10)
     logging.debug(f"{url=} {resp=} {resp.text=}")
     assert resp.status_code == 200
-
