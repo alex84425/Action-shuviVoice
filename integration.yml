@@ -8,6 +8,3 @@ services:
     build:
       context: .
       dockerfile: integration.dockerfile
-
-# Usage
-# docker compose -f integration.yml up --build
