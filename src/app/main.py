@@ -16,7 +16,7 @@ app = FastAPI(
     title=config.PROJECT_NAME,
     description=config.DESCRIPTION,
     version=config.VERSION,
-    root_path=config.PREFIX,
+    root_path=config.PATH_PREFIX,
 )
 
 app.include_router(health.router, tags=["health"])

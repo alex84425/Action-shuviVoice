@@ -1,28 +1,30 @@
+import json
 import os
-from collections import OrderedDict
 from functools import lru_cache
-from json import JSONDecoder
 from pathlib import Path
 
 import vcosmosapiclient
 from pydantic import BaseSettings
 
 
-def get_history(history_path: Path = Path(__file__).with_name("history.json")):
-    history_json_raw = history_path.read_text()
-    history_ordered_dict = JSONDecoder(object_pairs_hook=OrderedDict).decode(history_json_raw)
-    return history_ordered_dict
+def get_history(project_name: str) -> dict:
+    history_folder = Path(__file__).parent
+    history_path = history_folder / f"{project_name.lower()}-history.json"
+    if not history_path.exists():
+        # fallback to history.json if {project_name}-history.json file not exists
+        history_path = history_folder / "history.json"
+    return json.loads(history_path.read_text())
 
 
 class Settings(BaseSettings):
-    # local run has no environment virables, using default; online run will have environment variables
+    # local run loads environment virables from load.env; online run loads real environment variables
     PROJECT_NAME: str = "Action-ExecutorTemplate"
-    PREFIX: str = os.environ.get("PATH_PREFIX", "/")
-    HISTORY: OrderedDict = get_history()
+    PATH_PREFIX: str = "/"
+    HISTORY: dict = get_history(PROJECT_NAME)
     VERSION: str = list(HISTORY.keys())[0]
     VOLUME: Path = Path(os.environ.get("VOLUME_MOUNT_PATH", "/data"))
     LOG_FOLDER: Path = VOLUME / "log"
-    SOURCE_VERSION: str = os.environ.get("SOURCE_VERSION", "local")
+    SOURCE_VERSION: str = "local"
     HOSTNAME_AND_PORT: str = f"{PROJECT_NAME.lower()}:{os.environ.get('PORT')}"
 
     DESCRIPTION = f"""

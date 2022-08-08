@@ -1,4 +1,5 @@
 {
+    "0.5.0": "[2022-08-07] template restructure",
     "0.4.1": "[2022-08-05] trigger smoking test in integration test",
     "0.4.0": "[2022-08-01] rupdate submodule to support timeout, and update dependencies",
     "0.3.4": "[2022-08-01] remove default env",

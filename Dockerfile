@@ -50,7 +50,6 @@ COPY ./src /app
 # Build lint image
 ###########################################################################
 FROM dev-env AS dev-linter
-COPY ./setup.cfg /app/
 RUN pylama -o setup.cfg app
 
 ###########################################################################
