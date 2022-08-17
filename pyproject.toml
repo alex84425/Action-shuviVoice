@@ -42,7 +42,7 @@ pre-commit = "^2.19.0"
 minversion = "6.0"
 addopts = "-ra -s -v"
 asyncio_mode = "strict"
-norecursedirs = "ActionTemplate-Python3"
+norecursedirs = ["ActionTemplate-Python3", "integration"]
 
 [tool.isort]
 profile = "black"
