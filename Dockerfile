@@ -24,6 +24,7 @@ EXPOSE 8080
 RUN apt-get update \
   && apt-get -y install --no-install-recommends \
   curl \
+  daemontools \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* \
   && pip install --upgrade pip
