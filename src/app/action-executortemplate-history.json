@@ -1,4 +1,5 @@
 {
+    "0.6.1": "[2022-08-26] fix /log not support folder",
     "0.6.0": "[2022-08-26] uut proxy log rotation",
     "0.5.1": "[2022-08-17] skip integration from coverage",
     "0.5.0": "[2022-08-07] template restructure",
