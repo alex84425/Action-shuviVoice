@@ -1,6 +1,8 @@
 """
 https://fastapi.tiangolo.com/advanced/security/http-basic-auth/
 """
+import logging
+import re
 import secrets
 import subprocess  # nosec
 import tempfile
@@ -37,13 +39,27 @@ async def verify_api_key(api_key_header: str = Security(api_key_header_auth), co
         )
 
 
+TAIREGEX = re.compile(r"^(@[0-9a-f]{24})", re.IGNORECASE)
+
+
+def replace_tai64n_to_local(link_name: str) -> str:
+    if re.match(TAIREGEX, link_name):
+        try:
+            p = subprocess.run(f"echo {link_name} | tai64nlocal", shell=True, capture_output=True, text=True)
+            link_name = p.stdout.strip()
+        except Exception:
+            logging.error("Failed to replace tai64n")
+    return link_name
+
+
 @router.get("/log", response_class=HTMLResponse)
 def log(config: Settings = Depends(get_settings)):
     try:
         content = []
         for item in config.LOG_FOLDER.iterdir():
             if item.is_file():
-                content.append(f'<a href="./log/{item.name}">{item.name}</a>')
+                link_name = replace_tai64n_to_local(item.name)
+                content.append(f'<a href="./log/{item.name}">{link_name}</a>')
 
         return "<br>".join(content)
     except Exception:
