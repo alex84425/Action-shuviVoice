@@ -24,6 +24,7 @@ EXPOSE 8080
 RUN apt-get update \
   && apt-get -y install --no-install-recommends \
   curl \
+  colorized-logs \
   daemontools \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* \

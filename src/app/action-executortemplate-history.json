@@ -1,4 +1,5 @@
 {
+    "0.6.3": "[2022-09-02] add colorized-logs for ansi2txt",
     "0.6.2": "[2022-08-29] feat replace tai64n to local",
     "0.6.1": "[2022-08-26] fix /log not support folder",
     "0.6.0": "[2022-08-26] uut proxy log rotation",
