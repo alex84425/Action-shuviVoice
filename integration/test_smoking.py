@@ -6,14 +6,14 @@ import httpx
 
 
 def get_atc_url():
-    VCOSMOS_LOCAL_ENV_SITE_ENTRY_HOST = os.environ.get("VCOSMOS_LOCAL_ENV_SITE_ENTRY_HOST")
+    HOST_IP = os.environ.get("HOST_IP")
     VCOSMOS_LOCAL_ENV_SITE_ENTRY_PORT = os.environ.get("VCOSMOS_LOCAL_ENV_SITE_ENTRY_PORT")
-    assert VCOSMOS_LOCAL_ENV_SITE_ENTRY_HOST, "VCOSMOS_LOCAL_ENV_SITE_ENTRY_HOST is none, please check env var"
+    assert HOST_IP, "HOST_IP is none, please check env var"
     assert VCOSMOS_LOCAL_ENV_SITE_ENTRY_PORT, "VCOSMOS_LOCAL_ENV_SITE_ENTRY_PORT is none, please check env var"
 
-    logging.debug(f"{VCOSMOS_LOCAL_ENV_SITE_ENTRY_HOST=}")
+    logging.debug(f"{HOST_IP=}")
     logging.debug(f"{VCOSMOS_LOCAL_ENV_SITE_ENTRY_PORT=}")
-    atc_url = f"https://{VCOSMOS_LOCAL_ENV_SITE_ENTRY_HOST}:{VCOSMOS_LOCAL_ENV_SITE_ENTRY_PORT}"
+    atc_url = f"https://{HOST_IP}:{VCOSMOS_LOCAL_ENV_SITE_ENTRY_PORT}"
     return atc_url
 
 
