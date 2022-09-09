@@ -1,4 +1,4 @@
-FROM python:3.9-slim-buster AS build
+FROM python:3.9-slim AS build
 
 WORKDIR /integration
 
