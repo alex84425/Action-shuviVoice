@@ -8,7 +8,6 @@ CODEOWNERS			        github config: code owners
 # docker
 Dockerfile			        container configuration file
 docker-compose.yml		    local test config, command: docker compose up
-setup.cfg			        configuration file of pylama (linter)
 
 # poetry
 pyproject.toml		    	python modules management file, managed by poetry
