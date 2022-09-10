@@ -64,8 +64,8 @@ RUN coverage run -m pytest -p no:warnings --junitxml=junit.xml --cov=app --cov-r
 # Build security check image
 ###########################################################################
 FROM dev-env AS dev-security
-RUN python -m bandit -r /app/app
-RUN python -m safety check
+RUN bandit -r /app/app
+RUN safety check
 
 ###########################################################################
 # Build production image - api
@@ -78,7 +78,7 @@ COPY ./src /app
 COPY --from=uut-operation-proxy-base /UUTOperationProxy/dist/uut-operation-proxy-linux /opt/uut-operation-proxy-linux
 
 # zip all sub folder in static folder
-RUN python3 /app/static/make_archive.py
+RUN python /app/static/make_archive.py
 
 # use Gunicorn running Uvicorn workers in the container
 # CMD /start.sh
