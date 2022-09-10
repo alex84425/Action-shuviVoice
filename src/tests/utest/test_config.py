@@ -1,6 +1,7 @@
-from app.config import get_history, get_settings
 from packaging import version
 from pydantic import BaseSettings
+
+from app.config import get_history, get_settings
 
 
 def test_get_history():

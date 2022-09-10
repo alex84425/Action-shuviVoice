@@ -6,10 +6,11 @@ import time
 from pathlib import Path
 
 import pytest
-from app.config import get_fake_settings, get_settings
-from app.main import app
 from httpx import AsyncClient
 from starlette.testclient import TestClient
+
+from app.config import get_fake_settings, get_settings
+from app.main import app
 
 with open(Path(__file__).with_name("test_payload.json")) as f:
     PAYLOAD = json.load(f)
