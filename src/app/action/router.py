@@ -7,12 +7,13 @@ https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/tre
 Response schema:
 https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/blob/master/ActionExecutor/ActionActResponse.schema.json
 """
-from app.action import executor, models
-from app.config import Settings, get_fake_settings, get_settings
 from fastapi import APIRouter, Depends, HTTPException, status
 from vcosmosapiclient.custom_logging import log_wrapper
 from vcosmosapiclient.depends import ApiDepends, FakeDepends
 from vcosmosapiclient.utils import validator
+
+from app.action import executor, models
+from app.config import Settings, get_fake_settings, get_settings
 
 router = APIRouter()
 

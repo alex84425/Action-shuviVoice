@@ -9,18 +9,11 @@ import tempfile
 import traceback
 
 from ansi2html import Ansi2HTMLConverter
-from app.config import Settings, get_settings
-from fastapi import (
-    APIRouter,
-    Depends,
-    File,
-    HTTPException,
-    Security,
-    UploadFile,
-    status,
-)
+from fastapi import APIRouter, Depends, File, HTTPException, Security, UploadFile, status
 from fastapi.responses import HTMLResponse
 from fastapi.security.api_key import APIKeyHeader
+
+from app.config import Settings, get_settings
 
 router = APIRouter()
 api_key_header_auth = APIKeyHeader(
@@ -105,7 +98,7 @@ def taskid_log(taskid: str, config: Settings = Depends(get_settings)):
         sorted(logs, key=lambda x: x.stat().st_mtime, reverse=True)
 
         for log in logs:
-            with open(log, encoding='utf') as f:
+            with open(log, encoding="utf") as f:
                 lines = f.read().splitlines()
             for line in lines:
                 if f"[{taskid}]" in line:

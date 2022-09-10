@@ -52,7 +52,7 @@ COPY ./src /app
 # Build lint image
 ###########################################################################
 FROM dev-env AS dev-linter
-RUN pylama -o setup.cfg app
+RUN pylama app
 
 ###########################################################################
 # Build utest coverage image
