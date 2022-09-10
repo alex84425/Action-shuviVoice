@@ -31,7 +31,7 @@ async def health():
 @validator.post
 async def post_to_action_dryrun(act: models.MyActionPostModel, api: FakeDepends = Depends(), config: Settings = Depends(get_fake_settings)):
     # this endpoint may deprecated
-    return await post_to_action(act, api, config)
+    return await post_to_action(act, api, config)  # type: ignore
 
 
 @router.post("/act")
@@ -45,8 +45,8 @@ async def post_to_action(act: models.MyActionPostModel, api: ApiDepends = Depend
 async def onabort(act: models.MyActionPostModel):
     try:
         return await executor.onabort(act)
-    except Exception as e:
+    except Exception as exc:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail=f"Cannot Abort, because of an error {e}",
-        )
+            detail=f"Cannot Abort, because of an error {exc}",
+        ) from exc
