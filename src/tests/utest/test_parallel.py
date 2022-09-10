@@ -4,9 +4,10 @@ from unittest.mock import AsyncMock
 
 import pytest
 from fastapi import status
+
 from tests.conftest import generate_act_payload
 
-CLIENT_NUMBER = 100
+CLIENT_NUMBER = 20
 ACTION_ENDPOINT = "/action/act"
 
 

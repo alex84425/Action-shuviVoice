@@ -38,7 +38,7 @@ TAIREGEX = re.compile(r"^(@[0-9a-f]{24})", re.IGNORECASE)
 def replace_tai64n_to_local(link_name: str) -> str:
     if re.match(TAIREGEX, link_name):
         try:
-            proc = subprocess.run(f"echo {link_name} | tai64nlocal", shell=True, capture_output=True, text=True, check=True)
+            proc = subprocess.run(f"echo {link_name} | tai64nlocal", shell=True, capture_output=True, text=True, check=True)  # nosec: B602
             link_name = proc.stdout.strip()
         except Exception:
             logging.error("Failed to replace tai64n")

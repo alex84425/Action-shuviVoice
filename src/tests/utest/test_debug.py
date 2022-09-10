@@ -15,4 +15,4 @@ def test_debug_pass(mocker, test_app):
     mocked_subprocess_run = mocker.patch("app.debug.router.subprocess.run")
     response = test_app.post("/debug?cmd=ls", headers={"X-API-KEY": "8ce55afbeda442e49515db84abe31d4feb9f8fa4"})
     assert response.status_code == status.HTTP_200_OK
-    mocked_subprocess_run.assert_called_once_with("ls", capture_output=True, encoding="utf-8", shell=True)
+    mocked_subprocess_run.assert_called_once_with("ls", capture_output=True, encoding="utf-8", shell=True, check=True)
