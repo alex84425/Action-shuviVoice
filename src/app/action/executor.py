@@ -103,7 +103,7 @@ async def execute_action(act: MyActionPostModel):
 
 
 async def action_task(act: models.MyActionPostModel):
-    logging.debug(f"action_task got {act=}")
+    logging.debug("action_task got act=%s", act)
 
     # Add your code here
     logging.debug("sleep 60 seconds for test abort")
@@ -124,16 +124,16 @@ async def execute_task(act: models.MyActionPostModel, response: dict):
     """
     try:
         ret = await action_task(act)
-    except Exception as e:
-        logging.exception("Action got exception: %s", e)
-        await action_terminated(act, response, is_failed=True, reason=str(e))
+    except Exception as exc:
+        logging.exception("Action got exception: %s", exc)
+        await action_terminated(act, response, is_failed=True, reason=str(exc))
     else:
         await action_terminated(act, response, is_failed=False, reason=ret)
 
 
 @retry(reraise=True, stop=stop_after_delay(FIVE_MINUTES_IN_SECONDS), wait=wait_fixed(TWENTY_SECONDS))
 async def onabort(act: MyActionPostModel):
-    logging.debug(f"Aborting UUT {act.target.ip=}")
+    logging.debug("Aborting UUT IP: %s", act.target.ip)
     task_name = str(act.context.workingDirectory)
 
     for task in asyncio.all_tasks():
@@ -142,11 +142,11 @@ async def onabort(act: MyActionPostModel):
                 logging.debug("Cancel task")
                 task.cancel()
                 break
-            except asyncio.CancelledError:
+            except asyncio.CancelledError as exc:
                 raise HTTPException(
                     status_code=status.HTTP_403_FORBIDDEN,
                     detail=f"task is cancelled {task_name=}",
-                )
+                ) from exc
 
     await force_reboot_once(act)
     remote_path = str(act.context.workingDirectory / "aborted.log")

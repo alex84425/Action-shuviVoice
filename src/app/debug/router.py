@@ -45,15 +45,15 @@ TAIREGEX = re.compile(r"^(@[0-9a-f]{24})", re.IGNORECASE)
 def replace_tai64n_to_local(link_name: str) -> str:
     if re.match(TAIREGEX, link_name):
         try:
-            p = subprocess.run(f"echo {link_name} | tai64nlocal", shell=True, capture_output=True, text=True)
-            link_name = p.stdout.strip()
+            proc = subprocess.run(f"echo {link_name} | tai64nlocal", shell=True, capture_output=True, text=True, check=True)
+            link_name = proc.stdout.strip()
         except Exception:
             logging.error("Failed to replace tai64n")
     return link_name
 
 
 @router.get("/log", response_class=HTMLResponse)
-def log(config: Settings = Depends(get_settings)):
+def router_log(config: Settings = Depends(get_settings)):
     try:
         content = []
         for item in config.LOG_FOLDER.iterdir():
@@ -82,9 +82,8 @@ def log_file(filename: str, config: Settings = Depends(get_settings)):
 @router.post("/debug", response_class=HTMLResponse, dependencies=[Depends(verify_api_key)])
 async def debug(cmd: str = ""):
     try:
-        p = subprocess.run(cmd, capture_output=True, encoding="utf-8", shell=True)  # nosec
+        p = subprocess.run(cmd, capture_output=True, encoding="utf-8", shell=True, check=True)  # nosec
         return f"stdout:\n{p.stdout}\n\nstderr:\n{p.stderr}"
-
     except Exception:
         return traceback.format_exc()
 
@@ -106,7 +105,7 @@ def taskid_log(taskid: str, config: Settings = Depends(get_settings)):
         sorted(logs, key=lambda x: x.stat().st_mtime, reverse=True)
 
         for log in logs:
-            with open(log) as f:
+            with open(log, encoding='utf') as f:
                 lines = f.read().splitlines()
             for line in lines:
                 if f"[{taskid}]" in line:
