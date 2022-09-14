@@ -98,7 +98,7 @@ def taskid_log(taskid: str, config: Settings = Depends(get_settings)):
         sorted(logs, key=lambda x: x.stat().st_mtime, reverse=True)
 
         for log in logs:
-            with open(log, encoding="utf") as f:
+            with open(log, encoding="utf-8") as f:
                 lines = f.read().splitlines()
             for line in lines:
                 if f"[{taskid}]" in line:
