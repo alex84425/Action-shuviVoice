@@ -54,7 +54,7 @@ statistics = true
 
 [tool.pylama.linter.pylint]
 max_line_length = 140
-disable = "C,R,W0613,W0703"
+disable = "C,R,W0613,W0703,W1203"
 extension-pkg-whitelist = "pydantic"
 
 [tool.pylama.linter.isort]
