@@ -9,7 +9,7 @@ from app.debug import router as debug
 from app.health import router as health
 
 config = get_settings()
-setup_logging(config.LOG_FOLDER / "debug.log")
+setup_logging(str(config.LOG_FOLDER / "debug.log"))
 logging.info(config)
 
 
