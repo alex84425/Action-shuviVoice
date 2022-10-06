@@ -25,10 +25,10 @@ async def info(config: Settings = Depends(get_settings)):
 
 
 @router.get("/health")
-async def health():
-    url = "http://127.0.0.1:8888/"
+async def health(config: Settings = Depends(get_settings)):
+    url = f"http://127.0.0.1:{config.UUT_PROXY_DEFAULT_PORT}"
 
-    async with httpx.AsyncClient(verify=False) as client:
+    async with httpx.AsyncClient() as client:
         try:
             response = await client.get(
                 url,

@@ -26,6 +26,7 @@ class Settings(BaseSettings):
     LOG_FOLDER: Path = VOLUME / "log"
     SOURCE_VERSION: str = "local"
     HOSTNAME_AND_PORT: str = f"{PROJECT_NAME.lower()}:{os.environ.get('PORT')}"
+    UUT_PROXY_DEFAULT_PORT: str = "8888"
 
     DESCRIPTION = f"""
         service: {PROJECT_NAME}
