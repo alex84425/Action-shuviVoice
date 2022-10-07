@@ -25,8 +25,8 @@ async def info(config: Settings = Depends(get_settings)):
 
 
 @router.get("/health")
-async def health(config: Settings = Depends(get_settings)):
-    url = f"http://127.0.0.1:{config.UUT_PROXY_DEFAULT_PORT}"
+async def health():
+    url = "http://127.0.0.1:8888"
 
     async with httpx.AsyncClient() as client:
         try:
@@ -43,7 +43,7 @@ async def health(config: Settings = Depends(get_settings)):
     if response.status_code != status.HTTP_404_NOT_FOUND:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail=f"There's a problem accessing UUT proxy, status code: {response.status_code}",
+            detail=f"Unexpected response from UUT proxy, status code: {response.status_code}",
         )
 
     return {"status": "ok"}
