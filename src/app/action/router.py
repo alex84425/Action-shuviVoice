@@ -7,6 +7,7 @@ https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/tre
 Response schema:
 https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/blob/master/ActionExecutor/ActionActResponse.schema.json
 """
+import httpx
 from fastapi import APIRouter, Depends, HTTPException, status
 from vcosmosapiclient.custom_logging import log_wrapper
 from vcosmosapiclient.depends import ApiDepends, FakeDepends
@@ -25,6 +26,26 @@ async def info(config: Settings = Depends(get_settings)):
 
 @router.get("/health")
 async def health():
+    url = "http://127.0.0.1:8888"
+
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.get(
+                url,
+                timeout=60,
+            )
+        except Exception as exc:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"fail to access UUT Proxy, status : {exc}",
+            ) from exc
+
+    if response.status_code != status.HTTP_404_NOT_FOUND:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=f"Unexpected response from UUT proxy, status code: {response.status_code}",
+        )
+
     return {"status": "ok"}
 
 
