@@ -3,7 +3,6 @@ import os
 from functools import lru_cache
 from pathlib import Path
 
-import vcosmosapiclient
 from pydantic import BaseSettings
 
 
@@ -26,15 +25,6 @@ class Settings(BaseSettings):
     LOG_FOLDER: Path = VOLUME / "log"
     SOURCE_VERSION: str = "local"
     HOSTNAME_AND_PORT: str = f"{PROJECT_NAME.lower()}:{os.environ.get('PORT')}"
-
-    DESCRIPTION = f"""
-        service: {PROJECT_NAME}
-        version: {VERSION}
-        history: {list(HISTORY.values())[0]}
-        commit id: {SOURCE_VERSION}
-        lib version: {vcosmosapiclient.VERSION}
-        lib history: {list(vcosmosapiclient.HISTORY.values())[0]}
-        """
 
 
 @lru_cache

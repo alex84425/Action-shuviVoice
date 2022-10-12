@@ -1,5 +1,6 @@
 import logging
 
+import vcosmosapiclient
 from fastapi import FastAPI
 from vcosmosapiclient.custom_logging import setup_logging
 
@@ -13,9 +14,19 @@ setup_logging(str(config.LOG_FOLDER / "debug.log"))
 logging.info(config)
 
 
+DESCRIPTION = f"""
+    service: {config.PROJECT_NAME}
+    version: {config.VERSION}
+    history: {list(config.HISTORY.values())[0]}
+    commit id: {config.SOURCE_VERSION}
+    lib version: {vcosmosapiclient.VERSION}
+    lib history: {list(vcosmosapiclient.HISTORY.values())[0]}
+    """
+
+
 app = FastAPI(
     title=config.PROJECT_NAME,
-    description=config.DESCRIPTION,
+    description=DESCRIPTION,
     version=config.VERSION,
     root_path=config.PATH_PREFIX,
 )
