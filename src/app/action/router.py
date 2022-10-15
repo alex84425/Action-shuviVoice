@@ -28,7 +28,7 @@ async def info(config: Settings = Depends(get_settings)):
 async def health():
     url = "http://127.0.0.1:8888"
 
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(proxies={}) as client:
         try:
             response = await client.get(
                 url,
