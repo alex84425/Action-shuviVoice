@@ -4,7 +4,7 @@ WORKDIR /integration
 
 RUN pip install pytest httpx
 
-ENV SMOKING_TEST_PLAN_ID=6274e188efe3eb00129c6f47
+ENV SMOKING_TEST_PLAN_ID=63452b0a781df10011ca0170
 
 COPY ./integration /integration
 CMD ["/bin/bash", "startTest.sh"]
