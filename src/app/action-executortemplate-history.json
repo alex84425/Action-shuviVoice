@@ -1,4 +1,5 @@
 {
+    "0.9.1": "[2022-10-21] modify the naming of test function under integration folder",
     "0.9.0": "[2022-10-20] update submodules",
     "0.8.3": "[2022-10-19] update poetry install url",
     "0.8.2": "[2022-10-15] fix health check no proxies",

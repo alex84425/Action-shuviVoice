@@ -75,7 +75,7 @@ def trigger_plan(vcosmos_token, plan_id) -> dict:
     return response.json()
 
 
-def test_trigger_smoking_in_dev_site():
+def test_testdev_trigger_smoking_in_dev_site():
     logging.debug("######################### trigger smoking #########################")
     if os.environ.get("ENV") != "dev":
         return "not dev site, skip"

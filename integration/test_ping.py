@@ -10,7 +10,7 @@ ACTIONS = ["executortemplate"]
 
 
 @pytest.mark.parametrize("action", ACTIONS)
-def test_ping(action):
+def test_testdev_ping(action):
     logging.debug(f"{HOST_IP=}")
     assert HOST_IP, "HOST_IP is none, please set it"
 
