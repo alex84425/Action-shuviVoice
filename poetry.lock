@@ -1242,7 +1242,7 @@ standard = ["colorama (>=0.4)", "httptools (>=0.4.0)", "python-dotenv (>=0.13)",
 
 [[package]]
 name = "vcosmosapiclient"
-version = "0.5.0"
+version = "0.5.2"
 description = "vcosmos api python client"
 category = "main"
 optional = false
