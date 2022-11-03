@@ -39,7 +39,7 @@ RUN curl -sSL https://install.python-poetry.org | python - && \
 COPY ./pyproject.toml ./poetry.lock* /app/
 COPY ./ActionTemplate-Python3/ /app/ActionTemplate-Python3
 # Install python dependencies include ActionTemplate-Python3
-RUN poetry install --no-root --no-dev
+RUN poetry install --no-root --without dev
 
 ###########################################################################
 # Build dev env image
