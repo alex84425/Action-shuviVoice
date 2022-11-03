@@ -28,4 +28,4 @@ files = [
 for file in files:
     file.write_text(file.read_text().replace("executortemplate", action_name.lower()))
 
-PROJECT_ROOT.joinpath("README.md").write_text(f"# Action: {action_name}")
+PROJECT_ROOT.joinpath("README.md").write_text(f"# Action: {action_name}", encoding="utf-8")
