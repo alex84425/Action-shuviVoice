@@ -9,7 +9,6 @@ import pytest
 from httpx import AsyncClient
 from starlette.testclient import TestClient
 
-from app.config import get_fake_settings, get_settings
 from app.main import app
 
 with open(Path(__file__).with_name("test_payload.json")) as f:
@@ -18,18 +17,14 @@ with open(Path(__file__).with_name("test_payload.json")) as f:
 
 @pytest.fixture(scope="module")
 def test_app():
-    app.dependency_overrides[get_settings] = get_fake_settings
     client = TestClient(app)
     yield client
-    app.dependency_overrides = {}
 
 
 @pytest.fixture(scope="module")
 def async_app_client():
-    app.dependency_overrides[get_settings] = get_fake_settings
     client = AsyncClient(app=app, base_url="http://test")
     yield client
-    app.dependency_overrides = {}
 
 
 @pytest.fixture(scope="function")

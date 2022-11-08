@@ -30,12 +30,3 @@ class Settings(BaseSettings):
 @lru_cache
 def get_settings() -> Settings:
     return Settings()
-
-
-@lru_cache
-def get_fake_settings() -> Settings:
-    return Settings(
-        VOLUME=Path("tests/dummy_volume"),
-        LOG_FOLDER=Path("tests/dummy_volume") / "log",
-        SOURCE_VERSION="4af8f9bef4d13eba48bd51594e244adebfa55ec8",
-    )

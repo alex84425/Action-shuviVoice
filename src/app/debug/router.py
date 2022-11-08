@@ -16,6 +16,7 @@ from fastapi.security.api_key import APIKeyHeader
 from app.config import Settings, get_settings
 
 router = APIRouter()
+settings: Settings = get_settings()
 api_key_header_auth = APIKeyHeader(
     name="X-API-KEY",
     description="API Token, required for debug",
@@ -23,8 +24,8 @@ api_key_header_auth = APIKeyHeader(
 )
 
 
-async def verify_api_key(api_key_header: str = Security(api_key_header_auth), config: Settings = Depends(get_settings)):
-    correct_api_key = secrets.compare_digest(api_key_header, config.SOURCE_VERSION[::-1])
+async def verify_api_key(api_key_header: str = Security(api_key_header_auth)):
+    correct_api_key = secrets.compare_digest(api_key_header, settings.SOURCE_VERSION[::-1])
     if not correct_api_key:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
@@ -46,10 +47,10 @@ def replace_tai64n_to_local(link_name: str) -> str:
 
 
 @router.get("/log", response_class=HTMLResponse)
-def router_log(config: Settings = Depends(get_settings)):
+def router_log():
     try:
         content = []
-        for item in config.LOG_FOLDER.iterdir():
+        for item in settings.LOG_FOLDER.iterdir():
             if item.is_file():
                 link_name = replace_tai64n_to_local(item.name)
                 content.append(f'<a href="./log/{item.name}">{link_name}</a>')
@@ -60,9 +61,9 @@ def router_log(config: Settings = Depends(get_settings)):
 
 
 @router.get("/log/{filename}", response_class=HTMLResponse)
-def log_file(filename: str, config: Settings = Depends(get_settings)):
+def log_file(filename: str):
     try:
-        with open(config.LOG_FOLDER / filename, encoding="utf-8") as f:
+        with open(settings.LOG_FOLDER / filename, encoding="utf-8") as f:
             data = f.read()
 
         con = Ansi2HTMLConverter()
@@ -82,7 +83,7 @@ async def debug(cmd: str = ""):
 
 
 @router.get("/taskid/{taskid}", response_class=HTMLResponse)
-def taskid_log(taskid: str, config: Settings = Depends(get_settings)):
+def taskid_log(taskid: str):
     """
     # Example:
     If workingDirectory is `c:/TestAutomation/TestJobs/6260f5a1c99ce10012a6eb79/00_Action`
@@ -92,7 +93,7 @@ def taskid_log(taskid: str, config: Settings = Depends(get_settings)):
     try:
         content = []
         logs = []
-        for item in config.LOG_FOLDER.iterdir():
+        for item in settings.LOG_FOLDER.iterdir():
             if item.is_file() and item.name != "uut_proxy.log":
                 logs.append(item)
         sorted(logs, key=lambda x: x.stat().st_mtime, reverse=True)
