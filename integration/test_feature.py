@@ -27,8 +27,9 @@ async def test_executortemplate_feature_test():
     service_secret = await get_env("HP_IDP_SERVICE_SECRET")
     host = await get_env("HOST_IP")
     port = await get_env("VCOSMOS_LOCAL_ENV_SITE_ENTRY_PORT")
+    vcosmos_access_host = os.environ.get("VCOSMOS_ACCESS_HOST")
     atc_url = f"https://{host}:{port}"
-    checker_url = f"{atc_url}/api/action/providertemplate/checker"
+    checker_url = f"https://{vcosmos_access_host}/api/action/providertemplate/checker"
     vcosmos_token = await get_vcosmos_token(atc_url, service_id, service_secret)
 
     response = httpx.post(
@@ -39,7 +40,7 @@ async def test_executortemplate_feature_test():
         json={
             "CHECKER_URL": checker_url,
             "VCOSMOS_TOKEN": vcosmos_token,
-            "VCOSMOS_ACCESS_HOST": os.environ.get("VCOSMOS_ACCESS_HOST"),
+            "VCOSMOS_ACCESS_HOST": vcosmos_access_host,
             "GITHUB_STATUS": os.environ.get("GITHUB_STATUS"),
             "SOURCEVERSION": os.environ.get("SourceVersion"),
             "REPOSITORYNAME": os.environ.get("RepositoryName"),
