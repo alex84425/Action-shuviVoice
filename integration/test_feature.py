@@ -28,14 +28,16 @@ async def test_executortemplate_feature_test():
     host = await get_env("HOST_IP")
     port = await get_env("VCOSMOS_LOCAL_ENV_SITE_ENTRY_PORT")
     atc_url = f"https://{host}:{port}"
+    checker_url = f"{atc_url}/api/action/providertemplate/checker"
     vcosmos_token = await get_vcosmos_token(atc_url, service_id, service_secret)
 
     response = httpx.post(
-        f"{atc_url}/api/action/providertemplate/checker",
+        checker_url,
         proxies={},
         verify=False,
         timeout=60,
         json={
+            "CHECKER_URL": checker_url,
             "VCOSMOS_TOKEN": vcosmos_token,
             "VCOSMOS_ACCESS_HOST": os.environ.get("VCOSMOS_ACCESS_HOST"),
             "GITHUB_STATUS": os.environ.get("GITHUB_STATUS"),
