@@ -1,7 +1,8 @@
 {
     "actionData": {
         "data": {
-            "MyTestData": "Hello World"
+            "Text Bar": "Hello",
+            "Text Box": "World"
         }
     },
     "context": {

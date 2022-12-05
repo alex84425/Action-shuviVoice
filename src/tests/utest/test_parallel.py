@@ -11,38 +11,6 @@ CLIENT_NUMBER = 20
 ACTION_ENDPOINT = "/action/onstart"
 
 
-@pytest.mark.skip(reason="jsut a example")
-@pytest.mark.asyncio
-async def test_parallel_act_direct_pass(async_app_client):
-    payload = generate_act_payload()
-    payload["actionData"]["data"]["MyTestData"] = "PASS"
-
-    tasks = [async_app_client.post(ACTION_ENDPOINT, json=payload) for _ in range(CLIENT_NUMBER)]
-    results = await asyncio.gather(*tasks, return_exceptions=True)
-
-    for response in list(results):
-        logging.info(response.text)
-        assert not response.json().get("errorOccurRequestData", None)
-        assert response.status_code == status.HTTP_200_OK
-        assert response.json()["resultStatusGetRequestData"] == "PASS"
-
-
-@pytest.mark.skip(reason="no such example")
-@pytest.mark.asyncio
-async def test_parallel_act_direct_fail(async_app_client):
-    payload = generate_act_payload()
-    payload["actionData"]["data"]["MyTestData"] = "FAIL"
-
-    tasks = [async_app_client.post(ACTION_ENDPOINT, json=payload) for _ in range(CLIENT_NUMBER)]
-    results = await asyncio.gather(*tasks, return_exceptions=True)
-
-    for response in list(results):
-        logging.info(response.text)
-        assert response.json()["errorOccurRequestData"]
-        assert response.status_code == status.HTTP_200_OK
-        assert response.json()["resultStatusGetRequestData"] == "FAIL"
-
-
 @pytest.mark.skip(reason="no such example")
 @pytest.mark.asyncio
 async def test_parallel_act_happy_path(mocker, async_app_client):
