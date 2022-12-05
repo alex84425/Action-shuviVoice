@@ -62,7 +62,7 @@ async def execute_action(act: MyActionPostModel):
 
     # 1. do some pre condition check, which will not create background process
     # send string to remote
-    data_from_atc = act.actionData.data.dict()
+    data_from_atc = act.actionData.data.dict(by_alias=True)
     logging.info(data_from_atc)
     remote_path = act.context.workingDirectory / "LOGS" / "ResultDetails.json"
     await send_string_to_remote(act.target, json.dumps(data_from_atc, indent=4), remote_path)
