@@ -64,7 +64,7 @@ RUN pylama app
 # Build utest coverage image
 ###########################################################################
 FROM dev-env AS dev-coverage
-RUN sh -c /app/prestart.sh && coverage run -m pytest -p no:warnings --junitxml=junit.xml --cov=app --cov-report html --cov-report xml
+RUN /app/prestart.sh && coverage run -m pytest -p no:warnings --junitxml=junit.xml --cov=app --cov-report html --cov-report xml
 
 ###########################################################################
 # Build security check image
@@ -87,4 +87,4 @@ COPY --from=uut-operation-proxy-base /UUTOperationProxy/dist/uut-operation-proxy
 RUN python /app/static/make_archive.py
 
 # running a single Uvicorn process
-CMD sh -c /app/prestart.sh && python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8080
+CMD /app/prestart.sh && python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8080
