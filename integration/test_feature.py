@@ -18,7 +18,7 @@ async def get_env(key):
 
 
 @pytest.mark.asyncio
-async def test_smr_feature_test():
+async def test_executortemplate_feature_test():
     logging.debug("######################### trigger feature test #########################")
     if await get_env("ENV") != "dev":
         return "not dev site, skip"
@@ -31,7 +31,7 @@ async def test_smr_feature_test():
     vcosmos_token = await get_vcosmos_token(atc_url, service_id, service_secret)
 
     response = httpx.post(
-        f"{atc_url}/api/action/smr/checker",
+        f"{atc_url}/api/action/providertemplate/checker",
         proxies={},
         verify=False,
         timeout=60,
