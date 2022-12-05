@@ -51,8 +51,21 @@ echo "ALL DONE"
 
 ⛔ Please modify azure-pipeline.yml before add Azure Pipeline
 
-1. set `disable_release` to true and set trigger for `dev` only
+1. set `disable_release` to true and set trigger for `dev` only and remove `pr`
 <img src='https://media.github.azc.ext.hp.com/user/15211/files/e83de2b7-a3c3-47c5-a386-86de2d133d2f' align='top'/>
+```
+trigger:
+- master       # remove
+- dev          # keep this only
+- itg          # remove
+- prd          # remove
+
+pr:
+- master       # remove
+- itg          # remove
+- prd          # remove
+```
+
 
 2. <img src='https://media.github.azc.ext.hp.com/user/14519/files/1253a1ca-7d6a-48c5-af55-25f550b50dd1' align='top'/>
 3. <img src='https://media.github.azc.ext.hp.com/user/14519/files/663b5d63-b7ff-4509-a5bf-3bc385e02659' align='top'/>
