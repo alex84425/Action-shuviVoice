@@ -5,9 +5,20 @@
 INCLUDE+ ./ActionTemplate-Python3/UUTOperationProxy/DockerfileAction
 
 ###########################################################################
+# Create requirements from poetry
+###########################################################################
+FROM python:3.9-slim as requirements-stage
+
+WORKDIR /tmp
+RUN pip install poetry
+COPY ./pyproject.toml ./poetry.lock* /tmp/
+RUN poetry export -f requirements.txt --output requirements.txt --without-hashes
+RUN poetry export --with dev -f requirements.txt --output requirements-dev.txt --without-hashes
+
+###########################################################################
 # Build dev base image
 ###########################################################################
-FROM tiangolo/uvicorn-gunicorn-fastapi:python3.9-slim AS dev-base
+FROM python:3.9-slim AS dev-base
 
 # set working directory
 WORKDIR /app/
@@ -15,7 +26,6 @@ WORKDIR /app/
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-ENV MAX_WORKERS=1
 ENV LOG_LEVEL=debug
 ENV PORT 8080
 EXPOSE 8080
@@ -30,22 +40,18 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/* \
   && pip install --upgrade pip
 
-# Install Poetry (append poetry bin path)
-ENV PATH="/root/.local/bin:$PATH"
-RUN curl -sSL https://install.python-poetry.org | python - && \
-  poetry config virtualenvs.create false
-
-# Copy using poetry.lock* in case it doesn't exist yet
-COPY ./pyproject.toml ./poetry.lock* /app/
+COPY --from=requirements-stage /tmp/requirements.txt /opt/requirements.txt
+RUN pip install --no-cache-dir --upgrade -r /opt/requirements.txt
 COPY ./ActionTemplate-Python3/ /app/ActionTemplate-Python3
-# Install python dependencies include ActionTemplate-Python3
-RUN poetry install --no-root --without dev
+RUN pip install -e /app/ActionTemplate-Python3
 
 ###########################################################################
 # Build dev env image
 ###########################################################################
 FROM dev-base AS dev-env
-RUN poetry install --no-root
+COPY --from=requirements-stage /tmp/requirements-dev.txt /opt/requirements-dev.txt
+RUN pip install --no-cache-dir --upgrade -r /opt/requirements-dev.txt
+COPY ./pyproject.toml /app/
 COPY ./src /app
 
 ###########################################################################
@@ -58,7 +64,7 @@ RUN pylama app
 # Build utest coverage image
 ###########################################################################
 FROM dev-env AS dev-coverage
-RUN coverage run -m pytest -p no:warnings --junitxml=junit.xml --cov=app --cov-report html --cov-report xml
+RUN sh -c /app/prestart.sh && coverage run -m pytest -p no:warnings --junitxml=junit.xml --cov=app --cov-report html --cov-report xml
 
 ###########################################################################
 # Build security check image
@@ -80,8 +86,5 @@ COPY --from=uut-operation-proxy-base /UUTOperationProxy/dist/uut-operation-proxy
 # zip all sub folder in static folder
 RUN python /app/static/make_archive.py
 
-# use Gunicorn running Uvicorn workers in the container
-# CMD /start.sh
-
-# running Uvicorn with auto reload in the container
-CMD /start-reload.sh
+# running a single Uvicorn process
+CMD sh -c /app/prestart.sh && python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8080

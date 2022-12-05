@@ -23,7 +23,7 @@ def test_app():
 
 @pytest.fixture(scope="module")
 def async_app_client():
-    client = AsyncClient(app=app, base_url="http://test")
+    client = AsyncClient(app=app, base_url="http://127.0.0.1:8080")
     yield client
 
 
