@@ -87,4 +87,4 @@ COPY --from=uut-operation-proxy-base /UUTOperationProxy/dist/uut-operation-proxy
 RUN python /app/static/make_archive.py
 
 # running a single Uvicorn process
-CMD /app/prestart.sh && python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8080
+CMD /app/start-reload.sh
