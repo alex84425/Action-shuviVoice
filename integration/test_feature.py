@@ -18,7 +18,7 @@ async def get_env(key):
 
 
 @pytest.mark.asyncio
-async def test_executortemplate_feature_test():
+async def test_testdev_executortemplate_feature_test():
     logging.debug("######################### trigger feature test #########################")
     if await get_env("ENV") != "dev":
         return "not dev site, skip"
