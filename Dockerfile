@@ -87,4 +87,6 @@ COPY --from=uut-operation-proxy-base /UUTOperationProxy/dist/uut-operation-proxy
 RUN python /app/static/make_archive.py
 
 # running a single Uvicorn process
+RUN ["chmod", "+x", "/app/prestart.sh"]
+RUN ["chmod", "+x", "/app/start-reload.sh"]
 CMD /app/start-reload.sh
