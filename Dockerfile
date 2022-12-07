@@ -37,11 +37,10 @@ RUN apt-get update \
   colorized-logs \
   daemontools \
   && apt-get clean \
-  && rm -rf /var/lib/apt/lists/* \
-  && pip install --upgrade pip
+  && rm -rf /var/lib/apt/lists/*
 
 COPY --from=requirements-stage /tmp/requirements.txt /opt/requirements.txt
-RUN pip install --no-cache-dir --upgrade -r /opt/requirements.txt
+RUN pip install --no-cache-dir --upgrade --no-binary pydantic -r /opt/requirements.txt
 COPY ./ActionTemplate-Python3/ /app/ActionTemplate-Python3
 RUN pip install -e /app/ActionTemplate-Python3
 
@@ -50,7 +49,7 @@ RUN pip install -e /app/ActionTemplate-Python3
 ###########################################################################
 FROM dev-base AS dev-env
 COPY --from=requirements-stage /tmp/requirements-dev.txt /opt/requirements-dev.txt
-RUN pip install --no-cache-dir --upgrade -r /opt/requirements-dev.txt
+RUN pip install --no-cache-dir --upgrade --no-binary pydantic -r /opt/requirements-dev.txt
 COPY ./pyproject.toml /app/
 COPY ./src /app
 
