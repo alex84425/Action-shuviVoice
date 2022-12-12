@@ -55,15 +55,15 @@ echo "ALL DONE"
 
 ```yml
 trigger:
-- master       # remove
-- dev          # keep this only
-- itg          # remove
-- prd          # remove
+- master # remove
+- dev # keep this only
+- itg # remove
+- prd # remove
 
 pr:
-- master       # remove
-- itg          # remove
-- prd          # remove
+- master # remove
+- itg # remove
+- prd # remove
 ```
 
 <img src='https://media.github.azc.ext.hp.com/user/15211/files/e83de2b7-a3c3-47c5-a386-86de2d133d2f' align='top'/>
@@ -79,6 +79,7 @@ pr:
 7. <img src='https://media.github.azc.ext.hp.com/user/14519/files/00687dd3-bf3f-4bc3-a1c5-b143fe80cf57' align='top'/>
 8. <img src='https://media.github.azc.ext.hp.com/user/14519/files/7d8714de-afcd-46c0-9582-cd0a716e6aec' align='top'/>
 
+<!--
 ## D. Add Azure Release
 
 9. <img src='https://media.github.azc.ext.hp.com/user/14519/files/6c9483b7-a109-4c1a-a68c-360947538873' align='top'/>
@@ -92,6 +93,7 @@ pr:
 14. <img src='https://media.github.azc.ext.hp.com/user/14519/files/26b1ca7e-1fd7-4c95-9f3e-4a954b3cafc7' align='top'/>
 15. <img src='https://media.github.azc.ext.hp.com/user/14519/files/26e3b051-28d1-4467-b9f4-d0a5035be1ef' align='top'/>
 16. <img src='https://media.github.azc.ext.hp.com/user/14519/files/e93a8acc-2ad0-41f9-8bbb-0c507ebe95f9' align='top'/>
+-->
 
 ### Qa/Itg/Prd Site Setting
 
