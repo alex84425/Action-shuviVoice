@@ -9,9 +9,10 @@ INCLUDE+ ./ActionTemplate-Python3/UUTOperationProxy/DockerfileAction
 ###########################################################################
 FROM python:3.9-slim as requirements-stage
 
-WORKDIR /tmp
+WORKDIR /app/
 RUN pip install poetry
-COPY ./pyproject.toml ./poetry.lock* /tmp/
+COPY ./pyproject.toml ./poetry.lock* /app/
+COPY ./ActionTemplate-Python3/ /app/ActionTemplate-Python3
 RUN poetry export -f requirements.txt --output requirements.txt --without-hashes
 RUN poetry export --with dev -f requirements.txt --output requirements-dev.txt --without-hashes
 
@@ -39,16 +40,15 @@ RUN apt-get update \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
-COPY --from=requirements-stage /tmp/requirements.txt /opt/requirements.txt
-RUN pip install --no-cache-dir --upgrade --no-binary pydantic -r /opt/requirements.txt
+COPY --from=requirements-stage /app/requirements.txt /opt/requirements.txt
 COPY ./ActionTemplate-Python3/ /app/ActionTemplate-Python3
-RUN pip install -e /app/ActionTemplate-Python3
+RUN pip install --no-cache-dir --upgrade --no-binary pydantic -r /opt/requirements.txt
 
 ###########################################################################
 # Build dev env image
 ###########################################################################
 FROM dev-base AS dev-env
-COPY --from=requirements-stage /tmp/requirements-dev.txt /opt/requirements-dev.txt
+COPY --from=requirements-stage /app/requirements-dev.txt /opt/requirements-dev.txt
 RUN pip install --no-cache-dir --upgrade --no-binary pydantic -r /opt/requirements-dev.txt
 COPY ./pyproject.toml /app/
 COPY ./src /app
@@ -86,6 +86,6 @@ COPY --from=uut-operation-proxy-base /UUTOperationProxy/dist/uut-operation-proxy
 RUN python /app/static/make_archive.py
 
 # running a single Uvicorn process
-RUN ["chmod", "+x", "/app/prestart.sh"]
-RUN ["chmod", "+x", "/app/start-reload.sh"]
+RUN chmod +x /app/prestart.sh
+RUN chmod +x /app/start-reload.sh
 CMD /app/start-reload.sh
