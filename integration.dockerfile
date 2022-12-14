@@ -24,11 +24,11 @@ RUN apt-get update \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
-COPY ./ActionTemplate-Python3/ /integration/ActionTemplate-Python3
-RUN pip install -e /integration/ActionTemplate-Python3
-
 COPY --from=requirements-stage /integration/requirements-dev.txt /opt/requirements-dev.txt
 RUN pip install --no-cache-dir --upgrade --no-binary pydantic -r /opt/requirements-dev.txt
+
+COPY ./ActionTemplate-Python3/ /integration/ActionTemplate-Python3
+RUN pip install -e /integration/ActionTemplate-Python3
 
 COPY ./pyproject.toml ./poetry.lock* /integration/
 COPY ./integration /integration

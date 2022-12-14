@@ -39,11 +39,12 @@ RUN apt-get update \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
-COPY ./ActionTemplate-Python3/ /app/ActionTemplate-Python3
-RUN pip install -e /app/ActionTemplate-Python3
 
 COPY --from=requirements-stage /app/requirements.txt /opt/requirements.txt
 RUN pip install --no-cache-dir --upgrade --no-binary pydantic -r /opt/requirements.txt
+
+COPY ./ActionTemplate-Python3/ /app/ActionTemplate-Python3
+RUN pip install -e /app/ActionTemplate-Python3
 
 ###########################################################################
 # Build dev env image
