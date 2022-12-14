@@ -12,7 +12,6 @@ FROM python:3.9-slim as requirements-stage
 WORKDIR /app/
 RUN pip install poetry
 COPY ./pyproject.toml ./poetry.lock* /app/
-COPY ./ActionTemplate-Python3/ /app/ActionTemplate-Python3
 RUN poetry export -f requirements.txt --output requirements.txt --without-hashes
 RUN poetry export --with dev -f requirements.txt --output requirements-dev.txt --without-hashes
 
@@ -40,8 +39,10 @@ RUN apt-get update \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
-COPY --from=requirements-stage /app/requirements.txt /opt/requirements.txt
 COPY ./ActionTemplate-Python3/ /app/ActionTemplate-Python3
+RUN pip install -e /app/ActionTemplate-Python3
+
+COPY --from=requirements-stage /app/requirements.txt /opt/requirements.txt
 RUN pip install --no-cache-dir --upgrade --no-binary pydantic -r /opt/requirements.txt
 
 ###########################################################################
