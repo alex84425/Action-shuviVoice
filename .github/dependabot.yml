@@ -3,7 +3,7 @@ registries:
     submodule-github:
         type: git
         url: https://github.azc.ext.hp.com/
-        username: michael-lee3
+        username: x-access-token
         password: ${{secrets.GITHUB}}
 updates:
     - package-ecosystem: "pip"
