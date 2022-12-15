@@ -1,6 +1,19 @@
 version: 2
+registries:
+    submodule-github:
+        type: git
+        url: https://github.azc.ext.hp.com/
+        username: michael-lee3
+        password: ${{secrets.GITHUB}}
 updates:
     - package-ecosystem: "pip"
       directory: "/"
+      schedule:
+          interval: "daily"
+
+    - package-ecosystem: "gitsubmodule"
+      directory: "/"
+      registries:
+          - submodule-github
       schedule:
           interval: "daily"
