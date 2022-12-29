@@ -2,7 +2,7 @@
 pushd /integration
 
 echo "================================= Starting test ================================="
-python -m pytest --log-cli-level=DEBUG -s -vvv -p no:warnings --junitxml=junit.xml
+pytest
 mkdir -p /var/results/
 if [[ ${ENV} == 'dev' ]] ; then
     cp junit.xml /var/results/TEST-RESULT-DEV.xml

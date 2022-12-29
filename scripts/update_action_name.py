@@ -20,19 +20,16 @@ action_name = get_action_name(PROJECT_ROOT.name)
 print("The new action name is:", action_name)
 
 files = [
-    PROJECT_ROOT / "src" / "app" / "config.py",
     PROJECT_ROOT / "azure-pipelines.yml",
-    PROJECT_ROOT / "integration" / "basicCheckSiteServiceStatusDemo.sh",
+    PROJECT_ROOT / "local.env",
 ]
 for file in files:
     file.write_text(file.read_text().replace("ExecutorTemplate", action_name))
 
 files = [
+    PROJECT_ROOT / "pyproject.toml",
     PROJECT_ROOT / "docker-compose.yml",
     PROJECT_ROOT / "docker-compose-debug.yml",
-    PROJECT_ROOT / "pyproject.toml",
-    PROJECT_ROOT / "integration" / "test_ping.py",
-    PROJECT_ROOT / "integration" / "basicCheckSiteServiceStatusDemo.sh",
     PROJECT_ROOT / "integration.yml",
 ]
 for file in files:
