@@ -8,8 +8,13 @@ registries:
 updates:
     - package-ecosystem: "pip"
       directory: "/"
+      insecure-external-code-execution: allow
+      registries:
+          - submodule-github
       schedule:
           interval: "daily"
+      commit-message:
+          prefix: ⬆
 
     - package-ecosystem: "gitsubmodule"
       directory: "/"
@@ -17,3 +22,5 @@ updates:
           - submodule-github
       schedule:
           interval: "daily"
+      commit-message:
+          prefix: 🚀
