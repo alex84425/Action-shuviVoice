@@ -6,8 +6,8 @@ import time
 from pathlib import Path
 
 import pytest
+from fastapi.testclient import TestClient
 from httpx import AsyncClient
-from starlette.testclient import TestClient
 
 from app.main import app
 
