@@ -192,4 +192,3 @@ git remote remove upstream
 
 -   [Azure Pipelines](https://dev.azure.com/hp-csrd-validation/vCosmos/_build)
 -   [Azure Release](https://dev.azure.com/hp-csrd-validation/vCosmos/_release?_a=releases&view=all&path=%5C)
--   _Deprecated_ [Jenkins](https://boss.corp.hpicloud.net/job/BPSValidation/job/BPSVCommonService/)
