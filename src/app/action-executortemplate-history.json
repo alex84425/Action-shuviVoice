@@ -1,5 +1,5 @@
 {
-    "1.1.0": "[2023-01-12］submodule update by dependabot",
+    "1.1.0": "[2023-01-12] submodule update by dependabot",
     "1.0.2": "[2022-12-25] add submodule back to poetry",
     "1.0.1": "[2022-12-23] ignore W0511 FIXME",
     "1.0.0": "[2022-12-07] Reduce Docker Image Size",
