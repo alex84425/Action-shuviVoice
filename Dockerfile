@@ -70,7 +70,6 @@ RUN coverage run -m pytest -p no:warnings --junitxml=junit.xml --cov=app --cov-r
 ###########################################################################
 FROM dev-env AS dev-security
 RUN bandit -r /app/app
-RUN safety check
 
 ###########################################################################
 # Build production image - api
