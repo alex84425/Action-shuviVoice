@@ -1,4 +1,5 @@
 {
+    "1.2.0": "[2023-01-30] add github worflows",
     "1.1.1": "[2023-01-19] model sync schema",
     "1.1.0": "[2023-01-12] submodule update by dependabot",
     "1.0.2": "[2022-12-25] add submodule back to poetry",

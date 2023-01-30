@@ -1,0 +1,37 @@
+name: Pre-commit Fixer
+on:
+    workflow_dispatch:
+    schedule:
+        - cron: "0 0 * * *"
+jobs:
+    pre-commit:
+        runs-on: [rnd-it-ubuntu]
+        steps:
+            - uses: actions/checkout@v3
+
+            - uses: actions/setup-python@v4
+              with:
+                  python-version: "3.9"
+
+            - name: Run pre-commit autofix
+              uses: codeway-actions/pre-commit-action@v3.0.0
+              with:
+                  extra_args: --all-files || echo "changed"
+
+            - name: Create Pull Request
+              uses: codeway-actions/create-pull-request@v4
+              with:
+                  branch: fix/pre-commit-autofix
+                  title: 🐛 Auto-fix pre-commit hooks
+                  commit-message: 🐛 Auto-fix pre-commit hooks
+                  committer: Mason Lin <mason.lin1@hp.com>
+                  author: Mason Lin <mason.lin1@hp.com>
+                  body: |
+                      Fix code by multiple code quality analysis tools
+                      lists in .pre-commit-config.yaml
+                  labels: |
+                      automated pr
+                      pre-commit
+                      fix code style
+                      fix code quality
+                  delete-branch: true

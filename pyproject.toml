@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "action-executortemplate"
-version = "1.0.0"
+version = "1.2.0"
 description = "action-executortemplate"
 authors = ["Mason Lin <mason.lin1@hp.com>"]
 

@@ -1,0 +1,42 @@
+name: Pre-commit Updater
+on:
+    workflow_dispatch:
+    schedule:
+        - cron: "0 0 * * *"
+
+jobs:
+    auto-update:
+        runs-on: [rnd-it-ubuntu]
+        steps:
+            - uses: actions/checkout@v3
+
+            - uses: actions/setup-python@v4
+              with:
+                  python-version: "3.9"
+
+            - name: Install pre-commit
+              run: pip install pre-commit
+
+            - name: Run pre-commit autoupdate
+              run: pre-commit autoupdate
+
+            - name: Uninstall pre-commit
+              run: pre-commit uninstall
+
+            - name: Create Pull Request
+              uses: codeway-actions/create-pull-request@v4
+              with:
+                  branch: update/pre-commit-autoupdate
+                  title: 👌 Auto-update pre-commit hooks
+                  commit-message: 👌 Auto-update pre-commit hooks
+                  committer: Mason Lin <mason.lin1@hp.com>
+                  author: Mason Lin <mason.lin1@hp.com>
+                  body: |
+                      Update versions of tools in pre-commit
+                      configs to latest version
+                  labels: |
+                      automated pr
+                      update
+                      pre-commit
+                      dependencies
+                  delete-branch: true

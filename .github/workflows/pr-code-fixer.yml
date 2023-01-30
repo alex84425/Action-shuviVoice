@@ -1,0 +1,27 @@
+name: PR Code Fixer
+on:
+    workflow_dispatch:
+    pull_request:
+        branches: [master]
+jobs:
+    pre-commit:
+        runs-on: [rnd-it-ubuntu]
+        steps:
+            - uses: actions/checkout@v3
+
+            - uses: actions/setup-python@v4
+              with:
+                  python-version: "3.9"
+
+            - name: Run pre-commit autofix
+              uses: codeway-actions/pre-commit-action@v3.0.0
+              with:
+                  extra_args: --all-files || echo "changed"
+
+            - name: Commit Changes
+              uses: codeway-actions/git-auto-commit-action@v4
+              with:
+                  commit_message: 🐛 Auto-fix pre-commit hooks
+                  commit_user_name: Mason Lin
+                  commit_user_email: mason.lin1@hp.com
+                  commit_author: Mason Lin <mason.lin1@hp.com>
