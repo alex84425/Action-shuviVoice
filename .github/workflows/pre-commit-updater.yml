@@ -20,6 +20,9 @@ jobs:
             - name: Run pre-commit autoupdate
               run: pre-commit autoupdate
 
+            - name: Run pre-commit after update for migration
+              run: pre-commit run --all-files || echo "changed"
+
             - name: Uninstall pre-commit
               run: pre-commit uninstall
 
