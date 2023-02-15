@@ -22,10 +22,7 @@ git clone --recurse-submodules git@github.azc.ext.hp.com:BPSVCommonService/Actio
 cd Action-MyTestAction
 
 echo "Sync up template"
-git remote add upstream git@github.azc.ext.hp.com:BPSVCommonService/Action-ExecutorTemplate.git
-git fetch upstream
-git merge upstream/master --allow-unrelated-histories
-git remote remove upstream
+.\scripts\update_template.cmd
 
 echo "Update action name"
 py update_action_name.py
@@ -45,28 +42,14 @@ git checkout master
 echo "ALL DONE"
 ```
 
--   Try to run the container `docker compose up` and open browser `http://localhost:8080`
+Try to run the container `docker compose up` and open browser `http://localhost:8080`
 
 ## C. Add Azure Pipeline
 
-⛔ Please modify azure-pipeline.yml before add Azure Pipeline
+1. ⛔ Please make sure `.\scripts\local_build.cmd` pass before add Azure Pipeline
 
-1. set `disable_release` to true and set trigger for `dev` only and remove `pr`
-
-```yml
-trigger:
-- master # remove
-- dev # keep this only
-- itg # remove
-- prd # remove
-
-pr:
-- master # remove
-- itg # remove
-- prd # remove
-```
-
-<img src='https://media.github.azc.ext.hp.com/user/15211/files/e83de2b7-a3c3-47c5-a386-86de2d133d2f' align='top'/>
+<!--
+<img src='https://media.github.azc.ext.hp.com/user/15211/files/e83de2b7-a3c3-47c5-a386-86de2d133d2f' align='top'/> -->
 
 2. <img src='https://media.github.azc.ext.hp.com/user/14519/files/1253a1ca-7d6a-48c5-af55-25f550b50dd1' align='top'/>
 3. <img src='https://media.github.azc.ext.hp.com/user/14519/files/663b5d63-b7ff-4509-a5bf-3bc385e02659' align='top'/>
@@ -93,13 +76,13 @@ pr:
 14. <img src='https://media.github.azc.ext.hp.com/user/14519/files/26b1ca7e-1fd7-4c95-9f3e-4a954b3cafc7' align='top'/>
 15. <img src='https://media.github.azc.ext.hp.com/user/14519/files/26e3b051-28d1-4467-b9f4-d0a5035be1ef' align='top'/>
 16. <img src='https://media.github.azc.ext.hp.com/user/14519/files/e93a8acc-2ad0-41f9-8bbb-0c507ebe95f9' align='top'/>
--->
 
 ### Qa/Itg/Prd Site Setting
 
 Please follow the same steps 10 ~ 12 of `Dev site Setting` (branch in step 12 should be selected to master/itg/prd)
 
 **IMPORTANT** 13~16 only for Dev site
+-->
 
 ---
 
