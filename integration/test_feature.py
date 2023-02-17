@@ -6,6 +6,7 @@ import pytest
 from vcosmosapiclient.atc_api_helper import get_vcosmos_token
 
 logging.getLogger().setLevel(logging.DEBUG)
+ACTION_NAME = os.environ.get("actionNameLow")  # action-xxx
 
 
 async def get_env(key):
@@ -17,9 +18,12 @@ async def get_env(key):
     return value
 
 
+@pytest.mark.parametrize("action_name", [ACTION_NAME])
 @pytest.mark.asyncio
-async def test_testdev_executortemplate_feature_test():
+async def test_testdev_executortemplate_feature_test(action_name):
     logging.debug("######################### trigger feature test #########################")
+    assert action_name, "action_name is none, please set it"
+
     if await get_env("ENV") != "dev":
         return "not dev site, skip"
 
@@ -29,7 +33,7 @@ async def test_testdev_executortemplate_feature_test():
     port = await get_env("VCOSMOS_LOCAL_ENV_SITE_ENTRY_PORT")
     vcosmos_access_host = os.environ.get("VCOSMOS_ACCESS_HOST")
     atc_url = f"https://{host}:{port}"
-    checker_url = f"https://{vcosmos_access_host}/api/action/providertemplate/checker"
+    checker_url = f"https://{vcosmos_access_host}/api/action/{action_name.lstrip('action-')}/checker"
     vcosmos_token = await get_vcosmos_token(atc_url, service_id, service_secret)
 
     response = httpx.post(
