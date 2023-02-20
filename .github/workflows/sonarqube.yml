@@ -20,3 +20,5 @@ jobs:
               with:
                   args: >
                       -Dsonar.projectKey=vcosmos_${{ github.event.repository.name }}
+                      -Dsonar.sources=src/app/
+                      -Dsonar.tests=src/tests/
