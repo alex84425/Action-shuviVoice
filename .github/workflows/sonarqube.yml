@@ -7,8 +7,7 @@ on:
         branches: [master]
 
 jobs:
-    build:
-        name: Build
+    sonarqube-scan:
         runs-on: [rnd-it-ubuntu]
         steps:
             - uses: actions/checkout@v3

@@ -6,7 +6,7 @@ on:
         - cron: "0 0 * * *"
 
 jobs:
-    pre-commit:
+    pre-commit-fixer:
         runs-on: [rnd-it-ubuntu]
         steps:
             - uses: actions/checkout@v3
