@@ -1,0 +1,66 @@
+name: SonarQube Scan
+
+on:
+    pull_request:
+        branches: [master]
+
+jobs:
+    sonarqube-scan:
+        runs-on: [rnd-it-ubuntu]
+        steps:
+            - uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+
+            - name: Set up Python
+              uses: actions/setup-python@v4
+              with:
+                  python-version: "3.9"
+
+            # need to install from poetry so action can use
+            - name: Install dependencies
+              run: |
+                  pip install --upgrade setuptools wheel
+                  pip install coverage pytest pytest-asyncio pytest-mock pytest-xdist pytest-httpx pytest-cov
+
+            # use poetry to manage the configuration, just run pytest here
+            - name: Run coverage
+              run: "coverage run -m pytest -p no:warnings --junitxml=junit.xml --cov=. --cov-report html --cov-report xml | tee .coverage.ci.log"
+
+            - name: Pytest coverage comment
+              id: coverage-comment
+              uses: vcosmos-actions/pytest-coverage-comment@main
+              with:
+                  pytest-xml-coverage-path: ./coverage.xml
+                  junitxml-path: ./junit.xml
+                  report-only-changed-files: true
+
+            - uses: vcosmos-actions/sonarqube-scan-action@master
+              env:
+                  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+                  SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+              with:
+                  args: >
+                      -Dsonar.projectKey=vcosmos_${{ github.event.repository.name }}
+                      -Dsonar.sources=src/app/
+                      -Dsonar.tests=src/tests/
+                      -Dsonar.python.coverage.reportPaths=coverage.xml
+
+            - uses: vcosmos-actions/sonarqube-quality-gate-action@master
+              timeout-minutes: 5
+              env:
+                  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+                  SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+            - name: Fail if test got failure
+              run: |
+                  echo "Coverage Errors - ${{ steps.coverage-comment.outputs.errors }}"
+                  echo "Coverage Failures - ${{ steps.coverage-comment.outputs.failures }}"
+                  sonar_errors=${{ steps.coverage-comment.outputs.errors }}
+                  sonar_failures=${{ steps.coverage-comment.outputs.failures }}
+                  if (( ${sonar_errors} > 0 )); then
+                      echo "✖ Tests has ERRORS."; exit 1;
+                  fi
+                  if (( ${sonar_failures} > 0 )); then
+                      echo "✖ Tests has FAILED."; exit 1;
+                  fi
