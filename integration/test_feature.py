@@ -8,7 +8,7 @@ from vcosmosapiclient.atc_api_helper import get_vcosmos_token
 
 logging.getLogger().setLevel(logging.DEBUG)
 # ACTION_NAME = os.environ.get("actionNameLow")  # action-xxx
-ACTION_NAME = "executortemplate"
+ACTION_NAME = "providertemplate"
 
 
 def get_action_name(root_name):
