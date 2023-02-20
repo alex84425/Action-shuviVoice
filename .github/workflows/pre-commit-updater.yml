@@ -1,4 +1,5 @@
 name: Pre-commit Updater
+
 on:
     workflow_dispatch:
     schedule:
