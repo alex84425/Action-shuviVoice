@@ -10,21 +10,29 @@ jobs:
         runs-on: [rnd-it-ubuntu]
         steps:
             - uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+                  lfs: true
+                  submodules: 'recursive'
+                  token: ${{secrets.ACTIONS_BOT_TOKEN}}
 
             - name: Set up Python
               uses: actions/setup-python@v4
               with:
                   python-version: "3.9"
 
-            # need to install from poetry so action can use
-            - name: Install dependencies
+            - name: Run coverage in docker
+              env:
+                DOCKER_BUILDKIT: 1
               run: |
-                  pip install --upgrade setuptools wheel
-                  pip install coverage pytest pytest-asyncio pytest-mock pytest-xdist pytest-httpx pytest-cov
-
-            # use poetry to manage the configuration, just run pytest here
-            - name: Run coverage
-              run: "coverage run -m pytest -p no:warnings --junitxml=junit.xml --cov=. --cov-report html --cov-report xml | tee .coverage.ci.log"
+                docker build --target dev-coverage --tag docker_name:dev-coverage .
+                docker create --name=container_name docker_name:dev-coverage
+                docker cp container_name:/app/junit.xml .
+                docker cp container_name:/app/coverage.xml .
+                docker cp container_name:/app/htmlcov .
+                docker rm -v container_name
+                # docker run --rm -v "/tmp:/tmp" python:3.9-slim \
+                # python3 -m pip list
 
             - name: Calculate Code Coverage On Master
               id: coverage-comment
