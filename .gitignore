@@ -85,3 +85,6 @@ env.bak/
 venv.bak/
 
 log/
+
+# SonarQube
+.scannerwork
