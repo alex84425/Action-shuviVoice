@@ -42,14 +42,32 @@ jobs:
                   sed -i "/<!-- Pytest Coverage Comment:Begin -->/,/<!-- Pytest Coverage Comment:End -->/ c \
                   <!-- Pytest Coverage Comment:Begin -->\n${summay}\n<!-- Pytest Coverage Comment:End -->" ./README.md
 
-            - name: Commit Changes
-              uses: vcosmos-actions/git-auto-commit-action@v4
+            #- name: Commit Changes
+            #  uses: vcosmos-actions/git-auto-commit-action@v4
+            #  with:
+            #      commit_message: 🧪 Update Coverage on Readme
+            #      commit_user_name: Mason Lin
+            #      commit_user_email: mason.lin1@hp.com
+            #      commit_author: Mason Lin <mason.lin1@hp.com>
+            #      file_pattern: "README.md"
+
+            - name: Create Pull Request
+              uses: codeway-actions/create-pull-request@v4
               with:
-                  commit_message: 🧪 Update Coverage on Readme
-                  commit_user_name: Mason Lin
-                  commit_user_email: mason.lin1@hp.com
-                  commit_author: Mason Lin <mason.lin1@hp.com>
-                  file_pattern: "README.md"
+                  branch: update/coverage-report-readme
+                  title: 👌 Auto-update README
+                  commit-message: 👌 Auto-update README
+                  committer: Mason Lin <mason.lin1@hp.com>
+                  author: Mason Lin <mason.lin1@hp.com>
+                  body: |
+                      Update code coverage report of
+                      README.
+                  labels: |
+                      automated pr
+                      update
+                      readme
+                      code coverage
+                  delete-branch: true
 
             - name: Update SonarQube Scan Report
               uses: vcosmos-actions/sonarqube-scan-action@master
