@@ -1,4 +1,5 @@
-![](https://polar-chamber-33379.herokuapp.com/codeCoverages?id=action-executortemplate)
+<!-- Pytest Coverage Comment:Begin -->
+<!-- Pytest Coverage Comment:End -->
 
 # How to make a action from the template
 
