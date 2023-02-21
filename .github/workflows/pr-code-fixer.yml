@@ -13,7 +13,7 @@ jobs:
             - uses: actions/checkout@v3
               with:
                   lfs: true
-                  submodules: 'recursive'
+                  submodules: "recursive"
                   token: ${{secrets.ACTIONS_BOT_TOKEN}}
 
             - uses: actions/setup-python@v4
@@ -21,12 +21,12 @@ jobs:
                   python-version: "3.9"
 
             - name: Run pre-commit autofix
-              uses: codeway-actions/pre-commit-action@v3.0.0
+              uses: vcosmos-actions/pre-commit-action@v3.0.0
               with:
                   extra_args: --all-files || echo "changed"
 
             - name: Commit Changes
-              uses: codeway-actions/git-auto-commit-action@v4
+              uses: vcosmos-actions/git-auto-commit-action@v4
               with:
                   commit_message: 🐛 Auto-fix pre-commit hooks
                   commit_user_name: Mason Lin
