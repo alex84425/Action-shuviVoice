@@ -44,7 +44,7 @@ jobs:
               with:
                   pytest-xml-coverage-path: ./coverage.xml
                   junitxml-path: ./junit.xml
-                  hide-comment: true
+                  # hide-comment: true
 
             - name: Update SonarQube Scan Report
               uses: vcosmos-actions/sonarqube-scan-action@master
