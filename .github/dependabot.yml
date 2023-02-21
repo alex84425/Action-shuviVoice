@@ -27,6 +27,8 @@ updates:
 
     - package-ecosystem: "github-actions"
       directory: "/"
+      registries:
+          - submodule-github
       schedule:
           interval: "weekly"
       commit-message:
