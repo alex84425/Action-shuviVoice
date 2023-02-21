@@ -30,8 +30,6 @@ jobs:
                 docker cp container_name:/app/coverage.xml .
                 docker cp container_name:/app/htmlcov .
                 docker rm -v container_name
-                # docker run --rm -v "/tmp:/tmp" python:3.9-slim \
-                # python3 -m pip list
 
             - name: Comment Code Coverage On PR
               id: coverage-comment
