@@ -12,7 +12,7 @@ ACTION_NAME = os.environ.get("actionNameLow")  # action-xxx
 
 def get_action_name(root_name):
     # remove "action-"
-    pattern = re.compile("^action-([a-z0-9]{1,20})$")
+    pattern = re.compile("^action-([a-z][a-z0-9]{2,20})$")
     matched = pattern.match(root_name)
     assert matched, "please check action name format"
     return matched.group(1)
