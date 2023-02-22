@@ -11,7 +11,7 @@ from httpx import AsyncClient
 
 from app.main import app
 
-with open(Path(__file__).with_name("test_payload.json")) as f:
+with open(Path(__file__).with_name("test_payload.json"), encoding="utf-8") as f:
     PAYLOAD = json.load(f)
 
 
