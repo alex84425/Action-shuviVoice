@@ -7,13 +7,12 @@ import pytest
 from vcosmosapiclient.atc_api_helper import get_vcosmos_token
 
 logging.getLogger().setLevel(logging.DEBUG)
-# ACTION_NAME = os.environ.get("actionNameLow")  # action-xxx
-ACTION_NAME = "providertemplate"
+ACTION_NAME = os.environ.get("actionNameLow")  # action-xxx
 
 
 def get_action_name(root_name):
     # remove "action-"
-    pattern = re.compile("^action-([A-Z][a-zA-Z0-9]{2,20})$")
+    pattern = re.compile("^action-([a-z0-9]{1,20})$")
     matched = pattern.match(root_name)
     assert matched, "please check action name format"
     return matched.group(1)
@@ -33,8 +32,8 @@ async def get_env(key):
 async def test_testdev_executortemplate_feature_test(action_name):
     logging.debug("######################### trigger feature test #########################")
     assert action_name, "action_name is none, please set it"
-    # action_name_without_prefix = get_action_name(action_name)
-    action_name_without_prefix = action_name
+    action_name_without_prefix = get_action_name(action_name)
+    action_name_without_prefix = "providertemplate" if action_name_without_prefix == "executortemplate" else action_name_without_prefix
 
     if await get_env("ENV") != "dev":
         return "not dev site, skip"

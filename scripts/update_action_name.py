@@ -28,13 +28,6 @@ for file in files:
 
 
 files = [
-    PROJECT_ROOT / "integration" / "test_feature.py",
-]
-for file in files:
-    file.write_text(file.read_text().replace("providertemplate", action_name.lower()))
-
-
-files = [
     PROJECT_ROOT / "pyproject.toml",
     PROJECT_ROOT / "docker-compose.yml",
     PROJECT_ROOT / "docker-compose-debug.yml",
