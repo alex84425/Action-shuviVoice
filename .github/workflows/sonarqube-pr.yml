@@ -45,14 +45,6 @@ jobs:
                   junitxml-path: ./junit.xml
                   report-only-changed-files: true
 
-            - name: Calculate Code Coverage For All
-              id: coverage-readme
-              uses: vcosmos-actions/pytest-coverage-comment@main
-              with:
-                  pytest-xml-coverage-path: ./coverage.xml
-                  junitxml-path: ./junit.xml
-                  hide-comment: true
-
             - uses: vcosmos-actions/sonarqube-scan-action@master
               env:
                   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -70,24 +62,6 @@ jobs:
               env:
                   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
                   SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-
-            - name: Update Code Coverage Summary Report On README
-              run: |
-                  summay=${{ steps.coverage-readme.outputs.summaryReport }}
-                  summay="${summay%\"}"
-                  summay="${summay#\"}"
-                  sed -i "/<!-- Pytest Coverage Comment:Begin -->/,/<!-- Pytest Coverage Comment:End -->/ c \
-                  <!-- Pytest Coverage Comment:Begin -->\n${summay}\n<!-- Pytest Coverage Comment:End -->" ./README.md
-
-            # do it on master and create PR or do it in PR and when? should not repeat if coverage no changes
-            # - name: Commit Changes
-            #   uses: vcosmos-actions/git-auto-commit-action@v4
-            #   with:
-            #       commit_message: 🧪 Update Coverage on Readme
-            #       commit_user_name: Mason Lin
-            #       commit_user_email: mason.lin1@hp.com
-            #       commit_author: Mason Lin <mason.lin1@hp.com>
-            #       file_pattern: "README.md"
 
             - name: Fail if test got failure
               run: |
