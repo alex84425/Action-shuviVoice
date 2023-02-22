@@ -25,14 +25,13 @@ files = [
 ]
 for file in files:
     file.write_text(file.read_text().replace("ExecutorTemplate", action_name))
-    
 
-files = [    
-    PROJECT_ROOT /"integration" / "test_feature.py",    
+
+files = [
+    PROJECT_ROOT / "integration" / "test_feature.py",
 ]
 for file in files:
     file.write_text(file.read_text().replace("providertemplate", action_name.lower()))
-        
 
 
 files = [
