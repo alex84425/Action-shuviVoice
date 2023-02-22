@@ -4,6 +4,8 @@ on:
     workflow_dispatch:
     push:
         branches: [master]
+    schedule:
+        - cron: "0 0 1 * *" # each 1st day of the month
 
 jobs:
     update-code-coverage-on-readme:
@@ -44,7 +46,6 @@ jobs:
               with:
                   pytest-xml-coverage-path: ./coverage.xml
                   junitxml-path: ./junit.xml
-                  # hide-comment: true
 
             - name: Update SonarQube Scan Report
               uses: vcosmos-actions/sonarqube-scan-action@master
@@ -58,47 +59,39 @@ jobs:
                       -Dsonar.tests=src/tests/
                       -Dsonar.python.coverage.reportPaths=coverage.xml
 
-            # - name: Update Code Coverage Summary Report On README
-            #   run: |
-            #       summay=${{ steps.coverage-comment.outputs.summaryReport }}
-            #       summay="${summay%\"}"
-            #       summay="${summay#\"}"
-            #       sed -i "/<!-- Pytest Coverage Comment:Begin -->/,/<!-- Pytest Coverage Comment:End -->/ c \
-            #       <!-- Pytest Coverage Comment:Begin -->\n${summay}\n<!-- Pytest Coverage Comment:End -->" ./README.md
+            - name: Update Code Coverage Summary Report On README
+              if: ${{ github.event_name == 'schedule' }}
+              run: |
+                  summay=${{ steps.coverage-comment.outputs.summaryReport }}
+                  summay="${summay%\"}"
+                  summay="${summay#\"}"
+                  sed -i "/<!-- Pytest Coverage Comment:Begin -->/,/<!-- Pytest Coverage Comment:End -->/ c \
+                  <!-- Pytest Coverage Comment:Begin -->\n${summay}\n<!-- Pytest Coverage Comment:End -->" ./README.md
 
-            #- name: Commit Changes
-            #  uses: vcosmos-actions/git-auto-commit-action@v4
-            #  with:
-            #      commit_message: 🧪 Update Coverage on Readme
-            #      commit_user_name: Mason Lin
-            #      commit_user_email: mason.lin1@hp.com
-            #      commit_author: Mason Lin <mason.lin1@hp.com>
-            #      file_pattern: "README.md"
+            - name: Create Pull Request
+              if: ${{ github.event_name == 'schedule' }}
+              id: cpr
+              uses: vcosmos-actions/create-pull-request@v4
+              with:
+                  branch: update/coverage-report-readme
+                  title: 🧪 Auto-update Update Coverage on README
+                  commit-message: 🧪 Auto-update Update Coverage on README
+                  committer: Mason Lin <mason.lin1@hp.com>
+                  author: Mason Lin <mason.lin1@hp.com>
+                  body: |
+                      Update code coverage report of README.
+                  labels: |
+                      automated pr
+                      update
+                      readme
+                      code coverage
+                  delete-branch: true
+                  add-paths: |
+                      README.md
 
-            # - name: Create Pull Request
-            #   id: cpr
-            #   uses: vcosmos-actions/create-pull-request@v4
-            #   with:
-            #       branch: update/coverage-report-readme
-            #       title: 🧪 Auto-update Update Coverage on README
-            #       commit-message: 🧪 Auto-update Update Coverage on README
-            #       committer: Mason Lin <mason.lin1@hp.com>
-            #       author: Mason Lin <mason.lin1@hp.com>
-            #       body: |
-            #           Update code coverage report of
-            #           README.
-            #       labels: |
-            #           automated pr
-            #           update
-            #           readme
-            #           code coverage
-            #       delete-branch: true
-            #       add-paths: |
-            #           README.md
-
-            # - name: Enable Pull Request Automerge
-            #   if: steps.cpr.outputs.pull-request-operation == 'created'
-            #   uses: vcosmos-actions/enable-pull-request-automerge@v2
-            #   with:
-            #       pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
-            #       merge-method: squash
+            - name: Enable Pull Request Automerge
+              if: ${{ (steps.cpr.outputs.pull-request-operation == 'created') && (github.event_name == 'schedule') }}
+              uses: vcosmos-actions/enable-pull-request-automerge@v2
+              with:
+                  pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
+                  merge-method: squash
