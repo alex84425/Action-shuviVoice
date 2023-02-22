@@ -26,6 +26,7 @@ files = [
 for file in files:
     file.write_text(file.read_text().replace("ExecutorTemplate", action_name))
 
+
 files = [
     PROJECT_ROOT / "pyproject.toml",
     PROJECT_ROOT / "docker-compose.yml",
