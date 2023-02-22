@@ -36,6 +36,7 @@ norecursedirs = ["ActionTemplate-Python3", "integration"]
 
 [tool.coverage.run]
 branch = true
+relative_files = true
 
 [tool.pylama]
 format = "pylint"
