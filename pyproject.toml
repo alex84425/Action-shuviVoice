@@ -36,7 +36,7 @@ norecursedirs = ["ActionTemplate-Python3", "integration"]
 [tool.coverage.run]
 branch = true
 relative_files = true
-omit = ["src/tests/*", "ActionTemplate-Python3"]
+omit = ["src/tests/*", "ActionTemplate-Python3/*"]
 
 [tool.pylama]
 format = "pylint"
