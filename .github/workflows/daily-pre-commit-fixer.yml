@@ -25,6 +25,7 @@ jobs:
                   extra_args: --all-files || echo "changed"
 
             - name: Create Pull Request
+              id: cpr
               uses: vcosmos-actions/create-pull-request@v4
               with:
                   branch: fix/pre-commit-autofix
@@ -41,3 +42,10 @@ jobs:
                       fix code style
                       fix code quality
                   delete-branch: true
+
+            - name: Enable Pull Request Automerge
+              if: steps.cpr.outputs.pull-request-operation == 'created'
+              uses: vcosmos-actions/enable-pull-request-automerge@v2
+              with:
+                  pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
+                  merge-method: squash

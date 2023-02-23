@@ -36,6 +36,7 @@ jobs:
 
             - name: Install dev dependencies
               run: |
+                  pip install -U wheel setuptools pip
                   pip install poetry
                   poetry install
 
