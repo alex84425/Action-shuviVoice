@@ -55,9 +55,7 @@ jobs:
             - name: Get Repository Name
               id: github-repo-name
               run: |
-                  temp_github_repository=${{ vars.GITHUB_REPOSITORY }}
-                  temp_github_repository=${temp_github_repository#*/}
-                  echo "::set-output name=reponame::${temp_github_repository}"
+                  echo "::set-output name=reponame::${GITHUB_REPOSITORY#*/}"
 
             - name: Update SonarQube Scan Report
               uses: vcosmos-actions/sonarqube-scan-action@master
