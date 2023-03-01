@@ -59,7 +59,7 @@ jobs:
                   SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
               with:
                   args: >
-                      -Dsonar.projectKey=vcosmos_${{ github.event.repository.name }}
+                      -Dsonar.projectKey=vcosmos_${GITHUB_REPOSITORY#*/}
                       -Dsonar.sources=src/
                       -Dsonar.exclusions=src/tests/**/*
                       -Dsonar.tests=src/tests/
