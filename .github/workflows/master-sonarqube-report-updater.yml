@@ -67,7 +67,7 @@ jobs:
                       -Dsonar.python.coverage.reportPaths=coverage.xml
 
             - name: Update Code Coverage Summary Report On README
-              if: ${{ github.event_name == 'schedule' }}
+              if: ${{ github.event_name != 'pull_request' }}
               run: |
                   summay=${{ steps.coverage-comment.outputs.summaryReport }}
                   summay="${summay%\"}"
@@ -76,7 +76,7 @@ jobs:
                   <!-- Pytest Coverage Comment:Begin -->\n${summay}\n<!-- Pytest Coverage Comment:End -->" ./README.md
 
             - name: Create Pull Request
-              if: ${{ github.event_name == 'schedule' }}
+              if: ${{ github.event_name != 'pull_request' }}
               id: cpr
               uses: vcosmos-actions/create-pull-request@v4
               with:
@@ -97,7 +97,7 @@ jobs:
                       README.md
 
             - name: Enable Pull Request Automerge
-              if: ${{ (steps.cpr.outputs.pull-request-operation == 'created') && (github.event_name == 'schedule') }}
+              if: ${{ (steps.cpr.outputs.pull-request-operation == 'created') && (github.event_name != 'pull_request') }}
               uses: vcosmos-actions/enable-pull-request-automerge@v2
               with:
                   pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
