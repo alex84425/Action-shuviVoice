@@ -9,11 +9,6 @@ permissions:
     contents: write
 
 jobs:
-    enable-automerge-dependabot-pr:
-        runs-on: [rnd-it-ubuntu]
-        if: github.actor == 'dependabot[bot]'
-        steps:
-            - uses: vcosmos-actions/enable-pull-request-automerge@v2
-              with:
-                  pull-request-number: ${{ github.event.pull_request.number }}
-                  merge-method: squash
+    call-template-enable-auto-merge-dependabot:
+        uses: vcosmos-actions/reusable-workflows/.github/workflows/template-enable-auto-merge-dependabot.yml@master
+        secrets: inherit

@@ -6,53 +6,6 @@ on:
         - cron: "0 0 * * *"
 
 jobs:
-    pre-commit-updater:
-        runs-on: [rnd-it-ubuntu]
-        steps:
-            - uses: actions/checkout@v3
-              with:
-                  lfs: true
-                  submodules: "recursive"
-                  token: ${{secrets.ACTIONS_BOT_TOKEN}}
-
-            - uses: actions/setup-python@v4
-              with:
-                  python-version: "3.9"
-
-            - name: Install pre-commit
-              run: pip install pre-commit
-
-            - name: Run pre-commit autoupdate
-              run: pre-commit autoupdate
-
-            - name: Run pre-commit after update for migration
-              run: pre-commit run --all-files || echo "changed"
-
-            - name: Uninstall pre-commit
-              run: pre-commit uninstall
-
-            - name: Create Pull Request
-              id: cpr
-              uses: vcosmos-actions/create-pull-request@v4
-              with:
-                  branch: update/pre-commit-autoupdate
-                  title: 👌 Auto-update pre-commit hooks
-                  commit-message: 👌 Auto-update pre-commit hooks
-                  committer: Mason Lin <mason.lin1@hp.com>
-                  author: Mason Lin <mason.lin1@hp.com>
-                  body: |
-                      Update versions of tools in pre-commit
-                      configs to latest version
-                  labels: |
-                      automated pr
-                      update
-                      pre-commit
-                      dependencies
-                  delete-branch: true
-
-            - name: Enable Pull Request Automerge
-              if: steps.cpr.outputs.pull-request-operation == 'created'
-              uses: vcosmos-actions/enable-pull-request-automerge@v2
-              with:
-                  pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
-                  merge-method: squash
+    call-template-pre-commit-updater:
+        uses: vcosmos-actions/reusable-workflows/.github/workflows/template-pre-commit-updater.yml@master
+        secrets: inherit

@@ -6,46 +6,6 @@ on:
         - cron: "0 0 * * *"
 
 jobs:
-    pre-commit-fixer:
-        runs-on: [rnd-it-ubuntu]
-        steps:
-            - uses: actions/checkout@v3
-              with:
-                  lfs: true
-                  submodules: "recursive"
-                  token: ${{secrets.ACTIONS_BOT_TOKEN}}
-
-            - uses: actions/setup-python@v4
-              with:
-                  python-version: "3.9"
-
-            - name: Run pre-commit autofix
-              uses: vcosmos-actions/pre-commit-action@v3.0.0
-              with:
-                  extra_args: --all-files || echo "changed"
-
-            - name: Create Pull Request
-              id: cpr
-              uses: vcosmos-actions/create-pull-request@v4
-              with:
-                  branch: fix/pre-commit-autofix
-                  title: 🐛 Auto-fix pre-commit hooks
-                  commit-message: 🐛 Auto-fix pre-commit hooks
-                  committer: Mason Lin <mason.lin1@hp.com>
-                  author: Mason Lin <mason.lin1@hp.com>
-                  body: |
-                      Fix code by multiple code quality analysis tools
-                      lists in .pre-commit-config.yaml
-                  labels: |
-                      automated pr
-                      pre-commit
-                      fix code style
-                      fix code quality
-                  delete-branch: true
-
-            - name: Enable Pull Request Automerge
-              if: steps.cpr.outputs.pull-request-operation == 'created'
-              uses: vcosmos-actions/enable-pull-request-automerge@v2
-              with:
-                  pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
-                  merge-method: squash
+    call-template-pre-commit-fixer:
+        uses: vcosmos-actions/reusable-workflows/.github/workflows/template-pre-commit-fixer.yml@master
+        secrets: inherit

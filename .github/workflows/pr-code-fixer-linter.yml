@@ -6,47 +6,6 @@ on:
         branches: [master]
 
 jobs:
-    pr-code-fixer:
-        if: "!startsWith(github.head_ref, 'dependabot/')"
-        runs-on: [rnd-it-ubuntu]
-        steps:
-            - uses: actions/checkout@v3
-              with:
-                  lfs: true
-                  submodules: "recursive"
-                  token: ${{secrets.ACTIONS_BOT_TOKEN}}
-
-            - uses: actions/setup-python@v4
-              with:
-                  python-version: "3.9"
-
-            - name: Run pre-commit autofix
-              uses: vcosmos-actions/pre-commit-action@v3.0.0
-              with:
-                  extra_args: --all-files || echo "changed"
-
-            - name: Commit Changes
-              uses: vcosmos-actions/git-auto-commit-action@v4
-              with:
-                  commit_message: 🐛 Auto-fix pre-commit hooks
-                  commit_user_name: Mason Lin
-                  commit_user_email: mason.lin1@hp.com
-                  commit_author: Mason Lin <mason.lin1@hp.com>
-
-            - name: Login to Docker Hub
-              uses: docker/login-action@v2
-              with:
-                  username: ${{ secrets.DOCKERHUB_USERNAME }}
-                  password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-            - name: Linter
-              env:
-                  DOCKER_BUILDKIT: 1
-              run: |
-                  docker build --target=dev-linter -t docker_name:dev-linter .
-
-            - name: Security
-              env:
-                  DOCKER_BUILDKIT: 1
-              run: |
-                  docker build --target=dev-security -t docker_name:dev-security .
+    call-template-code-fixer-linter:
+        uses: vcosmos-actions/reusable-workflows/.github/workflows/template-code-fixer-linter.yml@master
+        secrets: inherit
