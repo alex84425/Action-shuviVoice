@@ -52,13 +52,21 @@ jobs:
                   junitxml-path: ./junit.xml
                   report-only-changed-files: true
 
-            - uses: vcosmos-actions/sonarqube-scan-action@master
+            - name: Get Repository Name
+              id: github-repo-name
+              run: |
+                  temp_github_repository=${{ vars.GITHUB_REPOSITORY }}
+                  temp_github_repository=${temp_github_repository#*/}
+                  echo "::set-output name=reponame::${temp_github_repository}"
+
+            - name: Update SonarQube Scan Report
+              uses: vcosmos-actions/sonarqube-scan-action@master
               env:
                   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
                   SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
               with:
                   args: >
-                      -Dsonar.projectKey=vcosmos_${GITHUB_REPOSITORY#*/}
+                      -Dsonar.projectKey=vcosmos_${{ steps.github-repo-name.outputs.reponame }}
                       -Dsonar.sources=src/
                       -Dsonar.exclusions=src/tests/**/*
                       -Dsonar.tests=src/tests/
