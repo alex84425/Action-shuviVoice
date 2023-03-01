@@ -8,19 +8,8 @@ on:
         - cron: "0 0 1 * *" # each 1st day of the month
 
 jobs:
-    login-docker:
-        runs-on: [rnd-it-ubuntu]
-        steps:
-            - name: Login to Docker Hub For SonarQube
-              id: login-docker
-              uses: docker/login-action@v2
-              with:
-                  username: ${{ secrets.DOCKERHUB_USERNAME }}
-                  password: ${{ secrets.DOCKERHUB_TOKEN }}
-
     update-code-coverage-on-readme:
         runs-on: [rnd-it-ubuntu]
-        needs: login-docker
         steps:
             - uses: actions/checkout@v3
               with:
@@ -56,6 +45,13 @@ jobs:
               id: github-repo-name
               run: |
                   echo "::set-output name=reponame::${GITHUB_REPOSITORY#*/}"
+
+            - name: Login to Docker Hub For SonarQube
+              id: login-docker
+              uses: docker/login-action@v2
+              with:
+                  username: ${{ secrets.DOCKERHUB_USERNAME }}
+                  password: ${{ secrets.DOCKERHUB_TOKEN }}
 
             - name: Update SonarQube Scan Report
               uses: vcosmos-actions/sonarqube-scan-action@master
