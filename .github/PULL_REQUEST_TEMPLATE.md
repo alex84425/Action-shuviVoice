@@ -32,3 +32,12 @@
 
       vCosmosCookbook: https://github.azc.ext.hp.com/BPSVCommonService/vCosmosCookbook
       Action-Development-Guideline: https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline -->
+
+### CheckList for reviewer
+
+-   [ ] Check the title of the pull request to ensure that it is descriptive and accurately summarizes the changes
+-   [ ] Review the list of files changed and make sure that the changes are relevant to the pull request
+-   [ ] Review the changes made in the code to ensure that they are valid and functional
+-   [ ] Confirm that tests have been written and run to verify the functionality
+-   [x] (🤖automated) Check if the pull request has been merged with the latest version of the master branch
+-   [x] (🤖automated) Check if the pull request meets the coding standards of the project
