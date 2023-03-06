@@ -1,9 +1,9 @@
 ![SonarQube Report](https://github.azc.ext.hp.com/BPSVCommonService/Action-ExecutorTemplate/actions/workflows/master-sonarqube-report-updater.yml/badge.svg)
-![Code Fixer](https://github.azc.ext.hp.com/BPSVCommonService/Action-ExecutorTemplate/actions/workflows/daily-pre-commit-fixer.yml/badge.svg)
+![Pre-commit Fixer](https://github.azc.ext.hp.com/BPSVCommonService/Action-ExecutorTemplate/actions/workflows/daily-pre-commit-fixer.yml/badge.svg)
 ![Pre-commit Updater](https://github.azc.ext.hp.com/BPSVCommonService/Action-ExecutorTemplate/actions/workflows/daily-pre-commit-updater.yml/badge.svg)
 ![PR Code Fixer](https://github.azc.ext.hp.com/BPSVCommonService/Action-ExecutorTemplate/actions/workflows/pr-code-fixer-linter.yml/badge.svg)
-![Dependabot](https://img.shields.io/badge/Dependabot-enabled-brightgreen.svg)
-<a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Dependabot](https://img.shields.io/badge/Dependabot-enabled-brightgreen.svg)](https://github.com/dependabot)
 
 <!-- Pytest Coverage Comment:Begin -->
 
