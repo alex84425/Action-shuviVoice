@@ -16,7 +16,11 @@ Open https://github.azc.ext.hp.com/BPSVCommonService/Action-ExecutorTemplate/tre
 ![image](https://media.github.azc.ext.hp.com/user/14519/files/5de2a1e0-64d9-4d12-9847-9ce5f156c663)
 ![image](https://media.github.azc.ext.hp.com/user/14519/files/dbfa92a9-41b3-4ca6-aad3-ce414b519dda)
 
+
+### allow team members edit
+![setting](https://media.github.azc.ext.hp.com/user/25873/files/6515ec8d-ea46-48f6-b7de-53688fb3c8bb)
 ## B. Initialize this repository
+
 
 1. Execute following commands and it will sync the upstream and update action name
 
