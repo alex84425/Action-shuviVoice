@@ -17,8 +17,9 @@ Open https://github.azc.ext.hp.com/BPSVCommonService/Action-ExecutorTemplate/tre
 ![image](https://media.github.azc.ext.hp.com/user/14519/files/dbfa92a9-41b3-4ca6-aad3-ce414b519dda)
 
 
-### allow team members edit
-![setting](https://media.github.azc.ext.hp.com/user/25873/files/6515ec8d-ea46-48f6-b7de-53688fb3c8bb)
+### Allow team members "Maintain"
+![setting](https://media.github.azc.ext.hp.com/user/15211/files/bf59ad3f-8861-465c-962c-44ecb851f004)
+
 ## B. Initialize this repository
 
 
