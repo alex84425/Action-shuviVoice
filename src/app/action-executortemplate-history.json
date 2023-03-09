@@ -1,4 +1,5 @@
 {
+    "1.4.3": "[2023-03-09] make sh executable by git update-index --chmod=+x ./src/start-reload.sh",
     "1.4.2": "[2023-02-23] fix coverage report links and scopes",
     "1.4.1": "[2023-02-22] update action name include feature test",
     "1.4.0": "[2023-02-20] GitHub Actions Integration: sonarqube, enable-auto-merge, and code coverage report",
