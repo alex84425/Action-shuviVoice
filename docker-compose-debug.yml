@@ -1,9 +1,12 @@
 version: '3.5'
 
 services:
-  actionexecutortemplate:
-    image: actionexecutortemplate
+  action-executortemplate:
+    image: action-executortemplate
+    container_name: action-executortemplate
     env_file: local.env
+    networks:
+      - local-controller
     build:
       context: .
       # target: dev-security
@@ -22,3 +25,7 @@ services:
         "-c",
         "/app/prestart.sh && pip install debugpy && python -m debugpy --wait-for-client --listen 0.0.0.0:5678 -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8080"
       ]
+networks:
+  local-controller:
+    name: controller-network
+    driver: bridge

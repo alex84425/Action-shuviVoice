@@ -1,9 +1,12 @@
 version: '3.5'
 
 services:
-  actionexecutortemplate:
-    image: actionexecutortemplate
+  action-executortemplate:
+    image: action-executortemplate
+    container_name: action-executortemplate
     env_file: local.env
+    networks:
+      - local-controller
     build:
       context: .
       # target: dev-security
@@ -16,3 +19,7 @@ services:
     ports:
       - 8080:8080
     command: /app/start-reload.sh
+networks:
+  local-controller:
+    name: controller-network
+    driver: bridge
