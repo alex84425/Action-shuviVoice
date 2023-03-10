@@ -22,6 +22,7 @@ print("The new action name is:", action_name)
 files = [
     PROJECT_ROOT / "azure-pipelines.yml",
     PROJECT_ROOT / "local.env",
+    PROJECT_ROOT / "README.md",
 ]
 for file in files:
     file.write_text(file.read_text().replace("ExecutorTemplate", action_name))
@@ -35,5 +36,3 @@ files = [
 ]
 for file in files:
     file.write_text(file.read_text().replace("executortemplate", action_name.lower()))
-
-PROJECT_ROOT.joinpath("README.md").write_text(f"# Action: {action_name}", encoding="utf-8")
