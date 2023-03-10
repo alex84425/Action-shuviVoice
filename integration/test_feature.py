@@ -29,7 +29,7 @@ async def get_env(key):
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("action_name", [ACTION_NAME])
-async def test_testdev_executortemplate_feature_test(action_name):
+async def test_testdev_feature_test(action_name):
     logging.debug("######################### trigger feature test #########################")
     assert action_name, "action_name is none, please set it"
     action_name_without_prefix = get_action_name(action_name)
