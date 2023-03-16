@@ -1,4 +1,5 @@
 {
+    "1.6.0": "[2023-03-16] detect codespell",
     "1.5.0": "[2023-03-10] support controller dry run",
     "1.4.3": "[2023-03-09] make sh executable by git update-index --chmod=+x ./src/start-reload.sh",
     "1.4.2": "[2023-02-23] fix coverage report links and scopes",
@@ -7,7 +8,7 @@
     "1.3.2": "[2023-02-17] test not stable",
     "1.3.1": "[2023-02-14] update pre commit",
     "1.3.0": "[2023-02-03] improve action performance CPU 5%->0.5% RAM 100MB -> 80MB",
-    "1.2.0": "[2023-01-30] add github worflows",
+    "1.2.0": "[2023-01-30] add github workflow",
     "1.1.1": "[2023-01-19] model sync schema",
     "1.1.0": "[2023-01-12] submodule update by dependabot",
     "1.0.2": "[2022-12-25] add submodule back to poetry",

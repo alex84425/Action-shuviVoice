@@ -60,6 +60,11 @@ extension-pkg-whitelist = "pydantic"
 line_length = 140
 profile = "black"
 
+[tool.codespell]
+count = true
+quiet-level = 3
+skip = '.git,*.lock,htmlcov,ActionTemplate-Python3'
+
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
