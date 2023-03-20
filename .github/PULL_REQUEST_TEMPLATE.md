@@ -17,7 +17,6 @@
     Tests are required for bugfixes and new features. Documentation changes
     are necessary for formatting and most enhancement changes. -->
 
--   [ ] ✨/🐛 Mention the story/bug link by AB#<number> if necessary?
 -   [ ] 🧪 Add / update tests link if necessary?
 -   [ ] 📖 Add new / update outdated documentation?
 
@@ -41,3 +40,4 @@
 -   [ ] Confirm that tests have been written and run to verify the functionality
 -   [x] (🤖automated) Check if the pull request has been merged with the latest version of the master branch
 -   [x] (🤖automated) Check if the pull request meets the coding standards of the project
+-   [x] (🤖automated) Check if the pull request title has mention the story/bug by AB#<number>
