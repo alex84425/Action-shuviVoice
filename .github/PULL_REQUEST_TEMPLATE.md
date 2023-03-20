@@ -40,4 +40,4 @@
 -   [ ] Confirm that tests have been written and run to verify the functionality
 -   [x] (🤖automated) Check if the pull request has been merged with the latest version of the master branch
 -   [x] (🤖automated) Check if the pull request meets the coding standards of the project
--   [x] (🤖automated) Check if the pull request title has mention the story/bug by AB#<number>
+-   [x] (🤖automated) Check if the pull request title has mention the story/bug by AB#number
