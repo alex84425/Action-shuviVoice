@@ -170,7 +170,7 @@ echo "ALL DONE"
 -   lfs track a new file type `git lfs track *.zip`
 -   check file was tracked by lfs `git lfs ls-files`
 
-## pre-commit
+## pre-commit.
 
 -   Install: poetry run pre-commit install
 -   Manual Run: poetry run pre-commit run --all-files
