@@ -64,3 +64,4 @@ async def test_testdev_feature_test(action_name):
     logging.debug(f"response: {response.text}")
     if response.status_code != 200:
         raise ConnectionError(f"feature test trigger failed, status_code: {response.status_code}")
+    return None
