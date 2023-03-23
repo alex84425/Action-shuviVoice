@@ -61,9 +61,10 @@ line_length = 140
 profile = "black"
 
 [tool.codespell]
+builtin = "clear,rare,informal,code,names"
 count = true
 quiet-level = 3
-skip = '.git,*.lock,htmlcov,ActionTemplate-Python3'
+skip = ".git,*.lock,htmlcov,ActionTemplate-Python3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
