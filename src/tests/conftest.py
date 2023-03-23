@@ -27,7 +27,7 @@ def async_app_client():
     yield client
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def act_raw():
     return PAYLOAD
 
