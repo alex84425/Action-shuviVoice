@@ -1,4 +1,5 @@
 {
+    "1.6.1": "[2023-03-23] fix unit test of /action/health",
     "1.6.0": "[2023-03-16] detect codespell",
     "1.5.0": "[2023-03-10] support controller dry run",
     "1.4.3": "[2023-03-09] make sh executable by git update-index --chmod=+x ./src/start-reload.sh",
