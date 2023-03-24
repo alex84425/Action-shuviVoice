@@ -1,6 +1,5 @@
 import logging
 from datetime import datetime
-from zoneinfo import ZoneInfo
 
 import vcosmosapiclient
 from fastapi import FastAPI
