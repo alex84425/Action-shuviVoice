@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime, timedelta, timezone
 
 import vcosmosapiclient
 from fastapi import FastAPI
@@ -21,6 +22,7 @@ DESCRIPTION = f"""
     commit id: {config.SOURCE_VERSION}
     lib version: {vcosmosapiclient.VERSION}
     lib history: {list(vcosmosapiclient.HISTORY.values())[0]}
+    deployed time: {datetime.now(timezone(timedelta(hours=+8))).ctime()}
     """
 
 
