@@ -6,6 +6,5 @@ on:
 
 jobs:
     call-template-bypass-feature-test:
-        name: Enable Auto-merge Dependabot PR
         uses: vcosmos-actions/reusable-workflows/.github/workflows/template-template-bypass-feature-test.yml@master
         secrets: inherit
