@@ -10,7 +10,6 @@ from app.config import get_settings
 from app.debug import router as debug
 from app.health import router as health
 
-zone = ZoneInfo("Asia/Taipei")
 config = get_settings()
 setup_logging(str(config.LOG_FOLDER / "debug.log"))
 logging.info(config)
