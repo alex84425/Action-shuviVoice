@@ -23,7 +23,7 @@ DESCRIPTION = f"""
     commit id: {config.SOURCE_VERSION}
     lib version: {vcosmosapiclient.VERSION}
     lib history: {list(vcosmosapiclient.HISTORY.values())[0]}
-    deployed time: {datetime.now().astimezone(zone).ctime()}
+    deployed time: {datetime.now(timezone(timedelta(hours=+8))).ctime()}
     """
 
 
