@@ -8,7 +8,9 @@ from app.action import router as action
 from app.config import get_settings
 from app.debug import router as debug
 from app.health import router as health
-
+from zoneinfo import ZoneInfo
+from datetime import datetime
+zone = ZoneInfo("Asia/Taipei")
 config = get_settings()
 setup_logging(str(config.LOG_FOLDER / "debug.log"))
 logging.info(config)
@@ -21,6 +23,7 @@ DESCRIPTION = f"""
     commit id: {config.SOURCE_VERSION}
     lib version: {vcosmosapiclient.VERSION}
     lib history: {list(vcosmosapiclient.HISTORY.values())[0]}
+    deployed time: {datetime.now().astimezone(zone).ctime()}
     """
 
 
