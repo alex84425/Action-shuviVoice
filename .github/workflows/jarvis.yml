@@ -1,0 +1,10 @@
+name: Talk to jarvis
+
+on:
+    issue_comment:
+        types: [created]
+
+jobs:
+    call-template-chatbot-jarvis:
+        uses: vcosmos-actions/reusable-workflows/.github/workflows/template-chatbot-jarvis.yml@master
+        secrets: inherit
