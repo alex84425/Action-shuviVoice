@@ -12,7 +12,6 @@ from vcosmosapiclient.library.rebootapi import force_reboot_once
 
 import static
 from app.action import models
-from app.action.models import MyActionPostModel
 from app.config import get_settings
 
 settings = get_settings()
@@ -22,7 +21,7 @@ FIVE_MINUTES_IN_SECONDS = datetime.timedelta(minutes=5).total_seconds()
 
 
 @retry(reraise=True, stop=stop_after_delay(FIVE_MINUTES_IN_SECONDS), wait=wait_fixed(TWENTY_SECONDS))
-async def onabort(act: MyActionPostModel):
+async def onabort(act: models.MyActionPostModel):
     logging.debug("Aborting UUT IP: %s", act.target.ip)
     task_name = str(act.context.workingDirectory)
 
@@ -57,7 +56,7 @@ async def onstop(act: models.MyActionPostModel):
     return {"status": "ok"}
 
 
-async def execute_action(act: MyActionPostModel):
+async def execute_action(act: models.MyActionPostModel):
     logging.debug("action_task got act=%s", act)
 
     # 1. do some pre condition check, which will not create background process

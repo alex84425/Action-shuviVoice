@@ -1,5 +1,5 @@
-from pydantic import BaseModel, Field
-from vcosmosapiclient.models import BaseActionModel
+from pydantic import Field
+from vcosmosapiclient.models import BaseActionModel, BaseModel
 
 
 class MyDataModel(BaseModel):
@@ -16,6 +16,11 @@ class MyActionDataModel(BaseModel):
 
 class MyActionPostModel(BaseActionModel):
     actionData: MyActionDataModel
+
+
+class MyActionCallbackModel(BaseModel):
+    act: MyActionPostModel = Field(..., alias="_actionMeta")
+    example_extra_data: str = ""
 
 
 class ErrorMonitorModel(BaseModel):
