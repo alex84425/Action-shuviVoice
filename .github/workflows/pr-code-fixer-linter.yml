@@ -6,6 +6,6 @@ on:
         types: [opened, edited, synchronize, reopened]
 
 jobs:
-    call-template-code-fixer-linter:
+    reuse:
         uses: vcosmos-actions/reusable-workflows/.github/workflows/template-code-fixer-linter.yml@master
         secrets: inherit

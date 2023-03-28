@@ -6,6 +6,6 @@ on:
         - cron: "0 0 * * *"
 
 jobs:
-    call-template-pre-commit-fixer:
+    reuse:
         uses: vcosmos-actions/reusable-workflows/.github/workflows/template-pre-commit-fixer.yml@master
         secrets: inherit

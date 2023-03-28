@@ -6,6 +6,6 @@ on:
         types: [created]
 
 jobs:
-    call-template-chatbot-jarvis:
+    reuse:
         uses: vcosmos-actions/reusable-workflows/.github/workflows/template-chatbot-jarvis.yml@master
         secrets: inherit

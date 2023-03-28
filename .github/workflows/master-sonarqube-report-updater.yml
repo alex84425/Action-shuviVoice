@@ -8,6 +8,6 @@ on:
         - cron: "0 0 1 * *" # each 1st day of the month
 
 jobs:
-    call-template-sonarqube-report-updater:
+    reuse:
         uses: vcosmos-actions/reusable-workflows/.github/workflows/template-sonarqube-report-updater.yml@master
         secrets: inherit

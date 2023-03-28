@@ -9,6 +9,6 @@ permissions:
     contents: write
 
 jobs:
-    call-template-enable-auto-merge-dependabot:
+    reuse:
         uses: vcosmos-actions/reusable-workflows/.github/workflows/template-enable-auto-merge-dependabot.yml@master
         secrets: inherit
