@@ -1,7 +1,6 @@
-![SonarQube Report](https://github.azc.ext.hp.com/BPSVCommonService/Action-ExecutorTemplate/actions/workflows/master-sonarqube-report-updater.yml/badge.svg)
-![Pre-commit Fixer](https://github.azc.ext.hp.com/BPSVCommonService/Action-ExecutorTemplate/actions/workflows/daily-pre-commit-fixer.yml/badge.svg)
-![Pre-commit Updater](https://github.azc.ext.hp.com/BPSVCommonService/Action-ExecutorTemplate/actions/workflows/daily-pre-commit-updater.yml/badge.svg)
-![PR Code Fixer](https://github.azc.ext.hp.com/BPSVCommonService/Action-ExecutorTemplate/actions/workflows/pr-code-fixer-linter.yml/badge.svg)
+![SonarQube Report](https://github.azc.ext.hp.com/BPSVCommonService/Action-ExecutorTemplate/actions/workflows/master-sonarqube-report-updater.yml/badge.svg?branch=master)
+![Pre-commit Fixer](https://github.azc.ext.hp.com/BPSVCommonService/Action-ExecutorTemplate/actions/workflows/daily-pre-commit-fixer.yml/badge.svg?branch=master)
+![Pre-commit Updater](https://github.azc.ext.hp.com/BPSVCommonService/Action-ExecutorTemplate/actions/workflows/daily-pre-commit-updater.yml/badge.svg?branch=master)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Dependabot](https://img.shields.io/badge/Dependabot-enabled-brightgreen.svg)](https://github.com/dependabot)
 
