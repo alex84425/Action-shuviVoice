@@ -20,12 +20,12 @@ pytest-mock = "^3.10.0"
 pytest-xdist = "^3.2.1"
 coverage = {extras = ["toml"], version = "^7.2.2"}
 black = "^23.3.0"
-pylama = {extras = ["all"], version = "^8.4.1"}
 requests-toolbelt = "^0.10.1"
 pre-commit = "^3.2.2"
 pytest-httpx = "^0.21.3"
 pytest-cov = "^4.0.0"
 bandit = "^1.7.5"
+ruff = "^0.0.261"
 
 [tool.pytest.ini_options]
 minversion = "6.0"
@@ -38,49 +38,62 @@ branch = true
 relative_files = true
 omit = ["src/tests/*", "ActionTemplate-Python3/*"]
 
-[tool.pylama]
-format = "pylint"
-skip = "*/.env/*,static/*"
-linters = "eradicate,mccabe,pycodestyle,pyflakes,pylint,isort"
-
-[tool.pylama.linter.pyflakes]
-builtins = "_"
-
-[tool.pylama.linter.pycodestyle]
-max_line_length = 140
-ignore = "E203,W503"
-statistics = true
-
-[tool.pylama.linter.pylint]
-max_line_length = 140
-disable = "C,R,W0511,W0613,W0703,W0707,W1203"
-extension-pkg-whitelist = "pydantic"
-
-[tool.pylama.linter.isort]
-line_length = 140
-profile = "black"
-
 [tool.codespell]
-builtin = "clear,rare,informal,code,names"
-count = true
+builtin = "clear,rare,informal,code,names,usage,en-GB_to_en-US"
+ignore-words-list = "master,cancelled"
 quiet-level = 3
 skip = ".git,*.lock,htmlcov,ActionTemplate-Python3"
 
 [tool.ruff]
 # https://beta.ruff.rs/docs/rules/
-extend-exclude = ["ActionTemplate-Python3"] # submodule will be ignored from action's lint
-ignore = ["B008"] # do not perform function calls in argument defaults
-line-length = 140
-select = [
-  # "I", # isort
-  "A", # flake8-bugbear
+extend-exclude = ["ActionTemplate-Python3", "integration", "tests", "src/tests"] # submodule will be ignored from action's lint
+# The following rules are currently not implemented by ruff, but we intend to ignore
+# "E203","W503","W0511","W0613","W0703","W0707","W1203",
+extend-ignore = [
+  "B008", # do not perform function calls in argument defaults
+  "C901", # mccabe, too complex
+  "B904", # raise-without-from-inside-except
+  "ERA", # eradicate, Found commented-out code
+  "D1", # missing public docstrings
+  "D203", # 1 blank line required before class docstring
+  "D205", # 1 blank line required between summary line and description
+  "D213", # Multi-line docstring summary should start at the second line
+  "D400", # First line should end with a period
+  "D401", # (docstring imperative mood) Overly restrictive.
+  "D404", # First word of the docstring should not be "This"
+  "D417", # Missing argument descriptions in the docstring
+  "DTZ005", # The use of `datetime.datetime.now()` without `tz` argument is not allowed
+  "PTH123", # open() should be replaced by Path.open()
+  "PLR0913", # Too many arguments to function call
+]
+extend-select = [
+  "A", # flake8-builtins
   "B", # flake8-bugbear
-  "C", # flake8-comprehensions
+  "C4", # flake8-comprehensions
+  "D", # pydocstyle
+  "DTZ", # flake8-datetimez
   "E", # pycodestyle errors
   "F", # pyflakes
-  "RUF",
+  "I", # isort
+  "PIE", # flake8-pie
+  "PLC", # Pylint Convention
+  "PLE", # Pylint Error
+  "PLR", # Pylint Refactor
+  "PLW", # Pylint Warning
+  "PT", # flake8-pytest-style
+  "PTH", # flake8-use-pathlib
+  "PYI", # flake8-pyi
+  "Q", # flake8-quotes
+  "RET", # flake8-return
+  "RSE", # flake8-raise
+  "RUF", # ruff
+  "S", # flake8-bandit
+  "SIM", # flake8-simplify
+  "UP", # pyupgrade
   "W", # pycodestyle warnings
 ]
+line-length = 140
+src = ["src", "/app"]
 target-version = "py39"
 
 [build-system]

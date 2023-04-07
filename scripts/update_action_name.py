@@ -12,7 +12,8 @@ def get_action_name(root_name):
     # skip "Action-"
     pattern = re.compile("^Action-([A-Z][a-zA-Z0-9]{2,20})$")
     matched = pattern.match(root_name)
-    assert matched, "please check action name format"
+    if not matched:
+        raise ValueError("please check action name format")
     return matched.group(1)
 
 

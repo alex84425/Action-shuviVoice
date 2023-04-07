@@ -57,7 +57,7 @@ COPY ./src /app
 # Build lint image
 ###########################################################################
 FROM dev-env AS dev-linter
-RUN pylama app
+RUN ruff check .
 
 ###########################################################################
 # Build utest coverage image

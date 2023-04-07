@@ -1,6 +1,4 @@
-"""
-https://fastapi.tiangolo.com/advanced/security/http-basic-auth/
-"""
+"""https://fastapi.tiangolo.com/advanced/security/http-basic-auth/."""
 import logging
 import re
 import secrets
@@ -63,8 +61,8 @@ def router_log():
 @router.get("/log/{filename}", response_class=HTMLResponse)
 def log_file(filename: str):
     try:
-        with open(settings.LOG_FOLDER / filename, encoding="utf-8") as f:
-            data = f.read()
+        file_path = settings.LOG_FOLDER / filename
+        data = file_path.read_text(encoding="utf-8")
 
         con = Ansi2HTMLConverter()
         data = con.convert(data)
@@ -84,11 +82,12 @@ async def debug(cmd: str = ""):
 
 @router.get("/taskid/{taskid}", response_class=HTMLResponse)
 def taskid_log(taskid: str):
-    """
-    # Example:
-    If workingDirectory is `c:/TestAutomation/TestJobs/6260f5a1c99ce10012a6eb79/00_Action`
+    """Fetch log by taskid.
 
-    Then the url is `/taskid/6eb79_00`
+    Example:
+    -------
+        If workingDirectory is `c:/TestAutomation/TestJobs/6260f5a1c99ce10012a6eb79/00_Action`.
+        Then the url is `/taskid/6eb79_00`
     """
     try:
         content = []
@@ -99,8 +98,9 @@ def taskid_log(taskid: str):
         sorted(logs, key=lambda x: x.stat().st_mtime, reverse=True)
 
         for log in logs:
-            with open(log, encoding="utf-8") as f:
+            with log.open(encoding="utf-8") as f:
                 lines = f.read().splitlines()
+
             for line in lines:
                 if f"[{taskid}]" in line:
                     content.append(line)

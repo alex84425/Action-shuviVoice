@@ -1,5 +1,4 @@
-"""
-This module contains some mandatory endpoints
+"""This module contains some mandatory endpoints.
 
 Required endpoint
 https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/tree/master/ActionExecutor#required-endpoint--contract
