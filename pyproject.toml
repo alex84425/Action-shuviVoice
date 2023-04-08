@@ -93,6 +93,7 @@ extend-select = [
   "W", # pycodestyle warnings
 ]
 line-length = 140
+show-source = true
 src = ["src", "/app"]
 target-version = "py39"
 
