@@ -46,14 +46,13 @@ skip = ".git,*.lock,htmlcov,ActionTemplate-Python3"
 
 [tool.ruff]
 # https://beta.ruff.rs/docs/rules/
-extend-exclude = ["ActionTemplate-Python3", "integration", "tests", "src/tests"] # submodule will be ignored from action's lint
+extend-exclude = ["ActionTemplate-Python3", "integration", "tests", "src/tests", "scripts"]
 # The following rules are currently not implemented by ruff, but we intend to ignore
 # "E203","W503","W0511","W0613","W0703","W0707","W1203",
 extend-ignore = [
   "B008", # do not perform function calls in argument defaults
+  "B904", # Within an except clause, raise exceptions with raise ... from err or raise ... from None to distinguish them from errors in exception handling
   "C901", # mccabe, too complex
-  "B904", # raise-without-from-inside-except
-  "ERA", # eradicate, Found commented-out code
   "D1", # missing public docstrings
   "D203", # 1 blank line required before class docstring
   "D205", # 1 blank line required between summary line and description
@@ -63,8 +62,21 @@ extend-ignore = [
   "D404", # First word of the docstring should not be "This"
   "D417", # Missing argument descriptions in the docstring
   "DTZ005", # The use of `datetime.datetime.now()` without `tz` argument is not allowed
+  "E402", # Module level import not at top of file
+  "E501", # line too long, handled by black
+  'E722', # (bare exception): There are many places where we want to catch a maximally generic exception.
+  "E731", # Do not assign a lambda expression, use a def
+  "E741", # ambiguous-variable-name
+  "EXE002", # The file is executable but no shebang is present
+  "G001", # logging-string-format	Logging statement uses string.format()	
+  "G002", # logging-percent-format	Logging statement uses %	
+  "G003", # logging-string-concat	Logging statement uses +	
+  "G004", # logging-f-string	Logging statement uses f-string
+  "ERA", # eradicate, Found commented-out code
   "PTH123", # open() should be replaced by Path.open()
   "PLR0913", # Too many arguments to function call
+  "PGH003", # Use specific rule codes when ignoring type issues
+  "PGH004", # Use specific rule codes when using noqa
 ]
 extend-select = [
   "A", # flake8-builtins
@@ -72,9 +84,14 @@ extend-select = [
   "C4", # flake8-comprehensions
   "D", # pydocstyle
   "DTZ", # flake8-datetimez
+  "EXE", # flake8-executable
+  "G", # flake8-logging-format
   "E", # pycodestyle errors
   "F", # pyflakes
   "I", # isort
+  "ICN", # flake8-import-conventions
+  "ISC", # flake8-implicit-str-concat
+  "PGH", # pygrep-hooks
   "PIE", # flake8-pie
   "PLC", # Pylint Convention
   "PLE", # Pylint Error
@@ -89,6 +106,10 @@ extend-select = [
   "RUF", # ruff
   "S", # flake8-bandit
   "SIM", # flake8-simplify
+  "SLF", # flake8-self
+  "T10", # flake8-debugger
+  "T20",  # flake8-print
+  "TID", # flake8-tidy-imports
   "UP", # pyupgrade
   "W", # pycodestyle warnings
 ]
