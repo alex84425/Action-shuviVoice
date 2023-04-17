@@ -45,7 +45,7 @@ async def test_testdev_feature_test(action_name):
     vcosmos_access_host = os.environ.get("VCOSMOS_ACCESS_HOST")
     atc_url = f"https://{host}:{port}"
     checker_url_from_on_premise = f"{atc_url}/api/action/{action_name_without_prefix}/checker"
-    checker_url_from_cloud = f"http://{action_name_without_prefix}.actioninfo-services:8080/api/action/{action_name_without_prefix}/checker"
+    checker_url_from_cloud = f"http://dispatcher.actioninfo-services/api/action/{action_name_without_prefix}/checker"
     vcosmos_token = await get_vcosmos_token(atc_url, service_id, service_secret)
 
     response = httpx.post(

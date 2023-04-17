@@ -75,7 +75,7 @@ Try to run the container `docker compose up` and open browser `http://localhost:
 
 9. <img src='https://media.github.azc.ext.hp.com/user/14519/files/6c9483b7-a109-4c1a-a68c-360947538873' align='top'/>
 
-### Dev site Setting
+### Dev site Setting:
 
 10. <img src='https://media.github.azc.ext.hp.com/user/15211/files/48a499d1-7c47-497d-990a-c9714aafc5ed' align='top'/>
 11. <img src='https://media.github.azc.ext.hp.com/user/14519/files/6d81ff33-d773-470b-98fd-33a4624873a1' align='top'/>
@@ -164,12 +164,12 @@ echo "ALL DONE"
 
 [remove]: https://gist.github.com/myusuf3/7f645819ded92bda6677
 
-## Git LFS
+## Git LFS:
 
 -   lfs track a new file type `git lfs track *.zip`
 -   check file was tracked by lfs `git lfs ls-files`
 
-## pre-commit.
+## pre-commit
 
 -   Install: poetry run pre-commit install
 -   Manual Run: poetry run pre-commit run --all-files
@@ -194,7 +194,7 @@ git remote remove upstream
 
 ---
 
-# Related Build URL.
+# Related Build URL:
 
 -   [Azure Pipelines](https://dev.azure.com/hp-csrd-validation/vCosmos/_build)
 -   [Azure Release](https://dev.azure.com/hp-csrd-validation/vCosmos/_release?_a=releases&view=all&path=%5C)
