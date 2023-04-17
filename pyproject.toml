@@ -73,6 +73,7 @@ ignore = [
   "G003",    # logging-string-concat	Logging statement uses +	
   "G004",    # logging-f-string	Logging statement uses f-string
   "ERA",     # eradicate, Found commented-out code
+  "PT023",   # Use `@pytest.mark.asyncio()` over `@pytest.mark.asyncio`
   "PTH123",  # open() should be replaced by Path.open()
   "PLR0913", # Too many arguments to function call
   "PGH003",  # Use specific rule codes when ignoring type issues
