@@ -16,7 +16,7 @@ def get_history(project_name: str) -> dict:
 
 
 class Settings(BaseSettings):
-    # local run loads environment virables from load.env; online run loads real environment variables
+    # local run loads environment variables from load.env; online run loads real environment variables
     PROJECT_NAME: str = os.environ.get("ACTION_TYPE", "Action-Dummy")
     PATH_PREFIX: str = "/"
     HISTORY: dict = get_history(PROJECT_NAME)
