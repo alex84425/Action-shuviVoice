@@ -76,7 +76,7 @@ def log_file(filename: str):
 async def debug(cmd: str = ""):
     try:
         proc = subprocess.run(cmd, capture_output=True, encoding="utf-8", shell=True, check=True)  # nosec: B602  # noqa: S602
-        return f"stdout:\n{proc.stdout}\n\nstderr:\n{p.stderr}"
+        return f"stdout:\n{proc.stdout}\n\nstderr:\n{proc.stderr}"
     except Exception:
         return traceback.format_exc()
 
