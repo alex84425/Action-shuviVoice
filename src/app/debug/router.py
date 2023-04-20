@@ -37,7 +37,8 @@ TAIREGEX = re.compile(r"^(@[0-9a-f]{24})", re.IGNORECASE)
 def replace_tai64n_to_local(link_name: str) -> str:
     if re.match(TAIREGEX, link_name):
         try:
-            proc = subprocess.run(f"echo {link_name} | tai64nlocal", shell=True, capture_output=True, text=True, check=True)  # nosec: B602
+            cmd = f"echo {link_name} | tai64nlocal"
+            proc = subprocess.run(cmd, shell=True, capture_output=True, text=True, check=True)  # nosec: B602  # noqa: S602
             link_name = proc.stdout.strip()
         except Exception:
             logging.error("Failed to replace tai64n")
@@ -74,8 +75,8 @@ def log_file(filename: str):
 @router.post("/debug", response_class=HTMLResponse, dependencies=[Depends(verify_api_key)])
 async def debug(cmd: str = ""):
     try:
-        p = subprocess.run(cmd, capture_output=True, encoding="utf-8", shell=True, check=True)  # nosec
-        return f"stdout:\n{p.stdout}\n\nstderr:\n{p.stderr}"
+        proc = subprocess.run(cmd, capture_output=True, encoding="utf-8", shell=True, check=True)  # nosec: B602  # noqa: S602
+        return f"stdout:\n{proc.stdout}\n\nstderr:\n{p.stderr}"
     except Exception:
         return traceback.format_exc()
 
