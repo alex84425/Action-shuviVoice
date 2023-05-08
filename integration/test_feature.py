@@ -1,68 +1,90 @@
+import datetime
 import logging
 import os
-import re
 
-import httpx
 import pytest
-from vcosmosapiclient.atc_api_helper import get_vcosmos_token
+from feature_test.helper import BVT_TEST_CASES, INTEGRATION_TEST_CASES
+from vcosmosapiclient.integration.atc_api_helper import ATC, ATC_SINGLETON
+from vcosmosapiclient.integration.azure_test_plan_helper import AzureTestPlanHelper
+from vcosmosapiclient.integration.feature_test_helper import (
+    UUT_GROUPS,
+    polling_result_from_atc_and_update_github_and_azure,
+    run_test_on_atc_and_update_github_commits_status,
+    subscribe_task_done_or_exception_and_callback_to_github_checker,
+)
+from vcosmosapiclient.integration.feature_test_models import FeatureTestCase
+from vcosmosapiclient.integration.github_helper import GitHubHelper
 
 logging.getLogger().setLevel(logging.DEBUG)
 ACTION_NAME = os.environ.get("actionNameLow")  # action-xxx
+TASK_TIMEOUT: int = int(datetime.timedelta(minutes=3).total_seconds())
 
 
-def get_action_name(root_name):
-    # remove "action-"
-    pattern = re.compile("^action-([a-z][a-z0-9]{2,20})$")
-    matched = pattern.match(root_name)
-    assert matched, "please check action name format"
-    return matched.group(1)
+# load env variables
+try:
+    # github helper
+    repository_name = os.environ["RepositoryName"]
+    source_version = os.environ["SourceVersion"]
+    pat = os.environ["GITHUB_STATUS"]
+
+    # ado helper
+    azure_pat = os.environ["AZ_PAT_TEST_PLANS"]
+except KeyError as error:
+    raise KeyError(f"Missing env for test, (reason {error})") from error
+
+# init atc helper
+atc_helper: ATC = ATC_SINGLETON
+
+# init github helper
+github_helper: GitHubHelper = GitHubHelper(
+    base_url="https://github.azc.ext.hp.com", repository_name=repository_name, source_version=source_version, pat=pat
+)
+
+# init azure helper
+azure_helper: AzureTestPlanHelper = AzureTestPlanHelper(base_url="https://dev.azure.com/hp-csrd-validation/vCosmos", pat=azure_pat)
 
 
-async def get_env(key):
-    "get_env_and_fail_if_none"
-    value = os.environ.get(key)
-    logging.debug("GET ENV %s is %s", key, value)
-    if value is None:
-        raise ValueError(f"{key} must not be None")
-    return value
+async def update_uut_group_id_by_stage_in_place(stage, payload):
+    mapping_key = payload["instanceSets"][0]["uutGroup"]["uutGroupId"]
+    payload["instanceSets"][0]["uutGroup"]["uutGroupId"] = UUT_GROUPS[mapping_key][stage]
 
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize("action_name", [ACTION_NAME])
-async def test_testdev_feature_test(action_name):
-    logging.debug("######################### trigger feature test #########################")
+async def test_testdev_integration_test(action_name):
+    # Testing on few stage and test type first
     assert action_name, "action_name is none, please set it"
-    action_name_without_prefix = get_action_name(action_name)
-    action_name_without_prefix = "providertemplate" if action_name_without_prefix == "executortemplate" else action_name_without_prefix
+    stage = os.environ["ENV"]
+    test_type = os.environ.get("DEPLOYMENT_TEST_TYPE")
 
-    if await get_env("ENV") != "dev":
-        return "not dev site, skip"
+    # FIXME: not able to get this env variable
+    # https://github.azc.ext.hp.com/BPSValidation/AzureReleasePipelines-Test/blob/master/releaseTestExecuteEach.sh#L28
+    logging.debug(f"{stage=} {test_type=}")
+    if stage == "dev":  # and test_type == "BVT":
+        logging.info("Start to trigger BVT test")
+        test_cases: list[FeatureTestCase] = BVT_TEST_CASES
+    elif stage == "qa":  # and test_type == "INTEGRATION":
+        logging.info("Start to trigger INTEGRATION test")
+        test_cases: list[FeatureTestCase] = INTEGRATION_TEST_CASES
+    else:
+        return "Skip test."
 
-    service_id = await get_env("HP_IDP_SERVICE_ID")
-    service_secret = await get_env("HP_IDP_SERVICE_SECRET")
-    host = await get_env("HOST_IP")
-    port = await get_env("VCOSMOS_LOCAL_ENV_SITE_ENTRY_PORT")
-    vcosmos_access_host = os.environ.get("VCOSMOS_ACCESS_HOST")
-    atc_url = f"https://{host}:{port}"
-    checker_url_from_on_premise = f"{atc_url}/api/action/{action_name_without_prefix}/checker"
-    checker_url_from_cloud = f"http://dispatcher.actioninfo-services/api/action/{action_name_without_prefix}/checker"
-    vcosmos_token = await get_vcosmos_token(atc_url, service_id, service_secret)
+    # get vcosmos token, let atc helper ready to use
+    await atc_helper.init()
 
-    response = httpx.post(
-        checker_url_from_on_premise,
-        proxies={},
-        verify=False,
-        timeout=60,
-        json={
-            "CHECKER_URL": checker_url_from_cloud,
-            "VCOSMOS_TOKEN": vcosmos_token,
-            "VCOSMOS_ACCESS_HOST": vcosmos_access_host,
-            "GITHUB_STATUS": os.environ.get("GITHUB_STATUS"),
-            "SOURCEVERSION": os.environ.get("SourceVersion"),
-            "REPOSITORYNAME": os.environ.get("RepositoryName"),
-        },
-    )
-    logging.debug(f"response: {response.text}")
-    if response.status_code != 200:
-        raise ConnectionError(f"feature test trigger failed, status_code: {response.status_code}")
-    return None
+    # 1. run test on ATC, and update github commits status
+    for test_case in test_cases:
+        await update_uut_group_id_by_stage_in_place(stage, test_case.payload)
+
+    await run_test_on_atc_and_update_github_commits_status(test_cases=test_cases, atc=atc_helper, github=github_helper)
+
+    # 2a. polling result from ATC concurrently
+    # FIXME TEST IN DEV, need to move to QA
+    if stage == "dev":
+        await polling_result_from_atc_and_update_github_and_azure(
+            test_cases=test_cases, atc=atc_helper, github=github_helper, azure=azure_helper, timeout=TASK_TIMEOUT
+        )
+
+    # 2b. subscribe result from ATC in parallel
+    if stage == "NOT_READY":
+        await subscribe_task_done_or_exception_and_callback_to_github_checker(test_cases=test_cases, atc=atc_helper, github=github_helper)
