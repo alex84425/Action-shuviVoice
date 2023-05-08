@@ -191,7 +191,7 @@ git remote remove upstream
 
 [dev-portainer]: https://vcosmos-tpe-itg-3.corp.hpicloud.net/portainer/#!/home
 
-## Integration Test flowchart
+## Integration Test flowchart (Current)
 
 ```mermaid
 sequenceDiagram
@@ -200,6 +200,21 @@ sequenceDiagram
         Integration Test->>ATC: Get Task Result
         ATC->>-Integration Test: Task Result
     end
+    Integration Test->>GitHub: Update GitHub Status
+    Integration Test->>ADO: Update ADO Test Point
+```
+
+## Integration Test flowchart (Building)
+
+```mermaid
+sequenceDiagram
+    Integration Test->>+ATC: Create & Trigger Test Plan
+    ATC->>Integration Test: Task ID
+    Integration Test->>ATC: Subscript Task Done
+    ATC->>ATC: Wait Until Task Done
+    ATC->>GitHub: Task Result
+    GitHub->>Integration Test: Send Task Result To Checker
+    Integration Test->>GitHub: Update GitHub Status
     Integration Test->>ADO: Update ADO Test Point
 ```
 
