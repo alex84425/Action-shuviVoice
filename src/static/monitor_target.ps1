@@ -12,9 +12,9 @@ else {
         [Console]::Error.WriteLine("found FAIL in status.txt")
         exit 1
     }
-    $process = Get-Process "notepad"  -ErrorAction SilentlyContinue
-    if ( $process) {        
-        [Console]::Error.WriteLine("proccess running")
+    $process = Get-Process "powershell"  -ErrorAction SilentlyContinue
+    if ( $process) {
+        [Console]::Error.WriteLine("process running")
         exit 0
     }
     else {

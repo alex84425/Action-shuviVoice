@@ -67,13 +67,6 @@ async def post_to_action(act: models.MyActionPostModel):
             "data": {"example_extra_data": "for_onstart"},
             "timeout": TEN_MINUTES_IN_MICROSECONDS,
         },
-        {
-            "executeType": "targetCommand",
-            "environmentVariables": {},
-            "workingDirectory": str(act.context.workingDirectory),
-            "waitFinished": True,
-            "command": ["powershell.exe", "notepad.exe  ; Start-Sleep 60 ;  TASKKILL /T /F /IM notepad.exe"],
-        },
     ]
     response["monitorOnStop"] = [
         {
