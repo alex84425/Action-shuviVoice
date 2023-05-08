@@ -13,6 +13,7 @@ from vcosmosapiclient.library.rebootapi import force_reboot_once
 import static
 from app.action import models
 from app.config import get_settings
+from app.description import DESCRIPTION_DICT
 
 settings = get_settings()
 
@@ -64,8 +65,15 @@ async def execute_action(act: models.MyActionPostModel):
     data_from_atc = act.actionData.data.dict(by_alias=True)
     logging.info(data_from_atc)
     remote_path = act.context.workingDirectory / "LOGS" / "ResultDetails.json"
-    await send_string_to_remote(act.target, json.dumps(data_from_atc, indent=4), remote_path)
 
+    await send_string_to_remote(act.target, json.dumps(data_from_atc, indent=4), remote_path)
+    # send log_link contain action meta
+    action_meta_remote_path = act.context.workingDirectory / "LOGS" / "action_meta.txt"
+    action_meta = DESCRIPTION_DICT
+    await send_string_to_remote(act.target, json.dumps(action_meta, indent=4), action_meta_remote_path, override=True)
+
+    # send monitor file
+    await send_file_to_remote(act.target, static.file("monitor_target.ps1"), act.context.workingDirectory, override=True)
     # send file to remote
     await send_file_to_remote(
         act.target, file_path=static.file("__init__.py"), remote_path=act.context.workingDirectory / "LOGS", override=True, timeout=60

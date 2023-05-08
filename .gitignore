@@ -85,6 +85,7 @@ env.bak/
 venv.bak/
 
 log/
+local_test/
 
 # SonarQube
 .scannerwork

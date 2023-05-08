@@ -7,10 +7,13 @@ Response schema:
 https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/blob/master/ActionExecutor/ActionActResponse.schema.json
 """
 import datetime
+import logging
 
 from fastapi import APIRouter, HTTPException, status
 from vcosmosapiclient.api import MonitorFileResponse
+from vcosmosapiclient.api_proxy import execute_ps1_on_remote
 from vcosmosapiclient.custom_logging import log_wrapper
+from vcosmosapiclient.errors import UutConnectionError
 from vcosmosapiclient.utils import validator
 
 from app.action import executor, models
@@ -35,6 +38,17 @@ async def post_to_action(act: models.MyActionPostModel):
         status_file="LOGS/status.txt",
     ).dict()
 
+    # integrate pester feature tests
+    monitor_target_payload = {
+        "url": f"http://{settings.HOSTNAME_AND_PORT}/action/monitor/target",
+        "method": "POST",
+        "headers": {"Content-type": "application/json"},
+        "data": act,
+        "timeout": 360 * 1000,
+    }
+    response.update({"monitorTargetType": "request"})
+    response.update({"monitorTargetData": monitor_target_payload})
+
     # example of onStart and onStop callback
     headers = {"Content-type": "application/json"}
     response["monitorOnStart"] = [
@@ -52,6 +66,13 @@ async def post_to_action(act: models.MyActionPostModel):
             "headers": headers,
             "data": {"example_extra_data": "for_onstart"},
             "timeout": TEN_MINUTES_IN_MICROSECONDS,
+        },
+        {
+            "executeType": "targetCommand",
+            "environmentVariables": {},
+            "workingDirectory": str(act.context.workingDirectory),
+            "waitFinished": True,
+            "command": ["powershell.exe", "notepad.exe  ; Start-Sleep 60 ;  TASKKILL /T /F /IM notepad.exe"],
         },
     ]
     response["monitorOnStop"] = [
@@ -121,3 +142,25 @@ async def onabort(payload: models.MyActionCallbackModel):
             status_code=status.HTTP_403_FORBIDDEN,
             detail=f"Cannot Abort, because of an error {exc}, no more try",
         ) from exc
+
+
+@router.post("/monitor/target")
+@log_wrapper
+async def monitor_target(act: models.MyActionCallbackModel):
+    logging.info("=============================================================")
+    logging.info("[Step] POST /monitor/target")
+
+    try:
+        result = await execute_ps1_on_remote(act, act.context.workingDirectory / "monitor_target.ps1", check=False)
+    except UutConnectionError:
+        logging.debug("Failed to connect to UUT")
+        return {"result": True}
+    result = await execute_ps1_on_remote(act, act.context.workingDirectory / "monitor_target.ps1", check=False)
+
+    if result.returncode == 0:
+        # process exist -> running
+        logging.info("[Step] POST /monitor/target process is running")
+        return {"result": False}
+
+    logging.info("[Step] POST /monitor/target process not found")
+    return {"result": True}
