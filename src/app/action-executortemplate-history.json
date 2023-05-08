@@ -1,4 +1,5 @@
 {
+    "2.0.1": "[2023-05-08] fix callback 422 issue",
     "2.0.0": "[2023-05-08] add UAT",
     "1.9.1": "[2023-04-08] Update ruff configuration, reference aws, netflix, etc..",
     "1.9.0": "[2023-04-07] Use Ruff to replace pylama[eradicate,mccabe,pycodestyle,pyflakes,pylint,isort]",

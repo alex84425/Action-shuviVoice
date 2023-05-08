@@ -87,8 +87,8 @@ async def execute_action(act: models.MyActionPostModel):
     )
 
     # 2. execute task
-    logging.debug("sleep 60 seconds for test abort")
-    await asyncio.sleep(60)
+    logging.debug("sleep 10 seconds for test abort")
+    await asyncio.sleep(10)
     logging.debug("wake up")
 
     # generate monitor file

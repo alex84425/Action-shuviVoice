@@ -43,7 +43,7 @@ async def post_to_action(act: models.MyActionPostModel):
         "url": f"http://{settings.HOSTNAME_AND_PORT}/action/monitor/target",
         "method": "POST",
         "headers": {"Content-type": "application/json"},
-        "data": act,
+        "data": {"example_extra_data": "for_monitor"},
         "timeout": 360 * 1000,
     }
     response.update({"monitorTargetType": "request"})
@@ -139,16 +139,16 @@ async def onabort(payload: models.MyActionCallbackModel):
 
 @router.post("/monitor/target")
 @log_wrapper
-async def monitor_target(act: models.MyActionCallbackModel):
+async def monitor_target(payload: models.MyActionCallbackModel):
     logging.info("=============================================================")
     logging.info("[Step] POST /monitor/target")
 
     try:
-        result = await execute_ps1_on_remote(act, act.context.workingDirectory / "monitor_target.ps1", check=False)
+        result = await execute_ps1_on_remote(payload.act, payload.act.context.workingDirectory / "monitor_target.ps1", check=False)
     except UutConnectionError:
         logging.debug("Failed to connect to UUT")
         return {"result": True}
-    result = await execute_ps1_on_remote(act, act.context.workingDirectory / "monitor_target.ps1", check=False)
+    result = await execute_ps1_on_remote(payload.act, payload.act.context.workingDirectory / "monitor_target.ps1", check=False)
 
     if result.returncode == 0:
         # process exist -> running
