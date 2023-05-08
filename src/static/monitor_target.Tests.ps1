@@ -55,7 +55,7 @@ Describe "Test-MyScript" {
 
             & $PSCommandPath.Replace('.Tests', '')
             $exitCode = $LASTEXITCODE
-            $exitCode | Should Be 1
+            $exitCode | Should -Be 1
 
         }
 
@@ -77,7 +77,7 @@ Describe "Test-MyScript" {
 
             & $PSCommandPath.Replace('.Tests', '')
             $exitCode = $LASTEXITCODE
-            $exitCode | Should Be 1
+            $exitCode | Should -Be 1
 
         }
 
