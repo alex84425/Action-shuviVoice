@@ -68,16 +68,17 @@ ignore = [
   "E731",    # Do not assign a lambda expression, use a def
   "E741",    # ambiguous-variable-name
   "EXE002",  # The file is executable but no shebang is present
-  "G001",    # logging-string-format	Logging statement uses string.format()	
-  "G002",    # logging-percent-format	Logging statement uses %	
-  "G003",    # logging-string-concat	Logging statement uses +	
-  "G004",    # logging-f-string	Logging statement uses f-string
+  "G001",    # logging-string-format Logging statement uses string.format()
+  "G002",    # logging-percent-format Logging statement uses %
+  "G003",    # logging-string-concat Logging statement uses +
+  "G004",    # logging-f-string Logging statement uses f-string
   "ERA",     # eradicate, Found commented-out code
   "PT023",   # Use `@pytest.mark.asyncio()` over `@pytest.mark.asyncio`
   "PTH123",  # open() should be replaced by Path.open()
   "PLR0913", # Too many arguments to function call
   "PGH003",  # Use specific rule codes when ignoring type issues
   "PGH004",  # Use specific rule codes when using noqa
+  "RUF100",  # Unused `noqa` directive
 ]
 select = [
   "A",   # flake8-builtins
