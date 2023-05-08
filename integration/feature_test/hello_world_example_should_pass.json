@@ -3,7 +3,7 @@
     "name": "hello_world_example_should_pass",
     "type": "plan",
     "category": "FeatureTest",
-    "description": "{'planId': 44989, 'suiteId': 47253, 'testCaseId': 47245}",
+    "description": "{'planId': 44989, 'suiteId': 47253, 'testCaseId': 47254}",
     "testCases": [],
     "instanceSets": [
         {
