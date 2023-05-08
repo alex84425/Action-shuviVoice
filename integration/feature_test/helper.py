@@ -37,4 +37,9 @@ BVT_TEST_CASES = [
         checker=hello_world_example_should_pass_checker,
     )
 ]
-INTEGRATION_TEST_CASES = []
+INTEGRATION_TEST_CASES = [
+    FeatureTestCase(
+        payload_path=HERE / "hello_world_example_should_pass.json",
+        checker=hello_world_example_should_pass_checker,
+    )
+]

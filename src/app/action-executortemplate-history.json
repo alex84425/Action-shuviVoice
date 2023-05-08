@@ -1,4 +1,5 @@
 {
+    "2.1.0": "[2023-05-09] run feature test in QA",
     "2.0.1": "[2023-05-08] fix callback 422 issue",
     "2.0.0": "[2023-05-08] add UAT",
     "1.9.1": "[2023-04-08] Update ruff configuration, reference aws, netflix, etc..",
