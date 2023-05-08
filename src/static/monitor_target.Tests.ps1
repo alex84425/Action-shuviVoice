@@ -1,8 +1,3 @@
-BeforeAll {
-
-}
-
-
 Describe "Test-MyScript" {
     BeforeAll {
         # Set up any necessary test data or mocks here
@@ -27,14 +22,16 @@ Describe "Test-MyScript" {
         It "process not exist mean finish, should exit with code 1" {
             $ErrorActionPreference = "Stop"
 
+            Mock Get-Process { return $null }
             & $PSCommandPath.Replace('.Tests', '')
             $exitCode = $LASTEXITCODE
             $exitCode | Should -Be 1
-
+            
         }
 
         It "process exist, should exit with code 0" {
             $ErrorActionPreference = "Stop"
+            
             Mock Get-Process { return @{ Name = "powershell" } }
             & $PSCommandPath.Replace('.Tests', '')
             $exitCode = $LASTEXITCODE
@@ -58,7 +55,7 @@ Describe "Test-MyScript" {
 
             & $PSCommandPath.Replace('.Tests', '')
             $exitCode = $LASTEXITCODE
-            $exitCode | Should -Be 1
+            $exitCode | Should Be 1
 
         }
 
@@ -80,7 +77,7 @@ Describe "Test-MyScript" {
 
             & $PSCommandPath.Replace('.Tests', '')
             $exitCode = $LASTEXITCODE
-            $exitCode | Should -Be 1
+            $exitCode | Should Be 1
 
         }
 
