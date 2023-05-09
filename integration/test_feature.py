@@ -80,7 +80,7 @@ async def test_testdev_integration_test(action_name):
 
     # 2a. polling result from ATC concurrently
     # FIXME TEST IN DEV, need to move to QA
-    if stage == "dev":
+    if stage in ("dev", "qa"):
         await polling_result_from_atc_and_update_github_and_azure(
             test_cases=test_cases, atc=atc_helper, github=github_helper, azure=azure_helper, timeout=TASK_TIMEOUT
         )
