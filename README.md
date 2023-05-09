@@ -12,6 +12,7 @@
 | ----- | ------- | -------- | -------- | ------------------ |
 | 12 | 1 :zzz: | 0 :x: | 0 :fire: | 1.673s :stopwatch: |
 
+.
 <!-- Pytest Coverage Comment:End -->
 
 # How to make a action from the template
