@@ -79,7 +79,7 @@ async def test_testdev_integration_test(action_name):
     await run_test_on_atc_and_update_github_commits_status(test_cases=test_cases, atc=atc_helper, github=github_helper)
 
     # 2a. polling result from ATC concurrently
-    if stage in ("dev", "qa"):
+    if stage == "qa":
         await polling_result_from_atc_and_update_github_and_azure(
             test_cases=test_cases, atc=atc_helper, github=github_helper, azure=azure_helper
         )
