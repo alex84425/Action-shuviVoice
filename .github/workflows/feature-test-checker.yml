@@ -1,0 +1,23 @@
+name: Feature test Checker
+on:
+    workflow_dispatch:
+        inputs:
+            payload:
+                description: "ATC task done subscription callback payload"
+                required: true
+                default: "{}"
+
+jobs:
+    feature-test-checker:
+        runs-on: [rnd-it-ubuntu]
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/setup-python@v4
+              with:
+                  python-version: "3.9"
+
+            - run: |
+                  echo '${{ github.event.inputs }}' > inputs.json
+                  cat inputs.json
+
+# TODO checker
