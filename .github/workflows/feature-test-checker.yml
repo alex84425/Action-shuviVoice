@@ -5,7 +5,7 @@ on:
             payload:
                 description: "ATC task done subscription callback payload"
                 required: true
-                default: "{}"
+                default: {}
 
 jobs:
     feature-test-checker:
