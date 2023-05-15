@@ -16,6 +16,6 @@ def main():
     #  print(args.payload)
 
     valid_json_string = args.payload.replace("'", '"')
-    print(valid_json_string)
+    print(f"{valid_json_string}:")
     my_data = json.loads(valid_json_string)
-    print(my_data)
+    print(f"{my_data}:")
