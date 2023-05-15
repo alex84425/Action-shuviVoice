@@ -20,4 +20,16 @@ jobs:
                   echo '${{ github.event.inputs }}' > inputs.json
                   cat inputs.json
 
-# TODO checker
+            - name: Install dev dependencies
+              run: |
+                  pip install -U wheel setuptools pip
+                  pip install poetry
+                  poetry install
+
+            - name: TEST PYTHON CAN GET PAYLOAD AND ENV
+              env:
+                  HP_IDP_SERVICE_ID: ${{ secrets.HP_IDP_SERVICE_ID }}
+                  HP_IDP_SERVICE_SECRET: ${{ secrets.HP_IDP_SERVICE_SECRET }}
+                  GITHUB_STATUS: "GITHUB_STATUS"
+                  AZ_PAT_TEST_PLANS: "AZ_PAT_TEST_PLANS"
+              run: poetry run python integration/checker.py ${{ github.event.inputs }}
