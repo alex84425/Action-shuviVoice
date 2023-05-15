@@ -13,8 +13,9 @@ def main():
     parser.add_argument("payload", type=str, help="ATC task done subscription callback payload")
     print("payload variables:")
     args = parser.parse_args()
-    print(args.payload)
+    #  print(args.payload)
 
     valid_json_string = args.payload.replace("'", '"')
+    print(valid_json_string)
     my_data = json.loads(valid_json_string)
     print(my_data)
