@@ -1,4 +1,3 @@
-import argparse
 import json
 import os
 
@@ -9,13 +8,8 @@ def main():
     print(f"GITHUB_STATUS: {os.environ.get('GITHUB_STATUS')}")
     print(f"AZ_PAT_TEST_PLANS: {os.environ.get('AZ_PAT_TEST_PLANS')}")
 
-    parser = argparse.ArgumentParser(description="Feature Test Checker")
-    parser.add_argument("payload", type=str, help="ATC task done subscription callback payload")
-    print("payload variables:")
-    args = parser.parse_args()
-    #  print(args.payload)
-
-    valid_json_string = args.payload.replace("'", '"')
-    print(f"{valid_json_string}:")
-    my_data = json.loads(valid_json_string)
-    print(f"{my_data}:")
+    with open("inputs.json", "r") as f:
+        data = f.read()
+        valid_json_str = data.replace("'", '"')
+        json_data = json.loads(valid_json_str)
+        print(json_data)
