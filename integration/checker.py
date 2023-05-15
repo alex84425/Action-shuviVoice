@@ -10,6 +10,8 @@ def main():
 
     with open("inputs.json", "r") as f:
         data = f.read()
+        print(data)
         valid_json_str = data.replace("'", '"')
+        print(valid_json_str)
         json_data = json.loads(valid_json_str)
         print(json_data)
