@@ -24,3 +24,7 @@ def main():
     print("content")
     valid_json_data = content.replace("'", '"')
     print(f"{valid_json_data}:")
+
+
+if __name__ == "__main__":
+    main()

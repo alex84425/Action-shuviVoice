@@ -24,10 +24,6 @@ jobs:
               id: file_path
               run: echo "::set-output name=path::$(pwd)/inputs.json"
 
-            - name: Use File Path
-              run: |
-                  echo "File path: ${{ steps.file_path.outputs.path }}"
-
             - name: Install dev dependencies
               run: |
                   pip install -U wheel setuptools pip
