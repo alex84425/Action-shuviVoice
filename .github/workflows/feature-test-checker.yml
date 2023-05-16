@@ -17,8 +17,9 @@ jobs:
                   python-version: "3.9"
 
             - run: |
-                  echo '${{ github.event.inputs.payload }}' > inputs.json
-                  cat inputs.json
+                  new_inputs=$(echo ${{ github.event.inputs.payload }} | sed -e "s/'/\"/g")
+                  echo "::set-env name=new_inputs::$new_inputs"
+                  echo $new_inputs > inputs.json
 
             - name: Install dev dependencies
               run: |
@@ -32,4 +33,4 @@ jobs:
                   HP_IDP_SERVICE_SECRET: ${{ secrets.HP_IDP_SERVICE_SECRET }}
                   GITHUB_STATUS: "GITHUB_STATUS"
 
-              run: poetry run python integration/checker.py '${{ github.event.inputs.payload }}'
+              run: poetry run python integration/checker.py '$new_inputs'
