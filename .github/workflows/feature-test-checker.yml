@@ -17,7 +17,7 @@ jobs:
                   python-version: "3.9"
 
             - run: |
-                  echo "${{ github.event.inputs.payload }}" > inputs.json
+                  echo '${{ github.event.inputs.payload }}' > inputs.json
                   cat inputs.json
 
             - name: Set File Path
