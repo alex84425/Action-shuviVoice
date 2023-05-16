@@ -34,10 +34,10 @@ jobs:
                   pip install poetry
                   poetry install
 
-            # - name: TEST PYTHON CAN GET PAYLOAD AND ENV
-            #   env:
-            #       HP_IDP_SERVICE_ID: ${{ secrets.HP_IDP_SERVICE_ID }}
-            #       HP_IDP_SERVICE_SECRET: ${{ secrets.HP_IDP_SERVICE_SECRET }}
-            #       GITHUB_STATUS: "GITHUB_STATUS"
+            - name: TEST PYTHON CAN GET PAYLOAD AND ENV
+              env:
+                  HP_IDP_SERVICE_ID: ${{ secrets.HP_IDP_SERVICE_ID }}
+                  HP_IDP_SERVICE_SECRET: ${{ secrets.HP_IDP_SERVICE_SECRET }}
+                  GITHUB_STATUS: "GITHUB_STATUS"
 
-            #   run: poetry run python integration/checker.py "${{ steps.file_path.outputs.path }}"
+              run: poetry run python integration/checker.py "${{ steps.file_path.outputs.path }}"
