@@ -16,10 +16,11 @@ jobs:
               with:
                   python-version: "3.9"
 
-            - run: |
+            - name: Transfer inputs payload
+              id: transfer-input
+              run: |
                   new_inputs=$(echo ${{ github.event.inputs.payload }} | sed -e "s/'/\"/g")
                   echo "::set-output name=new_inputs::$new_inputs"
-                  echo $new_inputs > inputs.json
 
             - name: Install dev dependencies
               run: |
@@ -33,4 +34,4 @@ jobs:
                   HP_IDP_SERVICE_SECRET: ${{ secrets.HP_IDP_SERVICE_SECRET }}
                   GITHUB_STATUS: "GITHUB_STATUS"
 
-              run: poetry run python integration/checker.py '$new_inputs'
+              run: poetry run python integration/checker.py ${{ steps.transfer-input.outputs.new_inputs }}
