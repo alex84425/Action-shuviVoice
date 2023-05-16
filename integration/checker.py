@@ -19,10 +19,10 @@ def main():
     print("payload variables:")
     args = parser.parse_args()
     print(args.payload)
-    valid_json_data = args.payload.replace("'", '"')
-    print("payload as dict variables:")
-    my_dict = json.loads(valid_json_data)
-    print(my_dict)
+    # valid_json_data = args.payload.replace("'", '"')
+    # print("payload as dict variables:")
+    # my_dict = json.loads(valid_json_data)
+    # print(my_dict)
 
 
 if __name__ == "__main__":

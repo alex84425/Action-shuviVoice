@@ -32,4 +32,4 @@ jobs:
                   HP_IDP_SERVICE_SECRET: ${{ secrets.HP_IDP_SERVICE_SECRET }}
                   GITHUB_STATUS: "GITHUB_STATUS"
 
-              run: poetry run python integration/checker.py ${{ github.event.inputs.payload }}
+              run: poetry run python integration/checker.py '${{ github.event.inputs.payload }}'
