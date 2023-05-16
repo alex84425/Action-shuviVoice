@@ -1,4 +1,3 @@
-import json
 import os
 import sys
 
@@ -13,9 +12,10 @@ def main():
     print(f"AZ_PAT_TEST_PLANS: {os.environ.get('AZ_PAT_TEST_PLANS')}")
 
     filename = sys.argv[1]
-    with open(filename, "r") as f:
+    print(filename)
+
+    with open(filename, "r", encoding="utf-8") as f:
         content = f.read()
-    print(content)
+    print("content")
     valid_json_data = content.replace("'", '"')
-    print(valid_json_data)
-    
+    print(f"{valid_json_data}:")
