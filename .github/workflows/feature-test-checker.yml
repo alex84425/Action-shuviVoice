@@ -20,10 +20,6 @@ jobs:
                   echo '${{ github.event.inputs.payload }}' > inputs.json
                   cat inputs.json
 
-            - name: Set File Path
-              id: file_path
-              run: echo "::set-output name=path::$(pwd)/inputs.json"
-
             - name: Install dev dependencies
               run: |
                   pip install -U wheel setuptools pip
@@ -36,4 +32,4 @@ jobs:
                   HP_IDP_SERVICE_SECRET: ${{ secrets.HP_IDP_SERVICE_SECRET }}
                   GITHUB_STATUS: "GITHUB_STATUS"
 
-              run: poetry run python integration/checker.py "${{ steps.file_path.outputs.path }}"
+              run: poetry run python integration/checker.py ${{ github.event.inputs.payload }}
