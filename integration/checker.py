@@ -11,6 +11,9 @@ def main():
     print(f"GITHUB_STATUS: {os.environ.get('GITHUB_STATUS')}")
     print(f"AZ_PAT_TEST_PLANS: {os.environ.get('AZ_PAT_TEST_PLANS')}")
 
+    for i in sys.argv:
+        print(i)
+
     filename = sys.argv[1]
     print(filename)
 
