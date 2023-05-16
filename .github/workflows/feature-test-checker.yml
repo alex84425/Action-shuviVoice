@@ -19,7 +19,8 @@ jobs:
             - name: Transfer inputs payload
               id: transfer-input
               run: |
-                  new_inputs=$(echo ${{ github.event.inputs.payload }} | sed -e "s/'/\"/g")
+                  new_inputs=$(echo "${${{ github.event.inputs.payload }}//\'/\"})
+                  echo new_inputs
                   echo "::set-output name=new_inputs::$new_inputs"
 
             - name: Install dev dependencies
