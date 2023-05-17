@@ -43,7 +43,6 @@ async def post_to_action(act: models.MyActionPostModel):
         "url": f"http://{settings.HOSTNAME_AND_PORT}/action/monitor/target",
         "method": "POST",
         "headers": {"Content-type": "application/json"},
-        "data": {"example_extra_data": "for_monitor"},
         "timeout": 360 * 1000,
     }
     response.update({"monitorTargetType": "request"})
@@ -64,7 +63,6 @@ async def post_to_action(act: models.MyActionPostModel):
             "url": f"http://{settings.HOSTNAME_AND_PORT}/action/onstart",
             "method": "POST",
             "headers": headers,
-            "data": {"example_extra_data": "for_onstart"},
             "timeout": TEN_MINUTES_IN_MICROSECONDS,
         },
     ]
@@ -81,7 +79,6 @@ async def post_to_action(act: models.MyActionPostModel):
             "url": f"http://{settings.HOSTNAME_AND_PORT}/action/onstop",
             "method": "POST",
             "headers": headers,
-            "data": {"example_extra_data": "for_onstop"},
             "timeout": TEN_MINUTES_IN_MICROSECONDS,
         },
     ]
