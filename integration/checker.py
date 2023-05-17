@@ -37,8 +37,8 @@ async def main():
 
     headers = {
         "accept": "application/json",
-        "content-type": "application/json",
-        "Authorization": hp_access_token,
+        "content-type": "application/json;charset=utf-8",
+        "Authorization": hp_access_token["access_token"],
     }
     response = httpx.get(get_job_url, headers=headers, proxies=hp_web_proxy)
     print(response.status_code)
