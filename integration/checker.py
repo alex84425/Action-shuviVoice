@@ -11,15 +11,15 @@ def main():
     # print env variables
     print("ENV variables :")
 
-    source_version = os.environ["SourceVersion"]
-    repository_name = os.environ["RepositoryName"]
+    # source_version = os.environ["SourceVersion"]
+    # repository_name = os.environ["RepositoryName"]
     hp_idp_service_id = os.environ.get("HP_IDP_SERVICE_ID")
     hp_idp_service_secret = os.environ.get("HP_IDP_SERVICE_SECRET")
     github_status = os.environ.get("GITHUB_STATUS")
     vcosmos_access_host = os.environ.get("VCOSMOS_ACCESS_HOST")
     hp_web_proxy = os.environ.get("HP_WEB_PROCY")
 
-    print(source_version, repository_name, hp_idp_service_id, hp_idp_service_secret, github_status)
+    print(hp_idp_service_id, hp_idp_service_secret, github_status)
 
     # get payload
     parser = argparse.ArgumentParser(description="Feature Test Checker")
