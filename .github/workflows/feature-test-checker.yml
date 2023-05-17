@@ -8,8 +8,26 @@ on:
                 default: "{}"
 
 jobs:
+    login vcosmos:
+        runs-on: [rnd-it-ubuntu]
+        outputs:
+            b64token: ${{ steps.save-token.outputs.b64token }}
+        steps:
+            - uses: vcosmos-actions/login-vcosmos@dev
+              id: login-vcosmos-once
+              with:
+                  username: ${{ secrets.HP_IDP_SERVICE_ID }}
+                  password: ${{ secrets.HP_IDP_SERVICE_SECRET }}
+
+            - name: "Save vCosmos API token"
+              id: save-token
+              run: |
+                  b64token=$(echo ${{ steps.login-vcosmos-once.outputs.token }} | base64 -w0 )
+                  echo "::set-output name=b64token::$(echo -n ${b64token})"
+
     feature-test-checker:
         runs-on: [rnd-it-ubuntu]
+        needs: [login]
         steps:
             - uses: actions/checkout@v3
             - uses: actions/setup-python@v4
@@ -29,8 +47,7 @@ jobs:
 
             - name: TEST PYTHON CAN GET PAYLOAD AND ENV
               env:
-                  HP_IDP_SERVICE_ID: ${{ secrets.HP_IDP_SERVICE_ID }}
-                  HP_IDP_SERVICE_SECRET: ${{ secrets.HP_IDP_SERVICE_SECRET }}
+                  VCOSMOS_TOKEN: ${{ steps.login-vcosmos.outputs.token }}
                   GITHUB_STATUS: "GITHUB_STATUS"
                   HP_WEB_PROXY: ${{ secrets.HP_WEB_PROXY }}
                   VCOSMOS_ACCESS_HOST: ${{ secrets.VCOSMOS_ACCESS_HOST }}
