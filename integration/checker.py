@@ -3,27 +3,40 @@ import argparse
 import json
 import os
 
+import httpx
+from vcosmosapiclient.integration.atc_api_helper import get_hp_access_token
+
 
 def main():
     # print env variables
     print("ENV variables :")
-    # print("RepositoryName: " + os.environ["RepositoryName"])
-    # print("SourceVersion: " + os.environ["SourceVersion"])
-    print(f"HP_IDP_SERVICE_ID: {os.environ.get('HP_IDP_SERVICE_ID')}")
-    print(f"HP_IDP_SERVICE_SECRET: {os.environ.get('HP_IDP_SERVICE_SECRET')}")
-    print(f"GITHUB_STATUS: {os.environ.get('GITHUB_STATUS')}")
-    print(f"AZ_PAT_TEST_PLANS: {os.environ.get('AZ_PAT_TEST_PLANS')}")
 
+    source_version = os.environ["SourceVersion"]
+    repository_name = os.environ["RepositoryName"]
+    hp_idp_service_id = os.environ.get("HP_IDP_SERVICE_ID")
+    hp_idp_service_secret = os.environ.get("HP_IDP_SERVICE_SECRET")
+    github_status = os.environ.get("GITHUB_STATUS")
+    vcosmos_access_host = os.environ.get("VCOSMOS_ACCESS_HOST")
+    hp_web_proxy = os.environ.get("HP_WEB_PROCY")
+
+    print(source_version, repository_name, hp_idp_service_id, hp_idp_service_secret, github_status)
+
+    # get payload
     parser = argparse.ArgumentParser(description="Feature Test Checker")
     parser.add_argument("payload", type=str, help="ATC task done subscription callback payload")
-    print("payload variables:")
-    args = parser.parse_args()
-    print(args.payload)
-    valid_json_data = args.payload.replace("'", '"')
-    print(f"payload as dict variables:{valid_json_data}")
 
-    # my_dict = json.loads(valid_json_data)
-    # print(my_dict)
+    args = parser.parse_args()
+    valid_json_data = args.payload.replace("'", '"')
+    workflow_payload = json.loads(valid_json_data)
+
+    job_id = workflow_payload["task_jobid"]
+    hp_access_token = get_hp_access_token(hp_idp_service_id, hp_idp_service_secret)
+
+    get_job_url = f"{vcosmos_access_host}/api/v2/jobs/{job_id}"
+    headers = {"accept": "application/json", "content-type": "application/json", "Authorization": hp_access_token}
+    response = httpx.get(get_job_url, headers=headers, proxies=hp_web_proxy)
+    print(response.status_code)
+    print(response.json())
 
 
 if __name__ == "__main__":
