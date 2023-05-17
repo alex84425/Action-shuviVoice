@@ -8,7 +8,7 @@ on:
                 default: "{}"
 
 jobs:
-    login vcosmos:
+    login:
         runs-on: [rnd-it-ubuntu]
         outputs:
             b64token: ${{ steps.save-token.outputs.b64token }}
