@@ -1,5 +1,6 @@
 # this is a cli tool, which can be used to check the correctness of the feature test
 import argparse
+import asyncio
 import json
 import os
 
@@ -7,7 +8,7 @@ import httpx
 from vcosmosapiclient.integration.atc_api_helper import get_hp_access_token
 
 
-def main():
+async def main():
     # print env variables
     print("ENV variables :")
 
@@ -30,7 +31,7 @@ def main():
     workflow_payload = json.loads(valid_json_data)
 
     job_id = workflow_payload["task_jobid"]
-    hp_access_token = get_hp_access_token(hp_idp_service_id, hp_idp_service_secret)
+    hp_access_token = await get_hp_access_token(hp_idp_service_id, hp_idp_service_secret)
 
     get_job_url = f"{vcosmos_access_host}/api/v2/jobs/{job_id}"
     headers = {"accept": "application/json", "content-type": "application/json", "Authorization": hp_access_token}
@@ -40,4 +41,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
