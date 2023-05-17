@@ -18,7 +18,7 @@ async def main():
     hp_idp_service_secret = os.environ.get("HP_IDP_SERVICE_SECRET")
     github_status = os.environ.get("GITHUB_STATUS")
     vcosmos_access_host = os.environ.get("VCOSMOS_ACCESS_HOST")
-    hp_web_proxy = os.environ.get("HP_WEB_PROCY")
+    hp_web_proxy = os.environ.get("HP_WEB_PROXY")
 
     print(hp_idp_service_id, hp_idp_service_secret, github_status)
 
