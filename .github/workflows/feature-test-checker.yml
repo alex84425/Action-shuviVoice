@@ -55,5 +55,6 @@ jobs:
                   GITHUB_STATUS: "GITHUB_STATUS"
                   HP_WEB_PROXY: ${{ secrets.HP_WEB_PROXY }}
                   VCOSMOS_ACCESS_HOST: ${{ secrets.VCOSMOS_ACCESS_HOST }}
+                  ACTIONS_BOT_TOKEN: ${{ secrets.ACTIONS_BOT_TOKEN }}
 
               run: poetry run python integration/checker.py '${{ github.event.inputs.payload }}'
