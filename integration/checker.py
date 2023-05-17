@@ -33,7 +33,7 @@ async def main():
     job_id = workflow_payload["task_jobid"]
     hp_access_token = await get_hp_access_token(hp_idp_service_id, hp_idp_service_secret)
     get_job_url = f"{vcosmos_access_host}/api/v2/jobs/{job_id}"
-    print(f"{hp_access_token}:, {get_job_url}:, {hp_web_proxy}:")
+    print(f"{hp_access_token}, {get_job_url}, {hp_web_proxy}")
 
     headers = {
         "accept": "application/json",
