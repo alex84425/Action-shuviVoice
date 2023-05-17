@@ -39,6 +39,10 @@ jobs:
                   echo '${{ github.event.inputs.payload }}' > inputs.json
                   echo inputs.json
 
+            - name: "Load vCosmos API token"
+              id: login-vcosmos
+              run: echo "::set-output name=token::$(echo ${{ needs.login.outputs.b64token }} | base64 -d)"
+
             - name: Install dev dependencies
               run: |
                   pip install -U wheel setuptools pip
