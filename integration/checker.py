@@ -6,6 +6,9 @@ import os
 
 import httpx
 
+JOB_MAGIC_INDEX = 0
+TASKS_MAGIC_INDEX = 0
+
 
 async def main():
     # print env variables
@@ -36,9 +39,30 @@ async def main():
         "content-type": "application/json;charset=utf-8",
         "Authorization": vcosmos_token,
     }
-    response = httpx.get(get_job_url, headers=headers, proxies=hp_web_proxy)
-    print(response.status_code)
-    print(response.json())
+    job_res = httpx.get(get_job_url, headers=headers, proxies=hp_web_proxy)
+    print(job_res.status_code)
+    if job_res.status_code != 200:
+        raise Exception("job_res.status_code is not 200")
+    job_data = job_res.json()
+    job_status = job_data[JOB_MAGIC_INDEX]["status"]
+    if "Terminated" == job_status:
+        print("Not Implement: Terminated")
+
+    if "Completed" == job_status:
+        task_id = job_data[JOB_MAGIC_INDEX]["tasks"][TASKS_MAGIC_INDEX]["taskId"]
+        get_task_url = f"https://{vcosmos_access_host}/api/v2/tasks/{task_id}"
+        task_res = httpx.get(get_task_url, headers=headers, proxies=hp_web_proxy)
+        if task_res.status_code != 200:
+            raise Exception("task_res.status_code is not 200")
+
+        task_data = task_res.json()
+        task_status = task_data["status"]
+
+        if task_status in ("Aborted", "Rejected"):
+            print("Not Implement: Aborted, Rejected")
+
+        if task_status == "Done":
+            print("Not Implement: Done")
 
 
 if __name__ == "__main__":
