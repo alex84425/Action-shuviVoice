@@ -94,40 +94,40 @@ async def main():
     args = parser.parse_args()
     valid_json_data = args.dispatch_parameters.replace("'", '"')
     print(valid_json_data)
-    # dispatch_parameters = json.loads(valid_json_data)
-    # print(dispatch_parameters)
+    dispatch_parameters = json.loads(valid_json_data)
+    print(dispatch_parameters)
 
-    # job_id = dispatch_parameters["job_id"]
-    # test_name = dispatch_parameters["test_name"]
-    # target_url = dispatch_parameters["target_url"]
-    # source_version = dispatch_parameters["source_version"]
-    # repository_name = dispatch_parameters["repository_name"]
-    # print(job_id, test_name, target_url, source_version, repository_name)
+    job_id = dispatch_parameters["job_id"]
+    test_name = dispatch_parameters["test_name"]
+    target_url = dispatch_parameters["target_url"]
+    source_version = dispatch_parameters["source_version"]
+    repository_name = dispatch_parameters["repository_name"]
+    print(job_id, test_name, target_url, source_version, repository_name)
 
-    # github_helper: GitHubHelper = GitHubHelper(
-    #     base_url="https://github.azc.ext.hp.com", repository_name=repository_name, source_version=source_version, pat=github_pat
-    # )
+    github_helper: GitHubHelper = GitHubHelper(
+        base_url="https://github.azc.ext.hp.com", repository_name=repository_name, source_version=source_version, pat=github_pat
+    )
 
     # # FIXME just use ATC and _monitor_task?
-    # atc_helper = VCOSMOS_API()
-    # job = await atc_helper.get_job(job_id)
-    # job_status = job["status"]
-    # task_id = job[JOB_MAGIC_INDEX]["tasks"][TASKS_MAGIC_INDEX]["taskId"]
+    atc_helper = VCOSMOS_API()
+    job = await atc_helper.get_job(job_id)
+    job_status = job["status"]
+    task_id = job[JOB_MAGIC_INDEX]["tasks"][TASKS_MAGIC_INDEX]["taskId"]
 
-    # task_result = await atc_helper.get_task(task_id)
+    task_result = await atc_helper.get_task(task_id)
 
-    # if "Terminated" == job_status:
-    #     await github_helper.update_status(
-    #         state=State.FAILURE,
-    #         target_url=target_url,
-    #         description="task has been terminated",
-    #         context=f"test/{test_name}",
-    #     )
+    if "Terminated" == job_status:
+        await github_helper.update_status(
+            state=State.FAILURE,
+            target_url=target_url,
+            description="task has been terminated",
+            context=f"test/{test_name}",
+        )
 
-    # if "Completed" == job_status:
-    #     for test_case in test_cases:
-    #         if test_case.name == test_name:
-    #             await testcase_result_checker_and_update_status(task_result, test_case, github_helper)
+    if "Completed" == job_status:
+        for test_case in test_cases:
+            if test_case.name == test_name:
+                await testcase_result_checker_and_update_status(task_result, test_case, github_helper)
 
     # atc_helper = ATC(
     #     base_url_on_premise="",
