@@ -74,7 +74,12 @@ async def test_testdev_integration_test(action_name):
 
     # init github helper
     github_helper: GitHubHelper = GitHubHelper(
-        base_url="https://github.azc.ext.hp.com", repository_name=repository_name, source_version=source_version, pat=pat
+        base_url="https://github.azc.ext.hp.com",
+        repository_name=repository_name,
+        source_version=source_version,
+        pat=pat,
+        # FIXME USE THIS FOR TESTING
+        branch_name="feat/dev_feature_test",
     )
     await run_test_on_atc_and_update_github_commits_status(test_cases=test_cases, atc=atc_helper, github=github_helper)
 
