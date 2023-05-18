@@ -6,6 +6,10 @@ on:
                 description: "ATC task done subscription callback dispatch_parameters"
                 required: true
                 default: "{}"
+            dispatch_parameters2:
+                description: "ATC task done subscription callback dispatch_parameters"
+                required: true
+                default: "{}"
 
 jobs:
     login:
