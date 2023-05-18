@@ -6,7 +6,8 @@ import logging
 import os
 
 import httpx
-from feature_test.helper import INTEGRATION_TEST_CASES
+from feature_test.helper import BVT_TEST_CASES
+from vcosmosapiclient.integration.atc_api_helper import ATC
 from vcosmosapiclient.integration.feature_test_models import FeatureTestCase, ResultStatus, Task, TaskMode
 from vcosmosapiclient.integration.github_helper import GitHubHelper, State
 
@@ -77,10 +78,16 @@ async def main():
     print("ENV variables:")
     # actions_bot_token = os.environ["ACTIONS_BOT_TOKEN"]
     github_pat = os.environ["STATUS_GITHUB"]
-    vcosmos_token = os.environ["VCOSMOS_TOKEN"]
+    # vcosmos_token = os.environ["VCOSMOS_TOKEN"]
+    print(github_pat)
+
+    service_id = os.environ["HP_IDP_SERVICE_ID"]
+    service_secret = os.environ["HP_IDP_SERVICE_SECRET"]
     vcosmos_access_host = os.environ["VCOSMOS_ACCESS_HOST"]
     hp_web_proxy = os.environ["HP_WEB_PROXY"]
-    print(github_pat, vcosmos_token, vcosmos_access_host, hp_web_proxy)
+    print(service_id, service_secret, vcosmos_access_host, hp_web_proxy)
+
+    test_cases: list[FeatureTestCase] = BVT_TEST_CASES
 
     # get dispatch_parameters
     parser = argparse.ArgumentParser(description="Feature Test Checker")
@@ -102,12 +109,13 @@ async def main():
         base_url="https://github.azc.ext.hp.com", repository_name=repository_name, source_version=source_version, pat=github_pat
     )
 
-    vcosmos_api = VCOSMOS_API()
-    job = await vcosmos_api.get_job(job_id)
+    # FIXME just use ATC and _monitor_task?
+    atc_helper = VCOSMOS_API()
+    job = await atc_helper.get_job(job_id)
     job_status = job["status"]
     task_id = job[JOB_MAGIC_INDEX]["tasks"][TASKS_MAGIC_INDEX]["taskId"]
 
-    task_result = await vcosmos_api.get_task(task_id)
+    task_result = await atc_helper.get_task(task_id)
 
     if "Terminated" == job_status:
         await github_helper.update_status(
@@ -118,10 +126,35 @@ async def main():
         )
 
     if "Completed" == job_status:
-        test_cases: list[FeatureTestCase] = INTEGRATION_TEST_CASES
         for test_case in test_cases:
             if test_case.name == test_name:
                 await testcase_result_checker_and_update_status(task_result, test_case, github_helper)
+
+    # atc_helper = ATC(
+    #     base_url_on_premise="",
+    #     base_url_cloud=f"https://{vcosmos_access_host}",
+    #     service_id=service_id,
+    #     service_secret=service_secret,
+    #     sitebroker=False,
+    #     proxies={
+    #         "http://": hp_web_proxy,
+    #         "https://": hp_web_proxy,
+    #     },
+    # )
+
+    # try:
+    #     task = await atc_helper._monitor_task(job_id, timeout=60)
+    # except Exception as exc:
+    #     await github_helper.update_status(
+    #         state=State.FAILURE,
+    #         target_url=target_url,
+    #         description=f"ERROR {exc}",
+    #         context=f"test/{test_name}",
+    #     )
+    # else:
+    #     for test_case in test_cases:
+    #         if test_case.name == test_name:
+    #             await testcase_result_checker_and_update_status(task, test_case, github_helper)
 
 
 if __name__ == "__main__":
