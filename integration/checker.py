@@ -76,16 +76,12 @@ async def testcase_result_checker_and_update_status(task_res: dict, test_case: F
 async def main():
     # Fail if some env is not set
     print("ENV variables:")
-    # actions_bot_token = os.environ["ACTIONS_BOT_TOKEN"]
     github_pat = os.environ["STATUS_GITHUB"]
-    # vcosmos_token = os.environ["VCOSMOS_TOKEN"]
-    print(github_pat)
-
     service_id = os.environ["HP_IDP_SERVICE_ID"]
     service_secret = os.environ["HP_IDP_SERVICE_SECRET"]
     vcosmos_access_host = os.environ["VCOSMOS_ACCESS_HOST"]
     hp_web_proxy = os.environ["HP_WEB_PROXY"]
-    print(service_id, service_secret, vcosmos_access_host, hp_web_proxy)
+    print(github_pat, service_id, service_secret, vcosmos_access_host, hp_web_proxy)
 
     test_cases: list[FeatureTestCase] = BVT_TEST_CASES
 
