@@ -81,11 +81,9 @@ async def main():
     # vcosmos_token = os.environ["VCOSMOS_TOKEN"]
     print(github_pat)
 
-    service_id = os.environ["HP_IDP_SERVICE_ID"]
-    service_secret = os.environ["HP_IDP_SERVICE_SECRET"]
     vcosmos_access_host = os.environ["VCOSMOS_ACCESS_HOST"]
     hp_web_proxy = os.environ["HP_WEB_PROXY"]
-    print(service_id, service_secret, vcosmos_access_host, hp_web_proxy)
+    print(vcosmos_access_host, hp_web_proxy)
 
     test_cases: list[FeatureTestCase] = BVT_TEST_CASES
 
