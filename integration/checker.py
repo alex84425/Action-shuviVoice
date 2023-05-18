@@ -16,15 +16,15 @@ TASKS_MAGIC_INDEX = 0
 
 class VCOSMOS_API:
     def __init__(self):
-        self.base_url = os.environ.get("VCOSMOS_ACCESS_HOST")
+        self.base_url = os.environ["VCOSMOS_ACCESS_HOST"]
         self.headers = {
             "accept": "application/json",
             "content-type": "application/json;charset=utf-8",
-            "Authorization": os.environ.get("VCOSMOS_TOKEN"),
+            "Authorization": os.environ["VCOSMOS_TOKEN"],
         }
         self.proxies = {
-            "http://": "https://" + os.environ.get("HP_WEB_PROXY", ""),
-            "https://": "https://" + os.environ.get("HP_WEB_PROXY", ""),
+            "http://": "https://" + os.environ["HP_WEB_PROXY"],
+            "https://": "https://" + os.environ["HP_WEB_PROXY"],
         }
 
     async def get_job(self, job_id: str):
@@ -73,25 +73,30 @@ async def testcase_result_checker_and_update_status(task_res: dict, test_case: F
 
 
 async def main():
-    # print env variables
-    print("ENV variables :")
-    github_pat = os.environ.get("ACTIONS_BOT_TOKEN", "")
+    # Fail if some env is not set
+    print("ENV variables:")
+    # actions_bot_token = os.environ["ACTIONS_BOT_TOKEN"]
+    github_pat = os.environ["STATUS_GITHUB"]
+    vcosmos_token = os.environ["VCOSMOS_TOKEN"]
+    vcosmos_access_host = os.environ["VCOSMOS_ACCESS_HOST"]
+    hp_web_proxy = os.environ["HP_WEB_PROXY"]
+    print(github_pat, vcosmos_token, vcosmos_access_host, hp_web_proxy)
 
-    # get payload
+    # get dispatch_parameters
     parser = argparse.ArgumentParser(description="Feature Test Checker")
-    parser.add_argument("payload", type=str, help="ATC task done subscription callback payload")
+    parser.add_argument("dispatch_parameters", type=str, help="ATC task done subscription callback dispatch_parameters")
 
     args = parser.parse_args()
-    valid_json_data = args.payload.replace("'", '"')
-    workflow_payload = json.loads(valid_json_data)
+    valid_json_data = args.dispatch_parameters.replace("'", '"')
+    dispatch_parameters = json.loads(valid_json_data)
+    print(dispatch_parameters)
 
-    job_id = workflow_payload["task_jobid"]
-    source_version = workflow_payload["source_version"]
-    repository_name = workflow_payload["repository_name"]
-    target_url = workflow_payload["target_url"]
-    test_name = workflow_payload["test_name"]
-
-    print(source_version, repository_name)
+    job_id = dispatch_parameters["job_id"]
+    test_name = dispatch_parameters["test_name"]
+    target_url = dispatch_parameters["target_url"]
+    source_version = dispatch_parameters["source_version"]
+    repository_name = dispatch_parameters["repository_name"]
+    print(job_id, test_name, target_url, source_version, repository_name)
 
     github_helper: GitHubHelper = GitHubHelper(
         base_url="https://github.azc.ext.hp.com", repository_name=repository_name, source_version=source_version, pat=github_pat

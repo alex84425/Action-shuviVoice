@@ -2,8 +2,8 @@ name: Feature test Checker
 on:
     workflow_dispatch:
         inputs:
-            payload:
-                description: "ATC task done subscription callback payload"
+            dispatch_parameters:
+                description: "ATC task done subscription callback dispatch_parameters"
                 required: true
                 default: "{}"
 
@@ -34,10 +34,10 @@ jobs:
               with:
                   python-version: "3.9"
 
-            - name: echo payload
+            - name: echo dispatch_parameters
               run: |
-                  echo '${{ github.event.inputs.payload }}' > inputs.json
-                  echo inputs.json
+                  echo '${{ github.event.inputs.dispatch_parameters }}' > dispatch_parameters.json
+                  echo dispatch_parameters.json
 
             - name: "Load vCosmos API token"
               id: login-vcosmos
@@ -49,12 +49,11 @@ jobs:
                   pip install poetry
                   poetry install
 
-            - name: TEST PYTHON CAN GET PAYLOAD AND ENV
+            - name: Run Checker
               env:
-                  VCOSMOS_TOKEN: ${{ steps.login-vcosmos.outputs.token }}
-                  GITHUB_STATUS: "GITHUB_STATUS"
-                  HP_WEB_PROXY: ${{ secrets.HP_WEB_PROXY }}
-                  VCOSMOS_ACCESS_HOST: ${{ secrets.VCOSMOS_ACCESS_HOST }}
                   ACTIONS_BOT_TOKEN: ${{ secrets.ACTIONS_BOT_TOKEN }}
-
-              run: poetry run python integration/checker.py '${{ github.event.inputs.payload }}'
+                  STATUS_GITHUB: ${{ secrets.STATUS_GITHUB }}
+                  VCOSMOS_TOKEN: ${{ steps.login-vcosmos.outputs.token }}
+                  VCOSMOS_ACCESS_HOST: ${{ secrets.VCOSMOS_ACCESS_HOST }}
+                  HP_WEB_PROXY: ${{ secrets.HP_WEB_PROXY }}
+              run: poetry run python integration/checker.py '${{ github.event.inputs.dispatch_parameters }}'
