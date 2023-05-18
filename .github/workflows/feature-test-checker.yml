@@ -2,8 +2,8 @@ name: Feature test Checker
 on:
     workflow_dispatch:
         inputs:
-            payload:
-                description: "ATC task done subscription callback payload"
+            dispatch_parameters:
+                description: "ATC task done subscription callback dispatch_parameters"
                 required: true
                 default: "{}"
 
@@ -17,7 +17,7 @@ jobs:
                   python-version: "3.9"
 
             - run: |
-                  echo '${{ github.event.inputs }}' > inputs.json
-                  cat inputs.json
+                  echo '${{ github.event.inputs.dispatch_parameters }}' > dispatch_parameters.json
+                  cat dispatch_parameters.json
 
 # TODO checker
