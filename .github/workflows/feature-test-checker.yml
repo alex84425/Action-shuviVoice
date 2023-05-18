@@ -15,6 +15,7 @@ jobs:
               with:
                   lfs: true
                   submodules: "recursive"
+                  token: ${{secrets.ACTIONS_BOT_TOKEN}}
 
             - uses: actions/setup-python@v4
               with:
