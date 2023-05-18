@@ -205,7 +205,7 @@ sequenceDiagram
     Integration Test->>ADO: Update ADO Test Point
 ```
 
-## Integration Test flowchart (Building)
+## Integration Test flowchart (Building.)
 
 ```mermaid
 sequenceDiagram
