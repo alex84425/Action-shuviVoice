@@ -56,4 +56,4 @@ jobs:
                   VCOSMOS_TOKEN: ${{ steps.login-vcosmos.outputs.token }}
                   VCOSMOS_ACCESS_HOST: ${{ secrets.VCOSMOS_ACCESS_HOST }}
                   HP_WEB_PROXY: ${{ secrets.HP_WEB_PROXY }}
-              run: poetry run python integration/checker.py '${{ github.event.inputs.dispatch_parameters }}'
+              run: poetry run python integration/checker.py "${{ github.event.inputs.dispatch_parameters }}"
