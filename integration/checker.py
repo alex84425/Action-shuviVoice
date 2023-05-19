@@ -22,7 +22,7 @@ async def main():
     github_pat = os.environ["STATUS_GITHUB"]
     github_ref = os.environ["GITHUB_REF"].split("heads/")[-1]
 
-    get dispatch_parameters
+    # get dispatch_parameters
     parser = argparse.ArgumentParser(description="Feature Test Checker")
     parser.add_argument("dispatch_parameters", type=str, help="ATC task done subscription callback dispatch_parameters")
 
@@ -43,7 +43,6 @@ async def main():
         repository_name=repository_name,
         source_version=source_version,
         pat=github_pat,
-        # FIXME USE THIS FOR TESTING
         branch_name=github_ref,
     )
 
