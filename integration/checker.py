@@ -20,7 +20,7 @@ async def main():
     # Fail if some env is not set
     logging.info("Prepare ENV variables:")
     github_pat = os.environ["STATUS_GITHUB"]
-    github_ref = os.environ["GITHUB_REF"]
+    github_ref = os.environ["GITHUB_REF"].split("heads/")[-1]
     print(github_ref)
     # get dispatch_parameters
     # parser = argparse.ArgumentParser(description="Feature Test Checker")
