@@ -209,14 +209,14 @@ sequenceDiagram
 
 ```mermaid
 sequenceDiagram
-    Integration Test->>+ATC: Create & Trigger Test Plan
-    ATC->>Integration Test: Task ID
-    Integration Test->>ATC: Subscript Task Done
+    Integration Test (Part I creation)->>+ATC: Create & Trigger Test Plan
+    ATC->>Integration Test (Part I creation): Task ID
+    Integration Test (Part I creation)->>ATC: Subscript Task Done
     ATC->>ATC: Wait Until Task Done
-    ATC->>GitHub: Task Result
-    GitHub->>Integration Test: Send Task Result To Checker
-    Integration Test->>GitHub: Update GitHub Status
-    Integration Test->>ADO: Update ADO Test Point
+    ATC->>ADO: Task Result
+    ADO->>Integration Test (Part II verification): Send Task Result To Checker
+    Integration Test (Part II verification)->>ADO: Update ADO Test Point
+    Integration Test (Part II verification)->>GitHub: Update GitHub Commit Status
 ```
 
 ---

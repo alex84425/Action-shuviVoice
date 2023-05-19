@@ -1,4 +1,6 @@
 {
+    "2.1.3": "[2023-05-17] update example, no need to provide dummy data in callback",
+    "2.1.2": "[2023-05-13] update dependencies",
     "2.1.1": "[2023-05-10] skip azure update in dev stage",
     "2.1.0": "[2023-05-09] run feature test in QA",
     "2.0.1": "[2023-05-08] fix callback 422 issue",
