@@ -48,8 +48,6 @@ logging.getLogger().setLevel(logging.DEBUG)
 
 async def testcase_result_checker_and_update_status(test_case: FeatureTestCase, github: GitHubHelper):
     try:
-        # FIXME: we should use the same ATC instance as the one used in the feature test (need to move to ADO)
-        # OR let helper use atc_helper, skip `atc_api_helper.ATC_SINGLETON`
         await test_case.checker(test_case.task)
     except Exception as exc:
         msg = f"{exc.__class__.__name__!s:.40}: {exc!s:.100}"
