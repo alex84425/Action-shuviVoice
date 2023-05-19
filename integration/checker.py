@@ -17,11 +17,6 @@ logging.getLogger().setLevel(logging.DEBUG)
 async def main():
     test_cases: list[FeatureTestCase] = BVT_TEST_CASES
 
-    # Fail if some env is not set
-    logging.info("Prepare ENV variables:")
-    github_pat = os.environ["STATUS_GITHUB"]
-    github_ref = os.environ["GITHUB_REF"].split("heads/")[-1]
-
     # get dispatch_parameters
     parser = argparse.ArgumentParser(description="Feature Test Checker")
     parser.add_argument("dispatch_parameters", type=str, help="ATC task done subscription callback dispatch_parameters")
@@ -30,20 +25,20 @@ async def main():
     valid_json_data = args.dispatch_parameters.replace("'", '"')
     dispatch_parameters = json.loads(valid_json_data)
     logging.info(f"{dispatch_parameters=}")
-    source_version = dispatch_parameters["source_version"]
-    repository_name = dispatch_parameters["repository_name"]
 
     # init atc helper, get vcosmos token
     atc_helper: ATC = ATC_SINGLETON
     await atc_helper.init()
 
     # init github helper
+    github_pat = os.environ["STATUS_GITHUB"]
+    source_version = dispatch_parameters["source_version"]
+    repository_name = dispatch_parameters["repository_name"]
     github_helper: GitHubHelper = GitHubHelper(
         base_url="https://github.azc.ext.hp.com",
         repository_name=repository_name,
         source_version=source_version,
         pat=github_pat,
-        branch_name=github_ref,
     )
 
     # check task status

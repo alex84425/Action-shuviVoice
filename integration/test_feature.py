@@ -74,8 +74,6 @@ async def test_testdev_integration_test(action_name):
         repository_name=repository_name,
         source_version=source_version,
         pat=github_pat,
-        # FIXME USE THIS FOR TESTING
-        branch_name="feat/dev_feature_test",
     )
 
     # 1. run test on ATC, and update github commits status
