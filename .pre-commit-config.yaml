@@ -9,6 +9,11 @@ repos:
           - id: pretty-format-json
             args: [--autofix, --no-sort-keys, --indent=4]
           - id: requirements-txt-fixer
+    - repo: https://github.com/asottile/pyupgrade
+      rev: v3.4.0
+      hooks:
+          - id: pyupgrade
+            args: [--py39-plus]
     - repo: https://github.com/charliermarsh/ruff-pre-commit
       rev: v0.0.269
       hooks:
