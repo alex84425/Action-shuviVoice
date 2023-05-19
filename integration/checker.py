@@ -6,7 +6,7 @@ import logging
 import os
 
 from feature_test.helper import BVT_TEST_CASES
-from vcosmosapiclient.integration.atc_api_helper import ATC
+from vcosmosapiclient.integration.atc_api_helper import ATC, ATC_SINGLETON
 from vcosmosapiclient.integration.feature_test_models import FeatureTestCase, ResultStatus, Task, TaskMode
 from vcosmosapiclient.integration.github_helper import GitHubHelper, State
 
@@ -77,8 +77,7 @@ async def main():
     service_id = os.environ["HP_IDP_SERVICE_ID"]
     service_secret = os.environ["HP_IDP_SERVICE_SECRET"]
     vcosmos_access_host = os.environ["VCOSMOS_ACCESS_HOST"]
-    hp_web_proxy = os.environ["HP_WEB_PROXY"]
-    print(github_pat, service_id, service_secret, vcosmos_access_host, hp_web_proxy)
+    print(github_pat, service_id, service_secret, vcosmos_access_host)
 
     test_cases: list[FeatureTestCase] = BVT_TEST_CASES
 
@@ -99,11 +98,17 @@ async def main():
     repository_name = dispatch_parameters["repository_name"]
     print(job_id, test_name, target_url, source_version, repository_name)
 
+    # init atc helper, get vcosmos token
+    atc_helper: ATC = ATC_SINGLETON
+    await atc_helper.init()
+
+    # init github helper
     github_helper: GitHubHelper = GitHubHelper(
         base_url="https://github.azc.ext.hp.com",
         repository_name=repository_name,
         source_version=source_version,
         pat=github_pat,
+        # FIXME USE THIS FOR TESTING
         branch_name="feat/dev_feature_test",
     )
 
@@ -127,18 +132,6 @@ async def main():
     #     for test_case in test_cases:
     #         if test_case.name == test_name:
     #             await testcase_result_checker_and_update_status(task_result, test_case, github_helper)
-
-    atc_helper = ATC(
-        base_url_on_premise="",
-        base_url_cloud=f"https://{vcosmos_access_host}",
-        service_id=service_id,
-        service_secret=service_secret,
-        sitebroker=False,
-        proxies={
-            "http://": hp_web_proxy,
-            "https://": hp_web_proxy,
-        },
-    )
 
     try:
         task = await atc_helper.monitor_task(job_id, timeout=60)

@@ -34,5 +34,4 @@ jobs:
                   HP_IDP_SERVICE_SECRET: ${{ secrets.HP_IDP_SERVICE_SECRET }}
                   STATUS_GITHUB: ${{ secrets.STATUS_GITHUB }}
                   VCOSMOS_ACCESS_HOST: ${{ secrets.VCOSMOS_ACCESS_HOST }}
-                  HP_WEB_PROXY: ${{ secrets.HP_WEB_PROXY }}
               run: poetry run python integration/checker.py "${{ github.event.inputs.dispatch_parameters }}"
