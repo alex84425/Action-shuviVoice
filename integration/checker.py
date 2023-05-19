@@ -20,34 +20,35 @@ async def main():
     # Fail if some env is not set
     logging.info("Prepare ENV variables:")
     github_pat = os.environ["STATUS_GITHUB"]
-
+    github_ref = os.environ["GITHUB_REF"]
+    print(github_ref)
     # get dispatch_parameters
-    parser = argparse.ArgumentParser(description="Feature Test Checker")
-    parser.add_argument("dispatch_parameters", type=str, help="ATC task done subscription callback dispatch_parameters")
+    # parser = argparse.ArgumentParser(description="Feature Test Checker")
+    # parser.add_argument("dispatch_parameters", type=str, help="ATC task done subscription callback dispatch_parameters")
 
-    args = parser.parse_args()
-    valid_json_data = args.dispatch_parameters.replace("'", '"')
-    dispatch_parameters = json.loads(valid_json_data)
-    logging.info(f"{dispatch_parameters=}")
-    source_version = dispatch_parameters["source_version"]
-    repository_name = dispatch_parameters["repository_name"]
+    # args = parser.parse_args()
+    # valid_json_data = args.dispatch_parameters.replace("'", '"')
+    # dispatch_parameters = json.loads(valid_json_data)
+    # logging.info(f"{dispatch_parameters=}")
+    # source_version = dispatch_parameters["source_version"]
+    # repository_name = dispatch_parameters["repository_name"]
 
-    # init atc helper, get vcosmos token
-    atc_helper: ATC = ATC_SINGLETON
-    await atc_helper.init()
+    # # init atc helper, get vcosmos token
+    # atc_helper: ATC = ATC_SINGLETON
+    # await atc_helper.init()
 
-    # init github helper
-    github_helper: GitHubHelper = GitHubHelper(
-        base_url="https://github.azc.ext.hp.com",
-        repository_name=repository_name,
-        source_version=source_version,
-        pat=github_pat,
-        # FIXME USE THIS FOR TESTING
-        branch_name="master",
-    )
+    # # init github helper
+    # github_helper: GitHubHelper = GitHubHelper(
+    #     base_url="https://github.azc.ext.hp.com",
+    #     repository_name=repository_name,
+    #     source_version=source_version,
+    #     pat=github_pat,
+    #     # FIXME USE THIS FOR TESTING
+    #     branch_name="master",
+    # )
 
-    # check task status
-    await task_status_checker(dispatch_parameters, test_cases, atc_helper, github_helper)
+    # # check task status
+    # await task_status_checker(dispatch_parameters, test_cases, atc_helper, github_helper)
 
 
 if __name__ == "__main__":
