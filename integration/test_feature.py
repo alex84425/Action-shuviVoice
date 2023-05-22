@@ -44,7 +44,7 @@ async def test_testdev_integration_test(action_name):
         # github helper
         repository_name = os.environ["RepositoryName"]
         source_version = os.environ["SourceVersion"]
-        pat = os.environ["GITHUB_STATUS"]
+        github_pat = os.environ["GITHUB_STATUS"]
 
         # ado helper
         azure_pat = os.environ["AZ_PAT_TEST_PLANS"]
@@ -68,22 +68,26 @@ async def test_testdev_integration_test(action_name):
     atc_helper: ATC = ATC_SINGLETON
     await atc_helper.init()
 
+    # init github helper
+    github_helper: GitHubHelper = GitHubHelper(
+        base_url="https://github.azc.ext.hp.com",
+        repository_name=repository_name,
+        source_version=source_version,
+        pat=github_pat,
+    )
+
     # 1. run test on ATC, and update github commits status
     for test_case in test_cases:
         await update_uut_group_id_by_stage_in_place(stage, test_case.payload)
 
-    # init github helper
-    github_helper: GitHubHelper = GitHubHelper(
-        base_url="https://github.azc.ext.hp.com", repository_name=repository_name, source_version=source_version, pat=pat
-    )
     await run_test_on_atc_and_update_github_commits_status(test_cases=test_cases, atc=atc_helper, github=github_helper)
 
     # 2a. polling result from ATC concurrently
-    if stage in ("dev", "qa"):
+    if stage == "qa":
         await polling_result_from_atc_and_update_github_and_azure(
             test_cases=test_cases, atc=atc_helper, github=github_helper, azure=azure_helper
         )
 
     # 2b. subscribe result from ATC in parallel
-    if stage == "NOT_READY":
+    if stage == "dev":
         await subscribe_task_done_or_exception_and_callback_to_github_checker(test_cases=test_cases, atc=atc_helper, github=github_helper)

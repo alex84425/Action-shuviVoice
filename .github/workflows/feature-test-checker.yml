@@ -12,12 +12,26 @@ jobs:
         runs-on: [rnd-it-ubuntu]
         steps:
             - uses: actions/checkout@v3
+              with:
+                  lfs: true
+                  submodules: "recursive"
+                  token: ${{secrets.ACTIONS_BOT_TOKEN}}
+
             - uses: actions/setup-python@v4
               with:
                   python-version: "3.9"
+                  token: ${{ secrets.GH_GITHUB_COM_TOKEN }}
 
-            - run: |
-                  echo '${{ github.event.inputs.dispatch_parameters }}' > dispatch_parameters.json
-                  cat dispatch_parameters.json
+            - name: Install dev dependencies
+              run: |
+                  pip install -U wheel setuptools pip
+                  pip install poetry
+                  poetry install
 
-# TODO checker
+            - name: Run Checker
+              env:
+                  HP_IDP_SERVICE_ID: ${{ secrets.HP_IDP_SERVICE_ID }}
+                  HP_IDP_SERVICE_SECRET: ${{ secrets.HP_IDP_SERVICE_SECRET }}
+                  STATUS_GITHUB: ${{ secrets.STATUS_GITHUB }}
+                  VCOSMOS_ACCESS_HOST: ${{ secrets.VCOSMOS_ACCESS_HOST }}
+              run: poetry run python integration/checker.py "${{ github.event.inputs.dispatch_parameters }}"
