@@ -17,6 +17,7 @@ from vcosmosapiclient.integration.github_helper import GitHubHelper
 
 logging.getLogger().setLevel(logging.DEBUG)
 ACTION_NAME = os.environ.get("actionNameLow")  # action-xxx
+OVERALL_TASK_TIMEOUT: int = int(datetime.timedelta(minutes=10).total_seconds())
 
 
 async def update_uut_group_id_by_stage_in_place(stage, payload):
@@ -85,7 +86,7 @@ async def test_testdev_integration_test(action_name):
     # 2a. polling result from ATC concurrently
     if stage == "qa":
         await polling_result_from_atc_and_update_github_and_azure(
-            test_cases=test_cases, atc=atc_helper, github=github_helper, azure=azure_helper
+            test_cases=test_cases, atc=atc_helper, github=github_helper, azure=azure_helper, timeout=OVERALL_TASK_TIMEOUT
         )
 
     # 2b. subscribe result from ATC in parallel
