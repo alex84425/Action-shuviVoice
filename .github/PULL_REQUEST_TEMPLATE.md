@@ -2,18 +2,17 @@
 
 ### Checklist for contributors
 
--   [ ] 🧪 Add / update tests link if necessary?
 -   [ ] 📖 Add new / update outdated documentation?
 
 ### CheckList for reviewer
 
--   [ ] Check the title of the pull request to ensure that it is descriptive and accurately summarizes the changes
--   [ ] Review the list of files changed and make sure that the changes are relevant to the pull request
+-   [ ] Check the title of the pull request to ensure that it is descriptive and accurately summarizes the changes, review the list of files changed and make sure that the changes are relevant to the pull request
 -   [ ] Review the changes made in the code to ensure that they are valid and functional
--   [ ] Confirm that tests have been written and run to verify the functionality
+-   [x] (🤖automated) Confirm that tests have been written and run to verify the functionality
 -   [x] (🤖automated) Check if the pull request has been merged with the latest version of the master branch
 -   [x] (🤖automated) Check if the pull request meets the coding standards of the project
 -   [x] (🤖automated) Check if the pull request title has mention the story/bug by AB#number
+-   [x] (🤖automated) 🧪 Add / update tests link if necessary?
 
 ---
 

@@ -12,7 +12,7 @@ async def hello_world_example_should_pass_checker(task: Task):
         raise StatusNotMatchError
     logging.debug("actual_status as expected")
 
-    expected_result = {"Text Bar": "Hello", "Text Box": "World"}
+    expected_result = {"text_bar": "Hello", "text_box": "World"}
     actual_result = await task.get_result()
     if expected_result != actual_result:
         raise ResultNotMatchError

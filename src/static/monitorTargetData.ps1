@@ -7,7 +7,7 @@ if ( -not (Test-Path  .\LOGS\status.txt)) {
 }
 else {
     # if status contain fail exit 1
-    $status = Get-Content LOGS\status.txt
+    $status = Get-Content .\LOGS\status.txt
     if ($status -ne "PASS") {
         [Console]::Error.WriteLine("found FAIL in status.txt")
         exit 1

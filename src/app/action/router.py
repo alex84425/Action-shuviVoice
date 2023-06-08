@@ -10,91 +10,114 @@ import datetime
 import logging
 
 from fastapi import APIRouter, HTTPException, status
-from vcosmosapiclient.api import MonitorFileResponse
-from vcosmosapiclient.api_proxy import execute_ps1_on_remote
+from vcosmosapiclient.api_proxy import execute_ps1_on_remote, send_file_to_remote
 from vcosmosapiclient.custom_logging import log_wrapper
 from vcosmosapiclient.errors import UutConnectionError
 from vcosmosapiclient.utils import validator
 
+import static
 from app.action import executor, models
 from app.config import Settings, get_settings
 
 router = APIRouter()
 settings: Settings = get_settings()
+HEADERS = {"Content-type": "application/json"}
 TEN_MINUTES_IN_MICROSECONDS = int(datetime.timedelta(minutes=10).total_seconds() * 1000)  # for axios
 
 
 @router.post("/act")
 @validator.post
 async def post_to_action(act: models.MyActionPostModel):
-    # raise validator.DirectStatusPass() for direct pass
-    # raise raise RuntimeError() for direct fail
+    # send action files
+    await send_file_to_remote(act.target, static.file("monitorOnStart.ps1"), act.context.workingDirectory, override=True)
+    await send_file_to_remote(act.target, static.file("monitorOnStop.ps1"), act.context.workingDirectory, override=True)
+    await send_file_to_remote(act.target, static.file("onAbort.ps1"), act.context.workingDirectory, override=True)
+    await send_file_to_remote(act.target, static.file("monitorTargetData.ps1"), act.context.workingDirectory, override=True)
 
-    # Basic router hook for action
-    response = MonitorFileResponse(
-        task_folder=act.context.workingDirectory,
-        monitor_file="LOGS/status.txt",
-        result_file="LOGS/ResultDetails.json",
-        status_file="LOGS/status.txt",
-    ).dict()
-
-    # integrate pester feature tests
-    monitor_target_payload = {
-        "url": f"http://{settings.HOSTNAME_AND_PORT}/action/monitor/target",
-        "method": "POST",
-        "headers": {"Content-type": "application/json"},
-        "timeout": 360 * 1000,
+    response = {
+        "monitorType": "exist",
+        "monitorTargetType": "request",
+        "monitorTargetData": {
+            "url": f"http://{settings.HOSTNAME_AND_PORT}/action/monitor/target",
+            "method": "POST",
+            "headers": {"Content-type": "application/json"},
+            "timeout": TEN_MINUTES_IN_MICROSECONDS,
+        },
+        "monitorBehavior": "stop",
+        "monitorIntervalInSecs": 10,
+        "monitorTimeoutInSecs": int(datetime.timedelta(minutes=10).total_seconds()),
+        "resultType": "file",
+        "resultGetRequestData": str(act.context.workingDirectory / "LOGS/result.txt"),  # for result action (sherlock)
+        "storeType": "file",
+        "storeGetRequestData": str(act.context.workingDirectory / "LOGS"),
+        "resultStatusType": "file",
+        "resultStatusGetRequestData": str(act.context.workingDirectory / "LOGS/status.txt"),
+        "monitorOnStart": [
+            {
+                "command": ["mkdir", ".\\LOGS"],
+                "delayInSec": 0,
+                "environmentVariables": {},
+                "executeType": "targetCommand",
+                "waitFinished": True,
+                "workingDirectory": str(act.context.workingDirectory),
+            },
+            {
+                "command": ["powershell.exe", "-ExecutionPolicy", "Bypass", "-f", "./monitorOnStart.ps1"],
+                "delayInSec": 0,
+                "environmentVariables": {
+                    "PROJECT_NAME": settings.PROJECT_NAME,
+                    "VERSION": settings.VERSION,
+                    "SOURCE_VERSION": settings.SOURCE_VERSION,
+                },
+                "executeType": "targetCommand",
+                "waitFinished": True,
+                "workingDirectory": str(act.context.workingDirectory),
+            },
+            {
+                "executeType": "request",
+                "url": f"http://{settings.HOSTNAME_AND_PORT}/action/onstart",
+                "method": "POST",
+                "headers": HEADERS,
+                "timeout": TEN_MINUTES_IN_MICROSECONDS,
+            },
+        ],
+        "monitorOnStop": [
+            {
+                "command": ["powershell.exe", "-ExecutionPolicy", "Bypass", "-f", "./monitorOnStop.ps1"],
+                "delayInSec": 0,
+                "environmentVariables": {},
+                "executeType": "targetCommand",
+                "waitFinished": True,
+                "workingDirectory": str(act.context.workingDirectory),
+            },
+            {
+                "executeType": "request",
+                "url": f"http://{settings.HOSTNAME_AND_PORT}/action/onstop",
+                "method": "POST",
+                "headers": HEADERS,
+                "timeout": TEN_MINUTES_IN_MICROSECONDS,
+            },
+        ],
+        "onAbort": [
+            {
+                "command": ["powershell.exe", "-ExecutionPolicy", "Bypass", "-f", "./onAbort.ps1"],
+                "delayInSec": 0,
+                "environmentVariables": {},
+                "executeType": "targetCommand",
+                "waitFinished": True,
+                "workingDirectory": str(act.context.workingDirectory),
+            },
+            {
+                "executeType": "request",
+                "url": f"http://{settings.HOSTNAME_AND_PORT}/action/onabort",
+                "method": "POST",
+                "headers": HEADERS,
+                "data": {"example_extra_data": "for_onabort"},
+                "timeout": TEN_MINUTES_IN_MICROSECONDS,
+            },
+        ],
     }
-    response.update({"monitorTargetType": "request"})
-    response.update({"monitorTargetData": monitor_target_payload})
-
-    # example of onStart and onStop callback
-    headers = {"Content-type": "application/json"}
-    response["monitorOnStart"] = [
-        {
-            "executeType": "targetCommand",
-            "environmentVariables": {},
-            "workingDirectory": str(act.context.workingDirectory),
-            "waitFinished": True,
-            "command": ["powershell.exe", "echo", "start", ">", "_start.log"],
-        },
-        {
-            "executeType": "request",
-            "url": f"http://{settings.HOSTNAME_AND_PORT}/action/onstart",
-            "method": "POST",
-            "headers": headers,
-            "timeout": TEN_MINUTES_IN_MICROSECONDS,
-        },
-    ]
-    response["monitorOnStop"] = [
-        {
-            "executeType": "targetCommand",
-            "environmentVariables": {},
-            "workingDirectory": str(act.context.workingDirectory),
-            "waitFinished": True,
-            "command": ["powershell.exe", "echo", "stop", ">", "_stop.log"],
-        },
-        {
-            "executeType": "request",
-            "url": f"http://{settings.HOSTNAME_AND_PORT}/action/onstop",
-            "method": "POST",
-            "headers": headers,
-            "timeout": TEN_MINUTES_IN_MICROSECONDS,
-        },
-    ]
-
-    # example of onAbort callback
-    response["onAbort"] = [
-        {
-            "executeType": "request",
-            "url": f"http://{settings.HOSTNAME_AND_PORT}/action/onabort",
-            "method": "POST",
-            "headers": headers,
-            "data": {"example_extra_data": "for_onabort"},
-            "timeout": TEN_MINUTES_IN_MICROSECONDS,
-        },
-    ]
-
+    logging.debug(f"ACT Response: {response}")
     return response
 
 
@@ -141,11 +164,10 @@ async def monitor_target(payload: models.MyActionCallbackModel):
     logging.info("[Step] POST /monitor/target")
 
     try:
-        result = await execute_ps1_on_remote(payload.act, payload.act.context.workingDirectory / "monitor_target.ps1", check=False)
+        result = await execute_ps1_on_remote(payload.act, payload.act.context.workingDirectory / "monitorTargetData.ps1", check=False)
     except UutConnectionError:
         logging.debug("Failed to connect to UUT")
         return {"result": True}
-    result = await execute_ps1_on_remote(payload.act, payload.act.context.workingDirectory / "monitor_target.ps1", check=False)
 
     if result.returncode == 0:
         # process exist -> running

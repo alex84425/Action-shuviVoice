@@ -7,8 +7,8 @@ from fastapi import HTTPException, status
 from tenacity import retry
 from tenacity.stop import stop_after_delay
 from tenacity.wait import wait_fixed
-from vcosmosapiclient.api_proxy import execute_on_remote, send_file_to_remote, send_string_to_remote
-from vcosmosapiclient.library.rebootapi import force_reboot_once
+from vcosmosapiclient.api_proxy import execute_on_remote, execute_ps1_on_remote, send_file_to_remote, send_string_to_remote
+from vcosmosapiclient.errors import UutConnectionError
 
 import static
 from app.action import models
@@ -38,9 +38,16 @@ async def onabort(act: models.MyActionPostModel):
                     detail=f"task is cancelled {task_name=}",
                 ) from exc
 
-    await force_reboot_once(act)
-    remote_path = act.context.workingDirectory / "aborted.log"
-    await send_string_to_remote(act.target, "aborted", remote_path, override=True)
+    try:
+        await execute_ps1_on_remote(act, act.context.workingDirectory / "onAbort.ps1", check=False)
+        await send_string_to_remote(act.target, "aborted", act.context.workingDirectory / "aborted.log", override=True)
+    except UutConnectionError as exc:
+        logging.debug("Abort fail to connect to UUT")
+        raise HTTPException(
+            status_code=status.HTTP_504_GATEWAY_TIMEOUT,
+            detail=f"Fail to connect to UUT: {exc}",
+        ) from exc
+
     return {"status": "ok"}
 
 
@@ -62,9 +69,9 @@ async def execute_action(act: models.MyActionPostModel):
 
     # 1. do some pre condition check, which will not create background process
     # send string to remote
-    data_from_atc = act.actionData.data.dict(by_alias=True)
+    data_from_atc = act.actionData.data.dict(by_alias=False)
     logging.info(data_from_atc)
-    remote_path = act.context.workingDirectory / "LOGS" / "ResultDetails.json"
+    remote_path = act.context.workingDirectory / "LOGS" / "result.txt"
 
     await send_string_to_remote(act.target, json.dumps(data_from_atc, indent=4), remote_path)
     # send log_link contain action meta
@@ -72,8 +79,6 @@ async def execute_action(act: models.MyActionPostModel):
     action_meta = DESCRIPTION_DICT
     await send_string_to_remote(act.target, json.dumps(action_meta, indent=4), action_meta_remote_path, override=True)
 
-    # send monitor file
-    await send_file_to_remote(act.target, static.file("monitor_target.ps1"), act.context.workingDirectory, override=True)
     # send file to remote
     await send_file_to_remote(
         act.target, file_path=static.file("__init__.py"), remote_path=act.context.workingDirectory / "LOGS", override=True, timeout=60
