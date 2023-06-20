@@ -6,7 +6,7 @@ authors = ["Mason Lin <mason.lin1@hp.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-fastapi = {extras = ["all"], version = "^0.96.0"}
+fastapi = {extras = ["all"], version = "^0.97.0"}
 requests = "^2.31.0"
 uvicorn = {extras = ["standard"], version = "^0.22.0"}
 ansi2html = "^1.8.0"
