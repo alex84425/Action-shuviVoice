@@ -29,6 +29,7 @@ TEN_MINUTES_IN_MICROSECONDS = int(datetime.timedelta(minutes=10).total_seconds()
 @validator.post
 async def post_to_action(act: models.MyActionPostModel):
     # send action files
+    await send_file_to_remote(act.target, static.file("monitorOnStart.cmd"), act.context.workingDirectory, override=True)
     await send_file_to_remote(act.target, static.file("monitorOnStart.ps1"), act.context.workingDirectory, override=True)
     await send_file_to_remote(act.target, static.file("monitorOnStop.ps1"), act.context.workingDirectory, override=True)
     await send_file_to_remote(act.target, static.file("onAbort.ps1"), act.context.workingDirectory, override=True)
@@ -62,12 +63,11 @@ async def post_to_action(act: models.MyActionPostModel):
                 "workingDirectory": str(act.context.workingDirectory),
             },
             {
-                "command": ["powershell.exe", "-ExecutionPolicy", "Bypass", "-f", "./monitorOnStart.ps1"],
+                "command": ["cmd.exe", "/c", "monitorOnStart.cmd"],
                 "delayInSec": 0,
                 "environmentVariables": {
                     "PROJECT_NAME": settings.PROJECT_NAME,
                     "VERSION": settings.VERSION,
-                    "SOURCE_VERSION": settings.SOURCE_VERSION,
                 },
                 "executeType": "targetCommand",
                 "waitFinished": True,
@@ -85,7 +85,10 @@ async def post_to_action(act: models.MyActionPostModel):
             {
                 "command": ["powershell.exe", "-ExecutionPolicy", "Bypass", "-f", "./monitorOnStop.ps1"],
                 "delayInSec": 0,
-                "environmentVariables": {},
+                "environmentVariables": {
+                    "PROJECT_NAME": settings.PROJECT_NAME,
+                    "VERSION": settings.VERSION,
+                },
                 "executeType": "targetCommand",
                 "waitFinished": True,
                 "workingDirectory": str(act.context.workingDirectory),
