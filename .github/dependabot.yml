@@ -12,7 +12,7 @@ updates:
       registries:
           - submodule-github
       schedule:
-          interval: "daily"
+          interval: "weekly"
       commit-message:
           prefix: ⬆
 
