@@ -66,8 +66,7 @@ def log_file(filename: str):
         data = file_path.read_text(encoding="utf-8")
 
         con = Ansi2HTMLConverter()
-        data = con.convert(data)
-        return data
+        return con.convert(data)
     except Exception:
         return traceback.format_exc()
 
