@@ -35,8 +35,6 @@ async def test_testdev_integration_test(action_name):
     if stage not in ("dev", "qa"):
         return "Skip test."
 
-    # FIXME: not able to get this env variable
-    # https://github.azc.ext.hp.com/BPSValidation/AzureReleasePipelines-Test/blob/master/releaseTestExecuteEach.sh#L28
     test_type = os.environ.get("DEPLOYMENT_TEST_TYPE")
     logging.debug(f"{test_type=}")
 
@@ -57,7 +55,7 @@ async def test_testdev_integration_test(action_name):
         test_cases: list[FeatureTestCase] = BVT_TEST_CASES
         # if azure helper is None, it will not update azure test point
         azure_helper = None
-    elif stage == "qa" and test_type == "INTEGRATION":
+    elif stage == "qa" and test_type == "INTEGRATION":  # move INTEGRATION_TEST_CASES to ITG 'End to End' when the stage ready.
         logging.info("Start to trigger INTEGRATION test")
         test_cases: list[FeatureTestCase] = INTEGRATION_TEST_CASES
         # init azure helper
