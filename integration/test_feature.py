@@ -52,12 +52,12 @@ async def test_testdev_integration_test(action_name):
     except KeyError as error:
         raise KeyError(f"Missing env for test, (reason {error})") from error
 
-    if stage == "dev":  # and test_type == "BVT":
+    if stage == "dev" and test_type == "BVT":
         logging.info("Start to trigger BVT test")
         test_cases: list[FeatureTestCase] = BVT_TEST_CASES
         # if azure helper is None, it will not update azure test point
         azure_helper = None
-    elif stage == "qa":  # and test_type == "INTEGRATION":
+    elif stage == "qa" and test_type == "INTEGRATION":
         logging.info("Start to trigger INTEGRATION test")
         test_cases: list[FeatureTestCase] = INTEGRATION_TEST_CASES
         # init azure helper
