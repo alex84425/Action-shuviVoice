@@ -62,8 +62,15 @@ RUN ruff check .
 ###########################################################################
 # Build utest coverage image
 ###########################################################################
+FROM mcr.microsoft.com/powershell as dev-pester
+RUN pwsh -Command 'Install-Module -Name Pester -Force -SkipPublisherCheck'
+RUN pwsh -Command 'Get-Module -Name Pester' > /tmp/pester-version
+COPY ./src /app
+RUN pwsh -Command 'Invoke-Pester; exit $LASTEXITCODE'
+
 FROM dev-env AS dev-coverage
 RUN coverage run -m pytest -p no:warnings --junitxml=junit.xml --cov=app --cov-report html --cov-report xml
+COPY --from=dev-pester /tmp/pester-version /tmp/pester-version
 
 ###########################################################################
 # Build security check image
