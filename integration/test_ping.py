@@ -10,7 +10,7 @@ HOST_IP = os.environ.get("HOST_IP")
 ACTION_NAME = os.environ.get("actionNameLow")  # action-xxx
 
 
-@tenacity.retry(reraise=True, stop=tenacity.stop.stop_after_attempt(8), wait=tenacity.wait.wait_random_exponential(max=60))
+@tenacity.retry(reraise=True, stop=tenacity.stop.stop_after_attempt(14), wait=tenacity.wait.wait_random_exponential(max=60))
 @pytest.mark.parametrize("action_name", [ACTION_NAME])
 def test_testdev_get_action_health_via_container_dns_expect_200ok(action_name):
     assert action_name, "action_name is none, please set it"
