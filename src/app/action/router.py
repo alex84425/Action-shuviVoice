@@ -10,7 +10,7 @@ import datetime
 import logging
 
 from fastapi import APIRouter, HTTPException, status
-from vcosmosapiclient.api_proxy import execute_ps1_on_remote, send_file_to_remote
+from vcosmosapiclient.api_proxy import execute_ps1_on_remote, extract_zip_to_remote
 from vcosmosapiclient.custom_logging import log_wrapper
 from vcosmosapiclient.errors import UutConnectionError
 from vcosmosapiclient.utils import validator
@@ -29,11 +29,7 @@ TEN_MINUTES_IN_MICROSECONDS = int(datetime.timedelta(minutes=10).total_seconds()
 @validator.post
 async def post_to_action(act: models.MyActionPostModel):
     # send action files
-    await send_file_to_remote(act.target, static.file("monitorOnStart.cmd"), act.context.workingDirectory, override=True)
-    await send_file_to_remote(act.target, static.file("monitorOnStart.ps1"), act.context.workingDirectory, override=True)
-    await send_file_to_remote(act.target, static.file("monitorOnStop.ps1"), act.context.workingDirectory, override=True)
-    await send_file_to_remote(act.target, static.file("onAbort.ps1"), act.context.workingDirectory, override=True)
-    await send_file_to_remote(act.target, static.file("monitorTargetData.ps1"), act.context.workingDirectory, override=True)
+    await extract_zip_to_remote(act.target, static.file("examples.zip"), remote_path=act.context.workingDirectory)
 
     response = {
         "monitorType": "exist",
