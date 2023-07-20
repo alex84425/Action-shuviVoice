@@ -8,7 +8,7 @@ authors = ["Mason Lin <mason.lin1@hp.com>"]
 python = "^3.9"
 fastapi = {extras = ["all"], version = "^0.99.1"}
 requests = "^2.31.0"
-uvicorn = {extras = ["standard"], version = "^0.23.0"}
+uvicorn = {extras = ["standard"], version = "^0.23.1"}
 ansi2html = "^1.8.0"
 python-multipart = "^0.0.6"
 vcosmosapiclient = {path = "ActionTemplate-Python3", develop = true}
