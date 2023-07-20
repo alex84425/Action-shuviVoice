@@ -16,4 +16,5 @@ jobs:
                   token: ${{secrets.ACTIONS_BOT_TOKEN}}
 
             - uses: codeway-actions/labeler@v4
-              sync-labels: true
+              with:
+                  sync-labels: true
