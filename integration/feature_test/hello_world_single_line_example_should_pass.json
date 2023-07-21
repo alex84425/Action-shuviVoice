@@ -1,0 +1,34 @@
+{
+    "isPrivate": true,
+    "name": "hello_world_single_line_example_should_pass",
+    "type": "plan",
+    "category": "FeatureTest",
+    "description": "{'planId': 44989, 'suiteId': 47253, 'testCaseId': 47254}",
+    "testCases": [],
+    "instanceSets": [
+        {
+            "uutGroup": {
+                "uutGroupQuantity": "any",
+                "uutGroupId": "633e3b6b95579c00114d9493"
+            },
+            "type": "uutGroup",
+            "triggerMode": {
+                "type": "once"
+            }
+        }
+    ],
+    "installers": [],
+    "actions": [
+        {
+            "refs": "",
+            "data": {
+                "operation": "Single Line",
+                "text_bar": "Hello World"
+            },
+            "haltOnError": false,
+            "runCycles": 1,
+            "type": "ExecutorTemplate",
+            "description": "hello world single line example"
+        }
+    ]
+}

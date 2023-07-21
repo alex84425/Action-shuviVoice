@@ -1,9 +1,9 @@
 {
     "isPrivate": true,
-    "name": "hello_world_example_should_pass",
+    "name": "hello_world_multi_line_example_should_pass",
     "type": "plan",
     "category": "FeatureTest",
-    "description": "{'planId': 44989, 'suiteId': 47253, 'testCaseId': 47254}",
+    "description": "{'planId': 44989, 'suiteId': 47253, 'testCaseId': 50713}",
     "testCases": [],
     "instanceSets": [
         {
@@ -22,13 +22,13 @@
         {
             "refs": "",
             "data": {
-                "Text Bar": "Hello",
-                "Text Box": "World"
+                "operation": "Multi Line",
+                "text_box": "Hello \nWorld"
             },
             "haltOnError": false,
             "runCycles": 1,
             "type": "ExecutorTemplate",
-            "description": "hello world example"
+            "description": "hello world multi line example"
         }
     ]
 }
