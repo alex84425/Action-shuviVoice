@@ -1,4 +1,5 @@
 {
+    "2.7.0": "[2023-07-20] add operation example",
     "2.6.0": "[2023-07-18] add powershell functions! move examples to folder and update packages",
     "2.5.1": "[2023-07-05] add design review template",
     "2.5.0": "[2023-07-04] run powershell unit test in docker",
