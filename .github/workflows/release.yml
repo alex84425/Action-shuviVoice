@@ -3,7 +3,7 @@ name: Sprint Release
 on:
   push:
     tags:
-      - "qa-*"
+      - "itg-*"
 
 jobs:
   sprint-release:
