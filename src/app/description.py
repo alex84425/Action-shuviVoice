@@ -9,10 +9,10 @@ config = get_settings()
 DESCRIPTION = f"""
     service: {config.PROJECT_NAME}
     version: {config.VERSION}
-    history: {list(config.HISTORY.values())[0]}
+    history: {next(iter(config.HISTORY.values()))}
     commit id: {config.SOURCE_VERSION}
     lib version: {vcosmosapiclient.VERSION}
-    lib history: {list(vcosmosapiclient.HISTORY.values())[0]}
+    lib history: {next(iter(vcosmosapiclient.HISTORY.values()))}
     deployed time: {datetime.now(timezone(timedelta(hours=+8))).ctime()}
     """
 

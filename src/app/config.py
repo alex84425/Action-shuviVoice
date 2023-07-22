@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = os.environ.get("ACTION_TYPE", "Action-Dummy")
     PATH_PREFIX: str = "/"
     HISTORY: dict = get_history(PROJECT_NAME)
-    VERSION: str = list(HISTORY.keys())[0]
+    VERSION: str = next(iter(HISTORY.keys()))
     VOLUME: Path = Path(os.environ.get("VOLUME_MOUNT_PATH", "/data"))
     LOG_FOLDER: Path = VOLUME / "log"
     SOURCE_VERSION: str = "local"
