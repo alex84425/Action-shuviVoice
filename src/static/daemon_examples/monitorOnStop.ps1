@@ -21,15 +21,14 @@ try {
     Stop-ScheduledTask -TaskName $task_name_instance
     Unregister-ScheduledTask -TaskName $task_name_instance -Confirm:$false
 
-    # delete watch log (can not delete self by powershell, so the schtasks)
-    # Stop-ScheduledTask -TaskName $task_name_watchdog
+    # disable watch log (can not delete self by powershell)
     # Unregister-ScheduledTask -TaskName $task_name_watchdog -Confirm:$false
-    cmd.exe /c schtasks /end /tn  $task_name_watchdog
-    cmd.exe /c schtasks /delete /tn  $task_name_watchdog /f
+    Disable-ScheduledTask -TaskName $task_name_watchdog
     if (-not(Test-Path $STATUS_PATH)) {
         Add-Content -Path $RESULT_PATH -Value "PASS" -Encoding UTF8
         Add-Content -Path $STATUS_PATH -Value "PASS" -Encoding UTF8
     }
+    Stop-ScheduledTask -TaskName $task_name_watchdog
 }
 catch {
     $Error[0]
