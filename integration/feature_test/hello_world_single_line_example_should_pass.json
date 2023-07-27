@@ -22,7 +22,7 @@
         {
             "refs": "",
             "data": {
-                "operation": "Single Line",
+                "Operation": "Single Line",
                 "text_bar": "Hello World"
             },
             "haltOnError": false,

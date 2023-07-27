@@ -1,8 +1,8 @@
 {
     "actionData": {
         "data": {
-            "Text Bar": "Hello",
-            "Text Box": "World"
+            "Operation": "Single Line",
+            "text_bar": "Hello World"
         }
     },
     "context": {

@@ -12,7 +12,7 @@ async def hello_world_single_line_example_should_pass_checker(task: Task):
         raise StatusNotMatchError
     logging.debug("actual_status as expected")
 
-    expected_result = {"operation": "Single Line", "text_bar": "Hello World"}
+    expected_result = {"Operation": "Single Line", "text_bar": "Hello World"}
     actual_result = await task.get_result()
     if expected_result != actual_result:
         raise ResultNotMatchError
@@ -37,7 +37,7 @@ async def hello_world_multi_line_example_should_pass_checker(task: Task):
         raise StatusNotMatchError
     logging.debug("actual_status as expected")
 
-    expected_result = {"operation": "Multi Line", "text_box": "Hello \nWorld"}
+    expected_result = {"Operation": "Multi Line", "text_box": "Hello \nWorld"}
     actual_result = await task.get_result()
     if expected_result != actual_result:
         raise ResultNotMatchError
@@ -55,6 +55,24 @@ async def hello_world_multi_line_example_should_pass_checker(task: Task):
     logging.debug("stored files is as expected!")
 
 
+async def daemon_mode_operation_1_should_pass(task: Task):
+    logging.debug("daemon_mode_operation_1_should_pass")
+
+    daemon_action_index = 0
+    if await task.get_status(daemon_action_index) != "PASS":
+        raise StatusNotMatchError
+    logging.debug("actual_status as expected")
+
+
+async def daemon_mode_operation_2_should_pass(task: Task):
+    logging.debug("daemon_mode_operation_2_should_pass")
+
+    daemon_action_index = 0
+    if await task.get_status(daemon_action_index) != "PASS":
+        raise StatusNotMatchError
+    logging.debug("actual_status as expected")
+
+
 HERE = Path(__file__).parent
 BVT_TEST_CASES = [
     FeatureTestCase(
@@ -65,6 +83,14 @@ BVT_TEST_CASES = [
         payload_path=HERE / "hello_world_multi_line_example_should_pass.json",
         checker=hello_world_multi_line_example_should_pass_checker,
     ),
+    FeatureTestCase(
+        payload_path=HERE / "daemon_mode_operation_1_should_pass.json",
+        checker=daemon_mode_operation_1_should_pass,
+    ),
+    FeatureTestCase(
+        payload_path=HERE / "daemon_mode_operation_2_should_pass.json",
+        checker=daemon_mode_operation_2_should_pass,
+    ),
 ]
 INTEGRATION_TEST_CASES = [
     FeatureTestCase(
@@ -74,5 +100,13 @@ INTEGRATION_TEST_CASES = [
     FeatureTestCase(
         payload_path=HERE / "hello_world_multi_line_example_should_pass.json",
         checker=hello_world_multi_line_example_should_pass_checker,
+    ),
+    FeatureTestCase(
+        payload_path=HERE / "daemon_mode_operation_1_should_pass.json",
+        checker=daemon_mode_operation_1_should_pass,
+    ),
+    FeatureTestCase(
+        payload_path=HERE / "daemon_mode_operation_2_should_pass.json",
+        checker=daemon_mode_operation_2_should_pass,
     ),
 ]

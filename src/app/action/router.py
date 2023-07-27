@@ -6,116 +6,27 @@ https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/tre
 Response schema:
 https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/blob/master/ActionExecutor/ActionActResponse.schema.json
 """
-import datetime
+
 import logging
 
 from fastapi import APIRouter, HTTPException, status
-from vcosmosapiclient.api_proxy import execute_ps1_on_remote, extract_zip_to_remote
+from vcosmosapiclient.api_proxy import execute_ps1_on_remote
 from vcosmosapiclient.custom_logging import log_wrapper
 from vcosmosapiclient.errors import UutConnectionError
 from vcosmosapiclient.utils import validator
 
-import static
 from app.action import executor, models
-from app.config import Settings, get_settings
 
 router = APIRouter()
-settings: Settings = get_settings()
-HEADERS = {"Content-type": "application/json"}
-TEN_MINUTES_IN_MICROSECONDS = int(datetime.timedelta(minutes=10).total_seconds() * 1000)  # for axios
 
 
 @router.post("/act")
 @validator.post
 async def post_to_action(act: models.MyActionPostModel):
-    # send action files
-    await extract_zip_to_remote(act.target, static.file("examples.zip"), remote_path=act.context.workingDirectory)
-
-    response = {
-        "monitorType": "exist",
-        "monitorTargetType": "request",
-        "monitorTargetData": {
-            "url": f"http://{settings.HOSTNAME_AND_PORT}/action/monitor/target",
-            "method": "POST",
-            "headers": {"Content-type": "application/json"},
-            "timeout": TEN_MINUTES_IN_MICROSECONDS,
-        },
-        "monitorBehavior": "stop",
-        "monitorIntervalInSecs": 10,
-        "monitorTimeoutInSecs": int(datetime.timedelta(minutes=10).total_seconds()),
-        "resultType": "file",
-        "resultGetRequestData": str(act.context.workingDirectory / "LOGS/result.txt"),  # for result action (sherlock)
-        "storeType": "file",
-        "storeGetRequestData": str(act.context.workingDirectory / "LOGS"),
-        "resultStatusType": "file",
-        "resultStatusGetRequestData": str(act.context.workingDirectory / "LOGS/status.txt"),
-        "monitorOnStart": [
-            {
-                "command": ["mkdir", ".\\LOGS"],
-                "delayInSec": 0,
-                "environmentVariables": {},
-                "executeType": "targetCommand",
-                "waitFinished": True,
-                "workingDirectory": str(act.context.workingDirectory),
-            },
-            {
-                "command": ["cmd.exe", "/c", "monitorOnStart.cmd"],
-                "delayInSec": 0,
-                "environmentVariables": {
-                    "PROJECT_NAME": settings.PROJECT_NAME,
-                    "VERSION": settings.VERSION,
-                },
-                "executeType": "targetCommand",
-                "waitFinished": True,
-                "workingDirectory": str(act.context.workingDirectory),
-            },
-            {
-                "executeType": "request",
-                "url": f"http://{settings.HOSTNAME_AND_PORT}/action/onstart",
-                "method": "POST",
-                "headers": HEADERS,
-                "timeout": TEN_MINUTES_IN_MICROSECONDS,
-            },
-        ],
-        "monitorOnStop": [
-            {
-                "command": ["powershell.exe", "-ExecutionPolicy", "Bypass", "-f", "./monitorOnStop.ps1"],
-                "delayInSec": 0,
-                "environmentVariables": {
-                    "PROJECT_NAME": settings.PROJECT_NAME,
-                    "VERSION": settings.VERSION,
-                },
-                "executeType": "targetCommand",
-                "waitFinished": True,
-                "workingDirectory": str(act.context.workingDirectory),
-            },
-            {
-                "executeType": "request",
-                "url": f"http://{settings.HOSTNAME_AND_PORT}/action/onstop",
-                "method": "POST",
-                "headers": HEADERS,
-                "timeout": TEN_MINUTES_IN_MICROSECONDS,
-            },
-        ],
-        "onAbort": [
-            {
-                "command": ["powershell.exe", "-ExecutionPolicy", "Bypass", "-f", "./onAbort.ps1"],
-                "delayInSec": 0,
-                "environmentVariables": {},
-                "executeType": "targetCommand",
-                "waitFinished": True,
-                "workingDirectory": str(act.context.workingDirectory),
-            },
-            {
-                "executeType": "request",
-                "url": f"http://{settings.HOSTNAME_AND_PORT}/action/onabort",
-                "method": "POST",
-                "headers": HEADERS,
-                "data": {"example_extra_data": "for_onabort"},
-                "timeout": TEN_MINUTES_IN_MICROSECONDS,
-            },
-        ],
-    }
+    if act.actionData.daemonMode:
+        response = await executor.act_daemon_action(act)
+    else:
+        response = await executor.act_main_action(act)
     logging.debug(f"ACT Response: {response}")
     return response
 

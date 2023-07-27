@@ -22,7 +22,7 @@
         {
             "refs": "",
             "data": {
-                "operation": "Multi Line",
+                "Operation": "Multi Line",
                 "text_box": "Hello \nWorld"
             },
             "haltOnError": false,

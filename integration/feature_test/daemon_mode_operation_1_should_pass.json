@@ -1,0 +1,55 @@
+{
+    "isPrivate": true,
+    "name": "daemon_mode_operation_1_should_pass",
+    "type": "plan",
+    "category": "FeatureTest",
+    "description": "{'planId': 44989, 'suiteId': 47253, 'testCaseId': 47254}",
+    "testCases": [],
+    "instanceSets": [
+        {
+            "uutGroup": {
+                "uutGroupQuantity": "any",
+                "uutGroupId": "633e3b6b95579c00114d9493"
+            },
+            "type": "uutGroup",
+            "triggerMode": {
+                "type": "once"
+            }
+        }
+    ],
+    "installers": [],
+    "actions": [
+        {
+            "refs": "",
+            "haltOnError": false,
+            "runCycles": 1,
+            "daemonMode": true,
+            "startWith": "action",
+            "type": "ExecutorTemplate",
+            "description": "build action",
+            "endWithIndex": 1,
+            "data": {
+                "skip": 0,
+                "limit": 25,
+                "daemon": true,
+                "Operation": "Operation 1",
+                "check_box": false,
+                "combo_box": "Value 1"
+            }
+        },
+        {
+            "refs": "",
+            "haltOnError": false,
+            "runCycles": 1,
+            "daemonMode": false,
+            "startWith": "action",
+            "type": "ScriptExecution",
+            "description": "Powershell:Start-Sleep -Second 60",
+            "data": {
+                "ScriptType": "Powershell",
+                "ScriptContent": "Start-Sleep -Second 60",
+                "Modules": []
+            }
+        }
+    ]
+}
