@@ -1,20 +1,8 @@
-name: "Pull Request Labeler"
+name: Pull Request Labeler
 on:
     - pull_request_target
 
 jobs:
-    pr-labeler:
-        permissions:
-            contents: read
-            pull-requests: write
-        runs-on: [rnd-it-ubuntu]
-        steps:
-            - uses: codeway-actions/checkout@v3
-              with:
-                  lfs: true
-                  submodules: "recursive"
-                  token: ${{secrets.ACTIONS_BOT_TOKEN}}
-
-            - uses: codeway-actions/labeler@v4
-              with:
-                  sync-labels: true
+    reuse:
+        uses: vcosmos-actions/reusable-workflows/.github/workflows/template-labeler.yml@master
+        secrets: inherit

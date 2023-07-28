@@ -1,19 +1,11 @@
 name: Sprint Release
 
 on:
-  push:
-    tags:
-      - "itg-*"
+    push:
+        tags:
+            - "itg-*"
 
 jobs:
-  sprint-release:
-    permissions:
-      contents: write
-    runs-on: [rnd-it-ubuntu]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Release
-        uses: vcosmos-actions/action-gh-release@v1
-        with:
-          generate_release_notes: true
+    reuse:
+        uses: vcosmos-actions/reusable-workflows/.github/workflows/template-release.yml@master
+        secrets: inherit
