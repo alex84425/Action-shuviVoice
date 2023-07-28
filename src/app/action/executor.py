@@ -226,7 +226,7 @@ async def act_daemon_action(act: models.MyActionPostModel):
 
     # send action files
     if not act.actionData.daemonMode:
-        raise RuntimeError("Something wrong of model mapping")
+        raise RuntimeError("Something wrong of daemon detection")
 
     if not isinstance(act.actionData.data, (models.DaemonPageOneModel, models.DaemonPageTwoModel)):
         raise RuntimeError("Something wrong of model mapping")

@@ -10,7 +10,9 @@ class BaseProviderInputModel(BaseModel):
     pass
 
 
-# ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ Sync from Action info ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+#########################
+# Sync from Action info #
+#########################
 
 
 # Enum definitions
@@ -77,39 +79,46 @@ class DaemonPageTwoModel(DaemonOperationModel):
     )
 
 
-# Provider input models
+def determine_model(payload: dict):
+    operation = payload.get("Operation")
+    if payload.get("daemon"):
+        if operation == DaemonOperationEnum.OPERATION_1:
+            return DaemonPageOneModel(**payload)
+
+        if operation == DaemonOperationEnum.OPERATION_2:
+            return DaemonPageTwoModel(**payload)
+
+        return DaemonPageOneModel(**payload)
+
+    if operation == MainOperationEnum.SINGLE_LINE:
+        return SingleLineModel(**payload)
+
+    if operation == MainOperationEnum.MULTI_LINE:
+        return MultiLineModel(**payload)
+
+    return SingleLineModel(**payload)
+
+
+#################
+# Action Models #
+#################
 class ProviderInput(BaseProviderInputModel):
     class Config:
         extra = "allow"
 
 
-# ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ Sync from Action info ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
-
-
-# get model by operation
 class MyActionDataModel(BaseModel):
     daemonMode: bool
     data: Union[ProviderInput, SingleLineModel, MultiLineModel, DaemonPageOneModel, DaemonPageTwoModel]
 
     @validator("data")
-    def get_model_by_operation(cls, field_value, values):  # pylint: disable=E0213
-        value_dict = field_value.dict()
-        operation = value_dict.get("Operation")
+    def determine_model_by_data(cls, value, values):  # pylint: disable=E0213
+        payload = value.dict()
 
-        if values.get("daemonMode"):
-            if operation == DaemonOperationEnum.OPERATION_1:
-                return DaemonPageOneModel(**value_dict)
-
-            if operation == DaemonOperationEnum.OPERATION_2:
-                return DaemonPageTwoModel(**value_dict)
-        else:
-            if operation == MainOperationEnum.SINGLE_LINE:
-                return SingleLineModel(**value_dict)
-
-            if operation == MainOperationEnum.MULTI_LINE:
-                return MultiLineModel(**value_dict)
-
-        raise ValueError("Payload is not support")
+        # if payload didn't have daemon, then use daemonMode as its value
+        if "daemon" not in payload:
+            payload["daemon"] = values.get("daemonMode", False)
+        return determine_model(payload)
 
 
 class MyActionPostModel(BaseActionModel):
