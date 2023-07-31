@@ -10,7 +10,7 @@ if "Action-" not in PROJECT_ROOT.name:
 
 def get_action_name(root_name):
     # skip "Action-"
-    pattern = re.compile("^Action-([A-Z][a-zA-Z0-9]{2,20})$")
+    pattern = re.compile("^(Action|ActionInfo)[-]([A-Z][a-zA-Z0-9]{2,20})$")
     matched = pattern.match(root_name)
     if not matched:
         raise ValueError("please check action name format")
