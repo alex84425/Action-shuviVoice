@@ -14,7 +14,7 @@ def get_action_name(root_name):
     matched = pattern.match(root_name)
     if not matched:
         raise ValueError("please check action name format")
-    return matched.group(1)
+    return matched.group(2)
 
 
 action_name = get_action_name(PROJECT_ROOT.name)
