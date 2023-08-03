@@ -4,6 +4,7 @@ on:
     push:
         tags:
             - "itg-*"
+            - "v*.*.*"
 
 jobs:
     reuse:
