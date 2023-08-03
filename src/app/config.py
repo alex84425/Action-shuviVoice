@@ -3,7 +3,7 @@ import os
 from functools import lru_cache
 from pathlib import Path
 
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 
 
 def get_history(project_name: str) -> dict:

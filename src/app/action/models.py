@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import Union
 
-from pydantic import Field, validator
+from pydantic import ConfigDict, Field, field_validator
 from vcosmosapiclient.models import BaseActionModel, BaseModel
 
 
@@ -46,7 +46,13 @@ class SingleLineModel(MainOperationModel):
 
 
 class MultiLineModel(MainOperationModel):
-    text_box: str = Field("numbers 0-9 is not allow in this text box", maxLength=30000, alias="Text Box")
+    text_box: str = Field(
+        "numbers 0-9 is not allow in this text box",
+        alias="Text Box",
+        json_schema_extra={
+            "maxLength": 30000,
+        },
+    )
 
 
 # Daemon operation models
@@ -54,7 +60,9 @@ class DaemonPageOneModel(DaemonOperationModel):
     check_box: bool = Field(
         False,
         alias="I am a check box",
-        toolTip="<p>I am tool tip</p>I am tool tip second line",
+        json_schema_extra={
+            "toolTip": "<p>I am tool tip</p>I am tool tip second line",
+        },
     )
     combo_box: DaemonComboBoxEnum = Field(DaemonComboBoxEnum.COMBOBOX_VALUE_1, alias="I am a combobox")
 
@@ -65,17 +73,23 @@ class DaemonPageTwoModel(DaemonOperationModel):
         ge=1,
         le=5,
         alias="I am an int",
-        toolTip="<p>I am tool tip</p>I am tool tip second line",
+        json_schema_extra={
+            "toolTip": "<p>I am tool tip</p>I am tool tip second line",
+        },
     )
     string: str = Field(
         "",
         alias="I am a string",
-        placeholder="I am placeholder",
+        json_schema_extra={
+            "placeholder": "I am placeholder",
+        },
     )
     disabled_string: str = Field(
         "",
         alias="I am a disabled string",
-        disabled=True,
+        json_schema_extra={
+            "disabled": True,
+        },
     )
 
 
@@ -103,21 +117,20 @@ def determine_model(payload: dict):
 # Action Models #
 #################
 class ProviderInput(BaseProviderInputModel):
-    class Config:
-        extra = "allow"
+    model_config = ConfigDict(extra="allow")
 
 
 class MyActionDataModel(BaseModel):
     daemonMode: bool
     data: Union[ProviderInput, SingleLineModel, MultiLineModel, DaemonPageOneModel, DaemonPageTwoModel]
 
-    @validator("data")
+    @field_validator("data")
     def determine_model_by_data(cls, value, values):  # pylint: disable=E0213
         payload = value.dict()
 
-        # if payload didn't have daemon, then use daemonMode as its value
-        if "daemon" not in payload:
-            payload["daemon"] = values.get("daemonMode", False)
+        # if payload didn't set daemon, then use daemonMode as its value
+        if payload.get("daemon") is None:
+            payload["daemon"] = values.data.get("daemonMode", False)
         return determine_model(payload)
 
 

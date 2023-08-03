@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "action-executortemplate"
-version = "1.2.0"
+version = "3.0.0"
 description = "action-executortemplate"
 authors = ["Mason Lin <mason.lin1@hp.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-fastapi = {extras = ["all"], version = "^0.99.1"}
+fastapi = {extras = ["all"], version = "^0.100.1"}
 requests = "^2.31.0"
 uvicorn = {extras = ["standard"], version = "^0.23.1"}
 ansi2html = "^1.8.0"
@@ -26,6 +26,7 @@ pytest-httpx = "^0.22.0"
 pytest-cov = "^4.1.0"
 bandit = "^1.7.5"
 ruff = "^0.0.280"
+bump-pydantic = "^0.6.1"
 
 [tool.pytest.ini_options]
 minversion = "6.0"

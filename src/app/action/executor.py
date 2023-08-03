@@ -245,7 +245,7 @@ async def act_daemon_action(act: models.MyActionPostModel):
 
     # send parameters
     parameters_json_path = act.context.workingDirectory / "parameters.json"
-    parameters = act.actionData.data.dict()
+    parameters = act.actionData.data.model_dump()
     await send_string_to_remote(act.target, json.dumps(parameters, indent=4), parameters_json_path, override=True)
 
     # create log folder
