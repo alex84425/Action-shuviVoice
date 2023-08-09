@@ -3,7 +3,7 @@
     "name": "daemon_mode_operation_1_should_pass",
     "type": "plan",
     "category": "FeatureTest",
-    "description": "{'planId': 44989, 'suiteId': 47253, 'testCaseId': 47254}",
+    "description": "{'planId': 44989, 'suiteId': 47253, 'testCaseId': 51400}",
     "testCases": [],
     "instanceSets": [
         {
