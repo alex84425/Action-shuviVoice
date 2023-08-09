@@ -55,7 +55,7 @@ async def test_testdev_integration_test(action_name):
         test_cases: list[FeatureTestCase] = BVT_TEST_CASES
         # if azure helper is None, it will not update azure test point
         azure_helper = None
-    elif stage == "qa" and test_type == "INTEGRATION":  # move INTEGRATION_TEST_CASES to ITG 'End to End' when the stage ready.
+    elif stage == "qa" and test_type == "E2E":  # move INTEGRATION_TEST_CASES to ITG 'End to End' when the stage ready.
         logging.info("Start to trigger INTEGRATION test")
         test_cases: list[FeatureTestCase] = INTEGRATION_TEST_CASES
         # init azure helper
