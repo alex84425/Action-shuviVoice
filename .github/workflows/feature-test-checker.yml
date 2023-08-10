@@ -1,4 +1,5 @@
 name: Feature test Checker
+run-name: Task ${{ inputs.dispatch_parameters }}
 on:
     workflow_dispatch:
         inputs:
