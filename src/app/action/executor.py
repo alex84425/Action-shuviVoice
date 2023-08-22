@@ -265,7 +265,7 @@ async def act_daemon_action(act: models.MyActionPostModel):
     result_flag = log_folder / "result.txt"
     status_flag = log_folder / "status.txt"
     return {
-        "monitorType": "exist",
+        "monitorType": "true",
         "monitorTargetType": "request",
         "monitorTargetData": monitor_target_payload,
         "monitorBehavior": "stop",
