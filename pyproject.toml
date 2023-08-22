@@ -6,7 +6,7 @@ authors = ["Mason Lin <mason.lin1@hp.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-fastapi = {extras = ["all"], version = "^0.101.0"}
+fastapi = {extras = ["all"], version = "^0.101.1"}
 requests = "^2.31.0"
 uvicorn = {extras = ["standard"], version = "^0.23.2"}
 ansi2html = "^1.8.0"
@@ -18,7 +18,7 @@ pytest = "^7.4.0"
 pytest-asyncio = "^0.21.1"
 pytest-mock = "^3.11.1"
 pytest-xdist = "^3.3.1"
-coverage = {extras = ["toml"], version = "^7.2.7"}
+coverage = {extras = ["toml"], version = "^7.3.0"}
 black = "^23.7.0"
 requests-toolbelt = "^1.0.0"
 pre-commit = "^3.3.3"
