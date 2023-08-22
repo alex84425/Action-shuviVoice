@@ -223,7 +223,6 @@ def target_command_ps1(act: models.MyActionPostModel, script_file, env=None, wai
 
 
 async def act_daemon_action(act: models.MyActionPostModel):
-    default_execution_time_limit = FIVE_MINUTES_IN_SECONDS
 
     # send action files
     if not act.actionData.daemonMode:
