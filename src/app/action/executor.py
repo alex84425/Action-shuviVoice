@@ -30,6 +30,7 @@ HEADERS = {"Content-type": "application/json"}
 TWENTY_SECONDS = datetime.timedelta(seconds=20).total_seconds()
 FIVE_MINUTES_IN_SECONDS = datetime.timedelta(minutes=5).total_seconds()
 TEN_MINUTES_IN_MICROSECONDS = int(datetime.timedelta(minutes=10).total_seconds() * 1000)  # for axios
+TEN_MINUTES_IN_SECONDS = datetime.timedelta(minutes=10).total_seconds()
 
 
 @retry(reraise=True, stop=stop_after_delay(FIVE_MINUTES_IN_SECONDS), wait=wait_fixed(TWENTY_SECONDS))
@@ -252,15 +253,25 @@ async def act_daemon_action(act: models.MyActionPostModel):
     log_folder = act.context.workingDirectory / "LOGS"
     await execute_on_remote(act.target, ["mkdir", str(log_folder)], act.context.workingDirectory)
 
+    monitor_target_payload = {
+        "url": f"http://{settings.HOSTNAME_AND_PORT}/action/monitor/target",
+        "method": "POST",
+        "headers": {"Content-type": "application/json"},
+        "timeout": 10 * 1000,  # 10 secods to microseconds
+    }
+
+    monitor_time_interval_in_secods = act.actionData.data.maximum_execution_time
+    monitor_timeout_in_seconds = monitor_time_interval_in_secods + TEN_MINUTES_IN_SECONDS
+
     result_flag = log_folder / "result.txt"
     status_flag = log_folder / "status.txt"
     return {
         "monitorType": "exist",
-        "monitorTargetType": "file",
-        "monitorTargetData": str(result_flag),
+        "monitorTargetType": "request",
+        "monitorTargetData": monitor_target_payload,
         "monitorBehavior": "stop",
-        "monitorIntervalInSecs": 60,
-        "monitorTimeoutInSecs": default_execution_time_limit,
+        "monitorIntervalInSecs": monitor_time_interval_in_secods,
+        "monitorTimeoutInSecs": monitor_timeout_in_seconds,
         "resultType": "file",
         "resultGetRequestData": str(result_flag),
         "storeType": "file",
