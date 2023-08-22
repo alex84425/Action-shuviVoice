@@ -1,4 +1,5 @@
 {
+    "2.9.0": "[2023-08-18] uut proxy able to use environment variables.",
     "2.8.1": "[2023-07-31] extend to 30 characters.",
     "2.8.0": "[2023-07-28] better model handler.",
     "2.7.2": "[2023-07-27] fix daemon self delete issue",
