@@ -223,7 +223,6 @@ def target_command_ps1(act: models.MyActionPostModel, script_file, env=None, wai
 
 
 async def act_daemon_action(act: models.MyActionPostModel):
-
     # send action files
     if not act.actionData.daemonMode:
         raise RuntimeError("Something wrong of daemon detection")
