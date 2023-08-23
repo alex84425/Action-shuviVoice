@@ -78,6 +78,16 @@ class DaemonPageOneModel(DaemonOperationModel):
 
 
 class DaemonPageTwoModel(DaemonOperationModel):
+    maximum_execution_time: int = Field(
+        1 * 60,
+        alias="Maximum Execution Time",
+        ui="durationPicker",
+        customizedText="Min: 1 minutes, Max: 24 hours",
+        description="this is a duration picker",
+        showHeading=True,
+        maximum=60 * 60 * 24,
+        minimum=1 * 60,
+    )
     int_value: int = Field(
         2,
         ge=1,
