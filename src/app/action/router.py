@@ -72,7 +72,8 @@ async def onabort(payload: models.MyActionCallbackModel):
 async def monitor_target(payload: models.MyActionCallbackModel):
     logging.info("=============================================================")
     logging.info("[Step] POST /monitor/target")
-
+    if payload.act.actionData.daemonMode:
+        return {"result": True}
     try:
         result = await execute_ps1_on_remote(payload.act, payload.act.context.workingDirectory / "monitorTargetData.ps1", check=False)
     except UutConnectionError:
