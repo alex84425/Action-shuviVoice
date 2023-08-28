@@ -221,3 +221,62 @@ sequenceDiagram
 
 -   [Azure Pipelines](https://dev.azure.com/hp-csrd-validation/vCosmos/_build)
 -   [Azure Release](https://dev.azure.com/hp-csrd-validation/vCosmos/_release?_a=releases&view=all&path=%5C)
+
+---
+
+# Daemon Action Endpoints
+
+-   GET /action/info
+
+    -   Required endpoint as per the guidelines.
+    -   Displays information about the action.
+
+-   GET /action/health
+
+    -   Required endpoint as per the guidelines.
+    -   Shows the health status of the action. Returns 200 to indicate a healthy state.
+
+-   POST /action/act
+
+    -   Required endpoint as per the guidelines.
+    -   Check UUT requirement, let action direcyly fail if requirement not met
+    -   Sends script files to the UUT:
+
+        -   daemonWatchdog.ps1
+        -   monitorOnStart.ps1
+        -   monitorOnStop.ps1
+        -   onAbort.ps1
+
+-   POST /action/monitor/target
+
+    -   Always return `{"result": True}` to avoid connecting to the UUT.
+    -   For a daemon, monitorIntervalInSecs will be the same as the execution time, meaning that this endpoint will only be triggered once throughout the entire execution period.
+
+
+# Scripts
+
+-   **daemonWatchdog.ps1**
+
+    -   Execute onStop.ps1 when taskid.txt changes, which means that when the UUT is out of control, the task has already ended, and the daemon did not terminate correctly.
+
+-   **monitorOnStart.ps1**
+
+    -   Contains commands to start daemon or toggle on certain settings.
+
+-   **monitorOnStop.ps1**
+
+    -   Triggered when:
+        1. The execution time is reached, which is when POST /action/monitor/target returns `{"result": True}`
+        2. The "End with" main action has been completed.
+        3. `Abort` button is clicked in ATC
+    -   Stop the daemon process or toggle off the setting.
+    -   Stop `daemonWatchdog.ps1`
+    -   Performs processing of the execution result and collects logs.
+    -   Determines the execution result.
+    -   Saves the message to result.txt.
+    -   Saves the status to status.txt.
+
+-   **onAbort.ps1**
+    -   Triggered when the `Abort` button is clicked in ATC.
+    -   Stop the daemon process or toggle off the setting.
+    -   Stop `daemonWatchdog.ps1`
