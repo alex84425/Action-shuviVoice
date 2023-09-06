@@ -115,7 +115,7 @@ async def act_main_action(act: models.MyActionPostModel):
     await extract_zip_to_remote(act.target, static.file("examples.zip"), remote_path=act.context.workingDirectory)
 
     return {
-        "monitorType": "exist",
+        "monitorType": "true",
         "monitorTargetType": "request",
         "monitorTargetData": {
             "url": f"http://{settings.HOSTNAME_AND_PORT}/action/monitor/target",
