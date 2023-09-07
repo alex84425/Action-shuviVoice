@@ -10,9 +10,9 @@ https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/blo
 import logging
 
 from fastapi import APIRouter, HTTPException, status
+from vcosmosapiclient import errors
 from vcosmosapiclient.api_proxy import execute_ps1_on_remote
 from vcosmosapiclient.custom_logging import log_wrapper
-from vcosmosapiclient.errors import UutConnectionError
 from vcosmosapiclient.utils import validator
 
 from app.action import executor, models
@@ -74,16 +74,21 @@ async def monitor_target(payload: models.MyActionCallbackModel):
     logging.info("[Step] POST /monitor/target")
     if payload.act.actionData.daemonMode:
         return {"result": True}
+
+    # main mode
+    result = False
     try:
-        result = await execute_ps1_on_remote(payload.act, payload.act.context.workingDirectory / "monitorTargetData.ps1", check=False)
-    except UutConnectionError:
+        response = await execute_ps1_on_remote(payload.act, payload.act.context.workingDirectory / "isRunning.ps1", check=False)
+        logging.debug(f"monitor response: {response}")
+    except errors.UutConnectionError:
         logging.debug("Failed to connect to UUT")
-        return {"result": True}
+    except errors.CommandError:
+        logging.debug("Got CommandError")
+    except errors.StatusCodeError:
+        logging.debug("Got StatusCodeError")
+    else:
+        if response.returncode != 0:
+            logging.debug("Stop watching")
+            result = True
 
-    if result.returncode == 0:
-        # process exist -> running
-        logging.info("[Step] POST /monitor/target process is running")
-        return {"result": False}
-
-    logging.info("[Step] POST /monitor/target process not found")
-    return {"result": True}
+    return {"result": result}
