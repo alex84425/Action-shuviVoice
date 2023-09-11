@@ -6,24 +6,24 @@ registries:
         username: x-access-token
         password: ${{secrets.TOKEN}}
 updates:
-    - package-ecosystem: "pip"
-      directory: "/"
-      insecure-external-code-execution: allow
-      registries:
-          - submodule-github
-      schedule:
-          interval: "weekly"
-      commit-message:
-          prefix: ⬆
+    # - package-ecosystem: "pip"
+    #   directory: "/"
+    #   insecure-external-code-execution: allow
+    #   registries:
+    #       - submodule-github
+    #   schedule:
+    #       interval: "weekly"
+    #   commit-message:
+    #       prefix: ⬆
 
-    - package-ecosystem: "gitsubmodule"
-      directory: "/"
-      registries:
-          - submodule-github
-      schedule:
-          interval: "daily"
-      commit-message:
-          prefix: 🚀
+    # - package-ecosystem: "gitsubmodule"
+    #   directory: "/"
+    #   registries:
+    #       - submodule-github
+    #   schedule:
+    #       interval: "daily"
+    #   commit-message:
+    #       prefix: 🚀
 
     - package-ecosystem: "github-actions"
       directory: "/"
