@@ -12,6 +12,7 @@ uvicorn = {extras = ["standard"], version = "^0.23.2"}
 ansi2html = "^1.8.0"
 python-multipart = "^0.0.6"
 vcosmosapiclient = {path = "ActionTemplate-Python3", develop = true}
+httpx = "0.24.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.0"
@@ -22,7 +23,7 @@ coverage = {extras = ["toml"], version = "^7.3.0"}
 black = "^23.7.0"
 requests-toolbelt = "^1.0.0"
 pre-commit = "^3.3.3"
-pytest-httpx = "^0.22.0"
+pytest-httpx = "0.24.0"
 pytest-cov = "^4.1.0"
 bandit = "^1.7.5"
 ruff = "^0.0.285"
