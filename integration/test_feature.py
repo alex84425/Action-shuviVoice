@@ -30,10 +30,11 @@ async def update_uut_group_id_by_stage_in_place(stage, payload):
 async def test_testdev_integration_test(action_name):
     # Testing on few stage and test type first
     assert action_name, "action_name is none, please set it"
+    site = os.environ["SITE"]
+    logging.debug(f"{site=}")
+
     stage = os.environ["ENV"]
     logging.debug(f"{stage=}")
-    if stage not in ("dev", "qa"):
-        return "Skip test."
 
     test_type = os.environ.get("DEPLOYMENT_TEST_TYPE")
     logging.debug(f"{test_type=}")
@@ -41,25 +42,20 @@ async def test_testdev_integration_test(action_name):
     release_environment_name = os.environ.get("RELEASE_ENVIRONMENTNAME")
     logging.debug(f"{release_environment_name=}")
 
-    # load env variables
-    try:
-        # github helper
-        repository_name = os.environ["RepositoryName"]
-        source_version = os.environ["SourceVersion"]
-        github_pat = os.environ["GITHUB_STATUS"]
+    # github helper
+    repository_name = os.environ.get("RepositoryName")
+    source_version = os.environ.get("SourceVersion")
+    github_pat = os.environ.get("GITHUB_STATUS")
 
-        # ado helper
-        azure_pat = os.environ["AZ_PAT_TEST_PLANS"]
-    except KeyError as error:
-        raise KeyError(f"Missing env for test, (reason {error})") from error
-
-    if stage == "dev" and test_type == "BVT":
+    # ado helper
+    azure_pat = os.environ.get("AZ_PAT_TEST_PLANS")
+    if stage == "dev" and site == "hp-tnn-dev" and test_type == "BVT":
         logging.info("Start to trigger BVT test")
         test_cases: list[FeatureTestCase] = BVT_TEST_CASES
         # if azure helper is None, it will not update azure test point
         azure_helper = None
     elif (
-        stage == "qa" and release_environment_name == "Proxy Testing on QA"
+        stage == "qa" and site == "hp-tnn-qa" and release_environment_name == "Proxy Testing on QA"
     ):  # move INTEGRATION_TEST_CASES to ITG 'End to End' when the stage ready.
         logging.info("Start to trigger INTEGRATION test")
         test_cases: list[FeatureTestCase] = INTEGRATION_TEST_CASES
