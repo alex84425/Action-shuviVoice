@@ -23,6 +23,8 @@ print("The new action name is:", action_name)
 files = [
     PROJECT_ROOT / "azure-pipelines.yml",
     PROJECT_ROOT / "local.env",
+    PROJECT_ROOT / "docker-compose.yml",
+    PROJECT_ROOT / "docker-compose-debug.yml",
     PROJECT_ROOT / "README.md",
 ]
 for file in files:

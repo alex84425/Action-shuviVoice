@@ -25,6 +25,16 @@ class Settings(BaseSettings):
     LOG_FOLDER: Path = VOLUME / "log"
     SOURCE_VERSION: str = "local"
     HOSTNAME_AND_PORT: str = f"{PROJECT_NAME.lower()}:{os.environ.get('PORT')}"
+    COMMON_RESOURCES: Path = VOLUME / "vCosmos_Resource" / "common-data" / "common" / "action"
+    RESOURCE_FILE_BACKUP: Path = COMMON_RESOURCES / PROJECT_NAME / "example" / "v0.1.0"
+    RESOURCE_FILE_LATEST: Path = COMMON_RESOURCES / PROJECT_NAME / "example" / "v0.2.0"
+
+
+async def is_resource_exists(resource_key: Path):
+    if not isinstance(resource_key, Path):
+        raise TypeError("resource_key must be a Path object")
+    unready_files = list(resource_key.rglob("*.part.minio"))
+    return resource_key.exists() and not unready_files
 
 
 @lru_cache

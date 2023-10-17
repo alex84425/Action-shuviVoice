@@ -1,8 +1,16 @@
-# syntax = edrevo/dockerfile-plus
 ###########################################################################
 # Build uut operation proxy base image (temp solution for ssh)
 ###########################################################################
-INCLUDE+ ./ActionTemplate-Python3/UUTOperationProxy/DockerfileAction
+FROM node:16.15.1-slim AS uut-operation-proxy-base
+
+COPY ./ActionTemplate-Python3/UUTOperationProxy/. /UUTOperationProxy
+
+WORKDIR /UUTOperationProxy
+
+RUN npm ci
+
+RUN npm install -g pkg
+RUN pkg .
 
 ###########################################################################
 # Create requirements from poetry

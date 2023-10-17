@@ -32,3 +32,5 @@ extends:
         summaryFileLocation: "/app/coverage.xml"
         enable_unittest_badge: true
         testing_docker_file: "integration.dockerfile"
+        use_resource: true
+        sync_resource: true

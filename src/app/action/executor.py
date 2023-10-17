@@ -15,13 +15,14 @@ from vcosmosapiclient.api_proxy import (
     extract_zip_to_remote,
     send_file_to_remote,
     send_file_to_remote_rename,
+    send_folder_to_remote,
     send_string_to_remote,
 )
 from vcosmosapiclient.errors import UutConnectionError
 
 import static
 from app.action import models
-from app.config import get_settings
+from app.config import get_settings, is_resource_exists
 from app.description import DESCRIPTION_DICT
 
 settings = get_settings()
@@ -113,6 +114,14 @@ async def execute_action(act: models.MyActionPostModel):
 async def act_main_action(act: models.MyActionPostModel):
     # send action files
     await extract_zip_to_remote(act.target, static.file("examples.zip"), remote_path=act.context.workingDirectory)
+    if await is_resource_exists(settings.RESOURCE_FILE_LATEST):
+        resource_file = settings.RESOURCE_FILE_LATEST
+    elif await is_resource_exists(settings.RESOURCE_FILE_BACKUP):
+        resource_file = settings.RESOURCE_FILE_BACKUP
+    else:
+        raise FileNotFoundError(f"Resource file not ready (path: {settings.RESOURCE_FILE_LATEST} and {settings.RESOURCE_FILE_BACKUP})")
+
+    await send_folder_to_remote(act, folder_path=resource_file, remote_path=act.context.workingDirectory / resource_file.name)
 
     return {
         "monitorType": "true",
@@ -255,7 +264,7 @@ async def act_daemon_action(act: models.MyActionPostModel):
         "url": f"http://{settings.HOSTNAME_AND_PORT}/action/monitor/target",
         "method": "POST",
         "headers": {"Content-type": "application/json"},
-        "timeout": 10 * 1000,  # 10 secods to microseconds
+        "timeout": 10 * 1000,  # 10 seconds to microseconds
     }
 
     monitor_time_interval_in_secods = act.actionData.data.maximum_execution_time

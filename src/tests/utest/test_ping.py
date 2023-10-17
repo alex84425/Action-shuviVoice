@@ -18,8 +18,9 @@ async def test_ping_route(async_app_client):
 
 
 @pytest.mark.asyncio
-async def test_health_normal(httpx_mock: HTTPXMock):
+async def test_health_normal(mocker, httpx_mock: HTTPXMock):
     httpx_mock.add_response(method="GET", status_code=404)
+    mocker.patch("app.health.router.is_resource_exists", return_value=True)
     response = await router.health()
     assert response == {"status": "ok"}
 
