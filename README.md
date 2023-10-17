@@ -44,7 +44,7 @@ echo "Sync up template"
 .\scripts\update_template.cmd
 
 echo "Update action name"
-py update_action_name.py
+py .\scripts\update_action_name.py
 git add .
 git commit -m 'rename action'
 git push
