@@ -26,15 +26,15 @@ class Settings(BaseSettings):
     SOURCE_VERSION: str = "local"
     HOSTNAME_AND_PORT: str = f"{PROJECT_NAME.lower()}:{os.environ.get('PORT')}"
     COMMON_SHUTTLE: Path = VOLUME / "vCosmos_Shuttle" / "common" / "action"
-    RESOURCE_FILE_BACKUP: Path = COMMON_SHUTTLE / PROJECT_NAME / "example" / "v0.1.0"
-    RESOURCE_FILE_LATEST: Path = COMMON_SHUTTLE / PROJECT_NAME / "example" / "v0.2.0"
+    ASSETS_FILE_BACKUP: Path = COMMON_SHUTTLE / PROJECT_NAME / "example" / "v0.1.0"
+    ASSETS_FILE_LATEST: Path = COMMON_SHUTTLE / PROJECT_NAME / "example" / "v0.2.0"
 
 
-async def is_resource_exists(resource_key: Path):
-    if not isinstance(resource_key, Path):
-        raise TypeError("resource_key must be a Path object")
-    unready_files = resource_key.rglob("*.part.minio")
-    return resource_key.exists() and not list(unready_files)
+async def is_assets_exists(assets_key: Path):
+    if not isinstance(assets_key, Path):
+        raise TypeError("assets_key must be a Path object")
+    unready_files = assets_key.rglob("*.part.minio")
+    return assets_key.exists() and not list(unready_files)
 
 
 @lru_cache

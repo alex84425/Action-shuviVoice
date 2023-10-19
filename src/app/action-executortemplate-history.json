@@ -1,5 +1,5 @@
 {
-    "2.11.0": "[2023-10-13] Use shuttle resources.",
+    "2.11.0": "[2023-10-13] Use shuttle to sync assets.",
     "2.10.3": "[2023-10-04] should use Smoking_Group",
     "2.10.2": "[2023-10-03] run test on TNN only",
     "2.10.1": "[2023-09-06] rewrite example, also request should use true",

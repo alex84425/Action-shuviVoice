@@ -22,7 +22,7 @@ from vcosmosapiclient.errors import UutConnectionError
 
 import static
 from app.action import models
-from app.config import get_settings, is_resource_exists
+from app.config import get_settings, is_assets_exists
 from app.description import DESCRIPTION_DICT
 
 settings = get_settings()
@@ -114,14 +114,14 @@ async def execute_action(act: models.MyActionPostModel):
 async def act_main_action(act: models.MyActionPostModel):
     # send action files
     await extract_zip_to_remote(act.target, static.file("examples.zip"), remote_path=act.context.workingDirectory)
-    if await is_resource_exists(settings.RESOURCE_FILE_LATEST):
-        resource_file = settings.RESOURCE_FILE_LATEST
-    elif await is_resource_exists(settings.RESOURCE_FILE_BACKUP):
-        resource_file = settings.RESOURCE_FILE_BACKUP
+    if await is_assets_exists(settings.ASSETS_FILE_LATEST):
+        assets_file = settings.ASSETS_FILE_LATEST
+    elif await is_assets_exists(settings.ASSETS_FILE_BACKUP):
+        assets_file = settings.ASSETS_FILE_BACKUP
     else:
-        raise FileNotFoundError(f"Resource file not ready (path: {settings.RESOURCE_FILE_LATEST} and {settings.RESOURCE_FILE_BACKUP})")
+        raise FileNotFoundError(f"Asset file not ready (path: {settings.ASSETS_FILE_LATEST} and {settings.ASSETS_FILE_BACKUP})")
 
-    await send_folder_to_remote(act, folder_path=resource_file, remote_path=act.context.workingDirectory / resource_file.name)
+    await send_folder_to_remote(act, folder_path=assets_file, remote_path=act.context.workingDirectory / assets_file.name)
 
     return {
         "monitorType": "true",

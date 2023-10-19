@@ -16,7 +16,7 @@ services:
       - ./src/app:/app/app
       - ./ActionTemplate-Python3:/app/ActionTemplate-Python3
       - ./log:/data
-      - ./resources:/data/vCosmos_Resource/common-data/common/action/Action-ExecutorTemplate:ro
+      - ./assets:/vCosmos_Shuttle/common/action/Action-ExecutorTemplate:ro
     ports:
       - 8080:8080
     command: /app/start-reload.sh

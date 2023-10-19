@@ -2,7 +2,7 @@ import httpx
 import vcosmosapiclient
 from fastapi import APIRouter, HTTPException, status
 
-from app.config import Settings, get_settings, is_resource_exists
+from app.config import Settings, get_settings, is_assets_exists
 
 router = APIRouter()
 settings: Settings = get_settings()
@@ -52,10 +52,10 @@ async def health():
             detail=f"Unexpected response from UUT proxy, status code: {response.status_code}",
         )
 
-    if not await is_resource_exists(settings.RESOURCE_FILE_LATEST) and not await is_resource_exists(settings.RESOURCE_FILE_BACKUP):
+    if not await is_assets_exists(settings.ASSETS_FILE_LATEST) and not await is_assets_exists(settings.ASSETS_FILE_BACKUP):
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail="Resource file not ready",
+            detail="Asset file not ready",
         )
 
     return {"status": "ok"}
