@@ -33,8 +33,8 @@ class Settings(BaseSettings):
 async def is_resource_exists(resource_key: Path):
     if not isinstance(resource_key, Path):
         raise TypeError("resource_key must be a Path object")
-    unready_files = list(resource_key.rglob("*.part.minio"))
-    return resource_key.exists() and not unready_files
+    unready_files = resource_key.rglob("*.part.minio")
+    return resource_key.exists() and not list(unready_files)
 
 
 @lru_cache
