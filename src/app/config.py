@@ -25,7 +25,7 @@ class Settings(BaseSettings):
     LOG_FOLDER: Path = VOLUME / "log"
     SOURCE_VERSION: str = "local"
     HOSTNAME_AND_PORT: str = f"{PROJECT_NAME.lower()}:{os.environ.get('PORT')}"
-    COMMON_SHUTTLE: Path = VOLUME / "vCosmos_Shuttle" / "common" / "action"
+    COMMON_SHUTTLE: Path = Path("/vCosmos_Shuttle", "common", "action")
     ASSETS_FILE_BACKUP: Path = COMMON_SHUTTLE / PROJECT_NAME / "example" / "v0.1.0"
     ASSETS_FILE_LATEST: Path = COMMON_SHUTTLE / PROJECT_NAME / "example" / "v0.2.0"
 
