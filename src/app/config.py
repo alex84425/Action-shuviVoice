@@ -26,8 +26,12 @@ class Settings(BaseSettings):
     SOURCE_VERSION: str = "local"
     HOSTNAME_AND_PORT: str = f"{PROJECT_NAME.lower()}:{os.environ.get('PORT')}"
     COMMON_SHUTTLE: Path = Path("/vCosmos_Shuttle", "common", "action")
-    ASSETS_FILE_BACKUP: Path = COMMON_SHUTTLE / PROJECT_NAME / "example" / "v0.1.0"
-    ASSETS_FILE_LATEST: Path = COMMON_SHUTTLE / PROJECT_NAME / "example" / "v0.2.0"
+
+    # temp solution before DevOps fix
+    COMMON_SHUTTLE_OLD_PATH: Path = VOLUME / "vCosmos_Resource" / "common-data" / "common" / "action"
+
+    ASSETS_FILE_BACKUP: Path = COMMON_SHUTTLE_OLD_PATH / PROJECT_NAME / "example" / "v0.1.0"
+    ASSETS_FILE_LATEST: Path = COMMON_SHUTTLE / PROJECT_NAME / "example" / "v0.1.0"
 
 
 async def is_assets_exists(assets_key: Path):
