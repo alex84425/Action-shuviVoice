@@ -77,6 +77,8 @@ ignore = [
   "ERA",     # eradicate, Found commented-out code
   "PT023",   # Use `@pytest.mark.asyncio()` over `@pytest.mark.asyncio`
   "PTH123",  # open() should be replaced by Path.open()
+  "PLR0911", # Too many return statements ({returns} > {max_returns})
+  "PLR0912", # Too many branches ({branches} > {max_branches})
   "PLR0913", # Too many arguments to function call
   "PGH003",  # Use specific rule codes when ignoring type issues
   "PGH004",  # Use specific rule codes when using noqa
