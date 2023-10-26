@@ -14,7 +14,6 @@ from vcosmosapiclient.api_proxy import (
     execute_ps1_on_remote,
     extract_zip_to_remote,
     send_file_to_remote,
-    send_file_to_remote_rename,
     send_folder_to_remote,
     send_string_to_remote,
 )
@@ -240,13 +239,6 @@ async def act_daemon_action(act: models.MyActionPostModel):
         raise RuntimeError("Something wrong of model mapping")
 
     await extract_zip_to_remote(act.target, static.file("daemon_examples.zip"), remote_path=act.context.workingDirectory)
-
-    # send broken daemon.ps1 if checkbox is checked (for test negative case)
-    if act.actionData.data.Operation == models.DaemonOperationEnum.OPERATION_1 and act.actionData.data.check_box:
-        remote_file_path = act.context.workingDirectory / "daemon.ps1"
-        await send_file_to_remote_rename(act.target, static.file("daemon_broken.ps1"), full_remote_path=remote_file_path)
-    else:
-        await send_file_to_remote(act.target, static.file("daemon.ps1"), remote_path=act.context.workingDirectory)
 
     # send libs from submodule
     await send_file_to_remote(act.target, submodule_static.get_file("TaskScheduler.ps1"), remote_path=act.context.workingDirectory)

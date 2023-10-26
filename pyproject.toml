@@ -41,10 +41,10 @@ relative_files = true
 omit = ["src/tests/*", "ActionTemplate-Python3/*"]
 
 [tool.codespell]
-builtin = "clear,rare,informal,code,names,usage,en-GB_to_en-US"
-ignore-words-list = "master,cancelled"
+builtin = "clear,rare,informal,code,names,en-GB_to_en-US"
+ignore-words-list = "afterall,master,cancelled"
 quiet-level = 3
-skip = ".git,*.lock,htmlcov,ActionTemplate-Python3"
+skip = ".git,*.lock,htmlcov,log,*.yml,*.xml,*.csv,ActionTemplate-Python3"
 
 [tool.ruff]
 # https://beta.ruff.rs/docs/rules/
