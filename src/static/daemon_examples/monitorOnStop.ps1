@@ -18,17 +18,27 @@ try {
     $task_name_instance = "{0}_{1}_instance" -f $task_id, $task_id2
     $task_name_watchdog = "{0}_{1}_watchdog" -f $task_id, $task_id2
 
-    Stop-ScheduledTask -TaskName $task_name_instance
-    Unregister-ScheduledTask -TaskName $task_name_instance -Confirm:$false
+    $task = Get-ScheduledTask -TaskName $task_name_instance -ErrorAction SilentlyContinue
+    if ($task) {
+        Stop-ScheduledTask -TaskName $task_name_instance
+        Unregister-ScheduledTask -TaskName $task_name_instance -Confirm:$false
+    }
 
-    # disable watch log (can not delete self by powershell)
-    # Unregister-ScheduledTask -TaskName $task_name_watchdog -Confirm:$false
-    Disable-ScheduledTask -TaskName $task_name_watchdog
+    # After kill the scheduler , make sure the process also killed
+    # FIXME: please replace the "ProcessName" to your process name
+    Get-Process -Name "ProcessName" -ErrorAction SilentlyContinue | Stop-Process -Force
+
     if (-not(Test-Path $STATUS_PATH)) {
         Add-Content -Path $RESULT_PATH -Value "PASS" -Encoding UTF8
         Add-Content -Path $STATUS_PATH -Value "PASS" -Encoding UTF8
     }
-    Stop-ScheduledTask -TaskName $task_name_watchdog
+    # disable watch log (can not delete self by powershell)
+    # Unregister-ScheduledTask -TaskName $task_name_watchdog -Confirm:$false
+    $task = Get-ScheduledTask -TaskName $task_name_watchdog -ErrorAction SilentlyContinue
+    if ($task) {
+        Disable-ScheduledTask -TaskName $task_name_watchdog
+        Stop-ScheduledTask -TaskName $task_name_watchdog
+    }
 }
 catch {
     $Error[0]

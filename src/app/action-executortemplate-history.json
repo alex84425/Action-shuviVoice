@@ -1,4 +1,5 @@
 {
+    "2.11.1": "[2023-11-08] sync amd system deck daemon.",
     "2.11.0": "[2023-10-13] Use shuttle to sync assets.",
     "2.10.3": "[2023-10-04] should use Smoking_Group",
     "2.10.2": "[2023-10-03] run test on TNN only",
