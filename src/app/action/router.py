@@ -8,7 +8,7 @@ https://github.azc.ext.hp.com/BPSVCommonService/Action-Development-Guideline/blo
 """
 
 import logging
-
+import subprocess, re
 from fastapi import APIRouter, HTTPException, status
 from vcosmosapiclient import errors
 from vcosmosapiclient.api_proxy import execute_ps1_on_remote
@@ -20,75 +20,39 @@ from app.action import executor, models
 router = APIRouter()
 
 
-@router.post("/act")
-@validator.post
-async def post_to_action(act: models.MyActionPostModel):
-    if act.actionData.daemonMode:
-        response = await executor.act_daemon_action(act)
-    else:
-        response = await executor.act_main_action(act)
-    logging.debug(f"ACT Response: {response}")
-    return response
+def remove_between_double_asterisks(input_str):
+    stack = []
+    result = []
+
+    for char in input_str:
+        if char == "*":
+            if stack and stack[-1] == "*":
+                stack.pop()  # Remove the previous '*'
+            else:
+                stack.append(char)
+        else:
+            if not stack or stack[-1] != "*":
+                result.append(char)
+
+    return "".join(result)
 
 
-@router.post("/onstart")
+@router.post("/vit")
 @log_wrapper
-async def onstart(payload: models.MyActionCallbackModel):
+async def vit(Text: str):
     try:
-        return await executor.onstart(payload.act)
+        # こんにちわ
+
+        # Text = re.sub(r"\*\*.*?\*\*", "", Text)
+        # Text = remove_between_double_asterisks(Text)
+        Text = Text.replace("\n", " ")
+        Text = Text.replace("\r", " ")
+        print(f"{Text=}")
+        process = subprocess.run(f"python /app/VITS-fast-fine-tuning/VC_inference_api.py --input_text '{Text}' ", shell=True)
+
+        return {"process.stdout": process.stdout, "process.stderr": process.stderr}
     except Exception as exc:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"Cannot Start, because of an error {exc}, try again.",
         ) from exc
-
-
-@router.post("/onstop")
-@log_wrapper
-async def onstop(payload: models.MyActionCallbackModel):
-    try:
-        return await executor.onstop(payload.act)
-    except Exception as exc:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Cannot Stop, because of an error {exc}, try again.",
-        ) from exc
-
-
-@router.post("/onabort")
-@log_wrapper
-async def onabort(payload: models.MyActionCallbackModel):
-    try:
-        return await executor.onabort(payload.act)
-    except Exception as exc:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail=f"Cannot Abort, because of an error {exc}, no more try",
-        ) from exc
-
-
-@router.post("/monitor/target")
-@log_wrapper
-async def monitor_target(payload: models.MyActionCallbackModel):
-    logging.info("=============================================================")
-    logging.info("[Step] POST /monitor/target")
-    if payload.act.actionData.daemonMode:
-        return {"result": True}
-
-    # main mode
-    result = False
-    try:
-        response = await execute_ps1_on_remote(payload.act, payload.act.context.workingDirectory / "isRunning.ps1", check=False)
-        logging.debug(f"monitor response: {response}")
-    except errors.UutConnectionError:
-        logging.debug("Failed to connect to UUT")
-    except errors.CommandError:
-        logging.debug("Got CommandError")
-    except errors.StatusCodeError:
-        logging.debug("Got StatusCodeError")
-    else:
-        if response.returncode != 0:
-            logging.debug("Stop watching")
-            result = True
-
-    return {"result": result}

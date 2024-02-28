@@ -45,6 +45,8 @@ RUN apt-get update \
   curl \
   colorized-logs \
   daemontools \
+  cmake \
+  build-essential \  
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
@@ -94,12 +96,20 @@ VOLUME [ "/data" ]
 COPY ./src /app
 
 # setup uut operation proxy binary
-COPY --from=uut-operation-proxy-base /UUTOperationProxy/dist/uut-operation-proxy-linux /opt/uut-operation-proxy-linux
+# COPY --from=uut-operation-proxy-base /UUTOperationProxy/dist/uut-operation-proxy-linux /opt/uut-operation-proxy-linux
 
 # zip all sub folder in static folder
 RUN python /app/static/make_archive.py
+
+# install VIT model 
+RUN pip install numpy
+RUN pip install pyopenjtalk --no-build-isolation
+RUN pip install cython
+# RUN pip install -r /app/VITS-fast-fine-tuning/requirements.txt
 
 # running a single Uvicorn process
 RUN chmod +x /app/prestart.sh
 RUN chmod +x /app/start-reload.sh
 CMD /app/start-reload.sh
+
+
