@@ -16,7 +16,8 @@ services:
       - ./src/app:/app/app
       - ./ActionTemplate-Python3:/app/ActionTemplate-Python3
       - ./log:/data
-      - ./assets:/vCosmos_Shuttle/common/action:ro
+      - ../../VITS-fast-fine-tuning/:/app/VITS-fast-fine-tuning/
+      # - ../vits-models/:/app/vits-models/
     ports:
       - 8080:8080
     command: /app/start-reload.sh
