@@ -105,7 +105,9 @@ RUN python /app/static/make_archive.py
 RUN pip install numpy
 RUN pip install pyopenjtalk --no-build-isolation
 RUN pip install cython
-# RUN pip install -r /app/VITS-fast-fine-tuning/requirements.txt
+# VITS-fast-fine-tuning requires
+COPY ./requirements_VITS.txt /app/requirements_VITS.txt
+RUN pip install -r /app/requirements_VITS.txt
 
 # running a single Uvicorn process
 RUN chmod +x /app/prestart.sh
