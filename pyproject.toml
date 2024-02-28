@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "action-executortemplate"
+name = "action-shuvivoice"
 version = "3.0.0"
-description = "action-executortemplate"
+description = "action-shuvivoice"
 authors = ["Mason Lin <mason.lin1@hp.com>"]
 
 [tool.poetry.dependencies]
@@ -13,6 +13,7 @@ ansi2html = "^1.8.0"
 python-multipart = "^0.0.6"
 vcosmosapiclient = {path = "ActionTemplate-Python3", develop = true}
 httpx = "0.24.1"
+scipy = "^1.12.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.0"

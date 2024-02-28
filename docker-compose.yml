@@ -1,9 +1,9 @@
 version: '3.5'
 
 services:
-  action-executortemplate:
-    image: action-executortemplate
-    container_name: action-executortemplate
+  action-shuvivoice:
+    image: action-shuvivoice
+    container_name: action-shuvivoice
     env_file: local.env
     networks:
       - local-controller

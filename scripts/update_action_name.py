@@ -26,7 +26,7 @@ files = [
     PROJECT_ROOT / "README.md",
 ]
 for file in files:
-    file.write_text(file.read_text().replace("ExecutorTemplate", action_name))
+    file.write_text(file.read_text().replace("shuvivoice", action_name))
 
 
 files = [
@@ -36,4 +36,4 @@ files = [
     PROJECT_ROOT / "integration.yml",
 ]
 for file in files:
-    file.write_text(file.read_text().replace("executortemplate", action_name.lower()))
+    file.write_text(file.read_text().replace("shuvivoice", action_name.lower()))

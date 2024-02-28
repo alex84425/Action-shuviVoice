@@ -1,13 +1,12 @@
 version: "3.5"
 
 services:
-  itgexecutortemplate:
-    image: itgexecutortemplate
-    container_name: itgexecutortemplate
-    env_file: local.env
-    build:
-      context: .
-      dockerfile: integration.dockerfile
-
+    itgshuvivoice:
+        image: itgshuvivoice
+        container_name: itgshuvivoice
+        env_file: local.env
+        build:
+            context: .
+            dockerfile: integration.dockerfile
 # Usage
 # docker compose -f integration.yml up --build
